@@ -4,7 +4,7 @@ import java.util.*;
 
 public class FindDuplicates
 {
-  public static List<BankAccount> findDuplicates(Collection<BankAccount> collA, Collection<BankAccount> collB)
+  public static List<BankAccount> findDuplicates1(Collection<BankAccount> collA, Collection<BankAccount> collB)
   {
     List<BankAccount> duplicates = new ArrayList<>();
 
@@ -24,7 +24,6 @@ public class FindDuplicates
       }
 
     }
-
 
     return duplicates;
   }
