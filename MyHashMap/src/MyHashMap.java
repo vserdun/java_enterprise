@@ -5,17 +5,21 @@ public class MyHashMap
   private MyHashNode[] table;
   int size;
 
-  public void put(MyHashNode myHashNode)
+  public void put(String key, String value)
   {
-    hash(myHashNode);
-    int index = myHashNode.getHash() % (size - 1);
+    int hash = Objects.hash(key);
+    int index = hash % (size - 1);
+
     MyHashNode currentEmptyNode = table[index];
 
     while (currentEmptyNode != null)
     {
       currentEmptyNode = currentEmptyNode.getNext();
     }
-    currentEmptyNode = myHashNode;
+    currentEmptyNode.setHash(hash);
+    currentEmptyNode.setKey(key);
+    currentEmptyNode.setValue(value);
+    currentEmptyNode.setNext(null);
 
   }
 
