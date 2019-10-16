@@ -30,7 +30,7 @@ public class Main
 
     collB.add(new BankAccount(3, "oleg", "alex991"));
 
-    List<BankAccount> duplicates = FindDuplicates.findDuplicates1(collA, collB);
+    List<BankAccount> duplicates = FindDuplicates.findDuplicates3(collA, collB);
     System.out.println(duplicates);
 
     long finish = System.nanoTime();
