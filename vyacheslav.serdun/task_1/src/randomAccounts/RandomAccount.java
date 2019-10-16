@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Logger;
 
 public class RandomAccount {
+    private Logger logger = Logger.getLogger(RandomAccount.class.getSimpleName());
     private static final String ALPHABET = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
 
     private Random random;
@@ -42,6 +44,7 @@ public class RandomAccount {
         BankAccount account;
         boolean duplicated;
 
+        logger.info("Generating "+ count + " elements in two collections.");
         while (count > 0) {
             duplicated = random.nextBoolean();
             if (duplicated) {
@@ -55,7 +58,9 @@ public class RandomAccount {
             count--;
         }
 
+        logger.info("Shuffling elements.");
         Collections.shuffle(collA);
+        logger.info("Elements are shuffled.");
         accounts.setAccountsA(collA);
         accounts.setAccountsB(collB);
         return accounts;
