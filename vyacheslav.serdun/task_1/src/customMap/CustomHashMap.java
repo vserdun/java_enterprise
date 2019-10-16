@@ -18,7 +18,7 @@ public class CustomHashMap<K,V> implements CustomMap<K,V> {
 
     private int hash(Object key){
         int h;
-        return (key == null) ? 0 : ((h = key.hashCode()) ^ (h >>> 16));
+        return (key == null) ? 0 : key.hashCode();
     }
 
     private int indexFor(Object key){
@@ -32,27 +32,36 @@ public class CustomHashMap<K,V> implements CustomMap<K,V> {
     @Override
     public V put(K key, V value){
         int index = indexFor(key);
+        Node<K,V> input = new Node<>(hash(key), key, value, null);
         Node<K,V> e = nodes[index];
 
-        Node<K,V> newNode = new Node<>(hash(key), key, value, null);
         if((e == null)){
-            nodes[index] = newNode;
+            nodes[index] = input;
         } else if(checkKeyCoincidence(e, key)) {
-            newNode.setNext(e.next);
-            nodes[index] = newNode;
+            input.setNext(e.next);
+            nodes[index] = input;
             return e.value;
         }else{
             if(e.next == null){
-                e.next = newNode;
-            }else{
+                e.next = input;
+            }
+            else{
                 Node<K,V> current = e.next;
                 Node<K,V> next = current.next;
                 do{
-                    if(checkKeyCoincidence(current, key) || next == null){
-                        newNode.setNext(next);
-                        current.next = newNode;
+                    if(checkKeyCoincidence(current,key)){
+                        input.setNext(next);
+                        e.next = input;
+                        return current.value;
+                    }else if(next == null){
+                        current.next = input;
+                        return current.value;
+                    }else{
+                        e = current;
+                        current = next;
+                        next = next.next;
                     }
-                }while (e.next != null);
+                }while (true);
             }
         }
         return null;
@@ -70,7 +79,6 @@ public class CustomHashMap<K,V> implements CustomMap<K,V> {
 
         return null;
     }
-
 
     static class Node<K,V>{
         final int hash;
