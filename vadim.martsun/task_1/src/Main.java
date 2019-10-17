@@ -39,7 +39,7 @@ public class Main {
 
         RandomAccount randomAccount = new RandomAccount();
 
-        Accounts accounts = randomAccount.generateAccounts(5);
+        Accounts accounts = randomAccount.generateAccounts(100000);
 
         logger.info("Generated collection A: ");
         accounts.getAccountsA().forEach(System.out::println);
