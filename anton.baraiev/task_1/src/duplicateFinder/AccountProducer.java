@@ -9,9 +9,9 @@ public class AccountProducer {
 
         //create 3 duplicates in each generated array
         ArrayList<BankAccount> accounts = new ArrayList<>();
-        accounts.add(new BankAccount("111", "Petrovich", "777"));
-        accounts.add(new BankAccount("222", "Fedrych", "555"));
-        accounts.add(new BankAccount("333", "Ivanych", "999"));
+        accounts.add(new BankAccount("111", "ACCOUNT_1", "777"));
+        accounts.add(new BankAccount("222", "ACCOUNT_2", "555"));
+        accounts.add(new BankAccount("333", "ACCOUNT_3", "999"));
 
         //generate 100_000 more random accounts
         for (int i = 0; i < 100_000; i++) {
