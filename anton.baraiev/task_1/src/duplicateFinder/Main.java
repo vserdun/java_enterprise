@@ -1,10 +1,12 @@
+package duplicateFinder;
+
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Main {
 
     public static void main(String[] args) {
-//Generate two 100_000 element account lists
+        //Generate two 100_000 element account lists
         ArrayList<BankAccount> collA = AccountProducer.generateAccounts();
         ArrayList<BankAccount> collB = AccountProducer.generateAccounts();
 

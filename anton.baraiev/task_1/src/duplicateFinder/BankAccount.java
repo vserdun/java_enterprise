@@ -1,3 +1,5 @@
+package duplicateFinder;
+
 import java.util.*;
 
 public class BankAccount {
