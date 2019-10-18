@@ -28,7 +28,17 @@ public class MyHashMap<K, V> {
         if (currentEntry == null) {
             buckets[entryBucket] = entryToBeAdded;
         }else { //if there is smth in the bucket, add our entry at the end
-            //Entry<K, V> previous = null;
+            Entry<K, V> previous = null;
+            while(currentEntry != null) {
+                if (currentEntry.key.equals(key)) { //overwrite entry if the same key exists
+                    entryToBeAdded.next = currentEntry.next;
+                    previous.next = entryToBeAdded;
+                    return;
+                }
+                previous = currentEntry;
+                currentEntry = currentEntry.next;
+            }
+            previous.next = entryToBeAdded;
         }
     }
 
