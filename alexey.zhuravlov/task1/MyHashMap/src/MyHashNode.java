@@ -6,6 +6,16 @@ public class MyHashNode {
     private String value;
     private MyHashNode next;
 
+    public MyHashNode() {
+    }
+
+    public MyHashNode(int hash, String key, String value, MyHashNode next) {
+        this.hash = hash;
+        this.key = key;
+        this.value = value;
+        this.next = next;
+    }
+
     public int getHash() {
         return hash;
     }
@@ -54,5 +64,15 @@ public class MyHashNode {
     @Override
     public int hashCode() {
         return Objects.hash(key, value);
+    }
+
+    @Override
+    public String toString() {
+        return "MyHashNode{" +
+                "hash=" + hash +
+                ", key='" + key + '\'' +
+                ", value='" + value + '\'' +
+                ", next=" + next +
+                '}';
     }
 }

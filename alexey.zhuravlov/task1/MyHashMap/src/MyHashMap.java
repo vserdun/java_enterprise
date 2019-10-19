@@ -1,23 +1,31 @@
 import java.util.Objects;
 
 public class MyHashMap {
+    static int size = 16;
     private MyHashNode[] table;
-    int size;
+
+    public MyHashMap() {
+        table = new MyHashNode[size];
+    }
+
+    public MyHashNode[] getTable() {
+        return table;
+    }
 
     public void put(String key, String value) {
         int hash = Objects.hash(key);
         int index = hash % (size - 1);
 
-        MyHashNode currentEmptyNode = table[index];
+        if (table[index] == null) {
+            table[index] = new MyHashNode(hash, key, value, null);
+        } else {
+            MyHashNode currentNode = table[index];
+            while (table[index].getNext() != null) {
+                table[index] = table[index].getNext();
+            }
 
-        while (currentEmptyNode != null) {
-            currentEmptyNode = currentEmptyNode.getNext();
+            table[index].setNext(new MyHashNode(hash, key, value, null));
         }
-        currentEmptyNode.setHash(hash);
-        currentEmptyNode.setKey(key);
-        currentEmptyNode.setValue(value);
-        currentEmptyNode.setNext(null);
-
     }
 
     public String get(String key) {
@@ -26,14 +34,27 @@ public class MyHashMap {
 
         MyHashNode currentNode = table[index];
 
-        while (currentNode.getHash() != hash) {
-            currentNode = currentNode.getNext();
+        if (currentNode == null) {
+            return null;
         }
 
-        while (!currentNode.getKey().equals(key)) {
-            currentNode = currentNode.getNext();
+        else {
+            while (currentNode.getHash() != hash) {
+                if (currentNode.getNext() != null) {
+                    currentNode = currentNode.getNext();
+                }
+                else return null;
+            }
+
+            while (!currentNode.getKey().equals(key)) {
+                if (currentNode.getNext() != null) {
+                    currentNode = currentNode.getNext();
+                }
+                else return null;
+            }
+
+            return currentNode.getValue();
         }
-        return currentNode.getValue();
 
     }
 
