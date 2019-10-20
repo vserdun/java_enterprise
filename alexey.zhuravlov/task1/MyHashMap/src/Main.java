@@ -6,8 +6,10 @@ public class Main {
 
         hashMap.put("key", "value");
         hashMap.put("key2", "value2");
-        hashMap.put("yek", "value3");
-        hashMap.put("yke", "value4");
+        hashMap.put("yek", "value");
+        hashMap.put("eyk", "value");
+        hashMap.put("eky", "value");
+        hashMap.put("2yke", "value4");
         hashMap.put("kye2", "value5");
 
 
@@ -18,6 +20,10 @@ public class Main {
 
         System.out.println(hashMap.get("kye2"));
         System.out.println(hashMap.get("key2"));
+
+        System.out.println(hashMap.get("yek"));
+        System.out.println(hashMap.get("key"));
+        System.out.println(hashMap.get("eyk"));
 
     }
 }
