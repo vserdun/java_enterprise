@@ -13,12 +13,5 @@ public class Main1 {
 
         System.out.println("List:");
         myHashMap.toStringMap();
-
-
-        System.out.println("If deleted with key 2: " + myHashMap.remove(2));
-        System.out.println("If deleted with key 4: " + myHashMap.remove(4));
-
-        System.out.println("List:");
-        myHashMap.toStringMap();
     }
 }

@@ -62,31 +62,7 @@ public class MyHashMap {
         }
     }
 
-    public boolean remove (Integer keyForDelete) {
-        int hash = hash(keyForDelete);
 
-        if (entries[hash] == null) {
-            return false;
-        } else {
-            MapEntry previous = null;
-            MapEntry current = entries[hash];
-
-            while (current != null) {
-                if (current.key.equals(keyForDelete)) {
-                    if (previous == null) {
-                        entries[hash] = entries[hash].next;
-                        return true;
-                    } else {
-                        previous.next = current.next;
-                        return true;
-                    }
-                }
-                previous = current;
-                current = current.next;
-            }
-            return false;
-        }
-    }
 
     private int hash(Integer key) {
         return Math.abs(key.hashCode()) % capacity;
