@@ -7,7 +7,7 @@ import java.util.Queue;
 
 @Log
 public class SimpleMessanger {
-    public static void sendMessages() {
+    public void sendMessages() {
         MessagesQueue messagesQueue = new MessagesQueue();
         Deque<Message> messages = messagesQueue.loadMessages();
         String msgCount = "Numbers of messages ";

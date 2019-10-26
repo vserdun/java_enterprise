@@ -5,7 +5,7 @@ import java.util.*;
 
 @Log
 public class MessagesQueue {
-    public static Deque loadMessages() {
+    public Deque loadMessages() {
         Deque<Message> messages = new ArrayDeque<>();
         File dir = new File(new File("messages").getAbsolutePath());
 
@@ -54,7 +54,7 @@ public class MessagesQueue {
     }
 
 
-    public static String extension(File file) {
+    public String extension(File file) {
         String extension = "";
 
         int i = file.getName().lastIndexOf('.');
@@ -64,7 +64,7 @@ public class MessagesQueue {
         return extension;
     }
 
-    public static String readMessageText(File file) {
+    public String readMessageText(File file) {
         String s = "";
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             s = br.readLine();
@@ -75,7 +75,7 @@ public class MessagesQueue {
         return s;
     }
 
-    public static byte[] readMessageAttachment(File file) {
+    public byte[] readMessageAttachment(File file) {
         try (FileInputStream fileInputStream = new FileInputStream(file)) {
             byte[] buffer = new byte[fileInputStream.available()];
 
