@@ -9,7 +9,6 @@ import java.util.Queue;
 @Slf4j
 public class ServiceSender {
     private Queue<Message> messageQueue;
-    //    private Path path = new
     private static final String MAIN_PATH = new File("messages").getAbsolutePath();
 
     public ServiceSender() throws IOException {
