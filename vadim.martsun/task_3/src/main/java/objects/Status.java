@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum Status {
-    GREEN("green"),
-    YELLOW("yellow"),
-    RED("red");
+    GREEN("Green"),
+    YELLOW("Yellow"),
+    RED("Red");
 
     private String name;
     private static Map<String, Status> statusMap;
@@ -18,6 +18,11 @@ public enum Status {
 
     public static Status fromString(String key){
         return statusMap.get(key);
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 
     static{
