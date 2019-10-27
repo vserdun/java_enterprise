@@ -1,6 +1,6 @@
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class ReportGenerator {
 
@@ -24,9 +24,11 @@ public class ReportGenerator {
     }
 
     private static String generateDescription() {
-        byte[] array = new byte[5];
-        random.nextBytes(array);
-        return new String(array, StandardCharsets.UTF_8);
+        String symbols = "abcdefghijklmnopqrstuvwxyz";
+        return random.ints(7, 0, symbols.length())
+                .mapToObj(symbols::charAt)
+                .map(Object::toString)
+                .collect(Collectors.joining());
     }
 
     private static Status generateStatus() {
