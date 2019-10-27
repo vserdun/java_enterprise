@@ -1,6 +1,10 @@
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.util.Random;
 
 public class ReportGenerator {
+
+    private static final Random random = new Random();
 
     public static Report generateReport() {
         return new Report(generateId(), generateDate(), generateName(),
@@ -8,19 +12,21 @@ public class ReportGenerator {
     }
 
     private static int generateId() {
-        return 0;
+        return random.nextInt(100_000);
     }
 
     private static LocalDate generateDate() {
-        return null;
+        return LocalDate.now().minusDays(random.nextInt(365));
     }
 
     private static String generateName() {
-        return "";
+        return "Report No. " + random.nextInt( 10_000);
     }
 
     private static String generateDescription() {
-        return "";
+        byte[] array = new byte[5];
+        random.nextBytes(array);
+        return new String(array, StandardCharsets.UTF_8);
     }
 
     private static Status generateStatus() {
