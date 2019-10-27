@@ -14,21 +14,22 @@ public class RandomGeneratorImpl implements RandomGenerator {
 
     @Override
     public List<Report> generateRandomReports(int count) {
+        if(count <= 0) throw new IllegalArgumentException("Count should be greater than 0");
         List<Report> reports = new ArrayList<>();
-
-        int i = 0;
-        while (i < count){
-            reports.add(new Report(generateId(),
-                    generateRandomDate(),
-                    generateName(),
-                    generateDescription(),
-                    generateStatus()));
-            i++;
-        }
-
+        do{
+            reports.add(generateRandomReport());
+            count--;
+        }while (count > 0);
         return reports;
     }
 
+    private Report generateRandomReport(){
+        return new Report(generateId(),
+                generateRandomDate(),
+                generateName(),
+                generateDescription(),
+                generateStatus());
+    }
 
     private int generateId(){
         return Math.abs(random.nextInt());
@@ -44,20 +45,15 @@ public class RandomGeneratorImpl implements RandomGenerator {
     }
 
     private String generateName(){
-        String name = "Report_";
-        int reportId = Math.abs(random.nextInt());
-
-        return name + reportId;
+        return "Report_" + Math.abs(random.nextInt());
     }
 
     private String generateDescription(){
         StringBuilder description = new StringBuilder();
         int max = RandomGenerator.ALPHABET.length();
-
         for(int i = 0; i < max; i++){
             description.append(ALPHABET.charAt(random.nextInt(max)));
         }
-
         return description.toString();
     }
 
