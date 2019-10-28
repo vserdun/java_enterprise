@@ -13,5 +13,5 @@ public interface ReportProcessor {
 
      Collection<Report> getReportsInInterval(LocalDate startDate, LocalDate endDate); //олучение репортов в интервале дат
 
-     String getLastReportsLog(List<Report> reportList); //метод должен сконкатенировать name и description последних репортов с другими репортами в одну строку. Репорты и поля разделять переносом строки. Подсказка - использовать reduce
+     String getLastReportsLog(int lastReportsCount); //метод должен сконкатенировать name и description последних репортов с другими репортами в одну строку. Репорты и поля разделять переносом строки. Подсказка - использовать reduce
 }

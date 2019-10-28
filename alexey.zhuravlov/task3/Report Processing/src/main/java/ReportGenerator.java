@@ -12,7 +12,7 @@ public class ReportGenerator {
         Status[] statuses = Status.values();
         String name;
         for (int id = 1; id <= 1000; id++) {
-            name = "Report " + id;
+            name = "Report_" + id;
             reports.add(new Report(id, generateRandomDate(), name, generateRandomString((10+id)%20), statuses[(id-1)%3]));
         }
         return reports;

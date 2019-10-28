@@ -8,16 +8,19 @@ public class Main {
         ReportProcessorImpl reportProcessor = new ReportProcessorImpl();
 
         Collection<Report> reportsByStatus = reportProcessor.getReportsByStatus(Status.YELLOW);
-        //reportsByStatus.forEach(System.out::println);
+        reportsByStatus.forEach(System.out::println);
 
         int reportsCountByStatus = reportProcessor.getReportsCountByStatus(Status.GREEN);
-        //System.out.println(reportsCountByStatus);
+        System.out.println(reportsCountByStatus);
 
         List<Report> reportsFromDate = reportProcessor.getReportsFromDate(LocalDate.parse("2019-05-12"));
-        //reportsFromDate.forEach(System.out::println);
+        reportsFromDate.forEach(System.out::println);
 
         List<Report> reportsInInterval = reportProcessor.getReportsInInterval(LocalDate.parse("2019-05-01"), LocalDate.parse("2019-07-01"));
         reportsInInterval.forEach(System.out::println);
+
+        String lastReportsLog = reportProcessor.getLastReportsLog(3);
+        System.out.println(lastReportsLog);
 
 
     }

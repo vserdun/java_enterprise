@@ -48,7 +48,11 @@ public class ReportProcessorImpl implements ReportProcessor {
     }
 
     @Override
-    public String getLastReportsLog(List<Report> reportList) {
-        return null;
+    public String getLastReportsLog(int lastReportsCount) {
+
+        return reportList.stream()
+                .skip(reportList.size()-lastReportsCount)
+                .map(report -> report.getName().concat(" ").concat(report.getDescription()))
+                .reduce("", (s1, s2) -> s1.concat("\n").concat(s2));
     }
 }
