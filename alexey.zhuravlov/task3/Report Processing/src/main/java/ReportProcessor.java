@@ -1,17 +1,16 @@
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.List;
 
 public interface ReportProcessor {
-     Collection<Report> getReportsByStatus(Status status); //получение репортов по статусу
+    Collection<Report> getReportsByStatus(Status status);
 
-     int getReportsCountByStatus(Status status); //получение количества репортов по статусу
+    int getReportsCountByStatus(Status status);
 
-     Collection<Report> getReportsFromDate(LocalDate startDate); //получение репортов начиная со стартовой даты
+    Collection<Report> getReportsFromDate(LocalDate startDate);
 
-     Collection<Report> getReportsToDate(LocalDate endDate); //получение репортов до конечной даты
+    Collection<Report> getReportsToDate(LocalDate endDate);
 
-     Collection<Report> getReportsInInterval(LocalDate startDate, LocalDate endDate); //олучение репортов в интервале дат
+    Collection<Report> getReportsInInterval(LocalDate startDate, LocalDate endDate);
 
-     String getLastReportsLog(int lastReportsCount); //метод должен сконкатенировать name и description последних репортов с другими репортами в одну строку. Репорты и поля разделять переносом строки. Подсказка - использовать reduce
+    String getLastReportsLog(int lastReportsCount);
 }
