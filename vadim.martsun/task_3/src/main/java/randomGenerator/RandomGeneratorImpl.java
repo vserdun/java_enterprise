@@ -2,7 +2,6 @@ package randomGenerator;
 
 import objects.Report;
 import objects.Status;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,14 +50,15 @@ public class RandomGeneratorImpl implements RandomGenerator {
     private String generateDescription(){
         StringBuilder description = new StringBuilder();
         int max = RandomGenerator.ALPHABET.length();
-        for(int i = 0; i < max; i++){
+        int minDescSize = 20, maxDescSize = 100, descRange = (random.nextInt((maxDescSize - minDescSize) + 1)) + minDescSize;
+        for(int i = 0; i < descRange; i++){
             description.append(ALPHABET.charAt(random.nextInt(max)));
         }
         return description.toString();
     }
 
     private Status generateStatus(){
-        String[] statuses = new String[]{"Green", "Red", "Yellow"};
-        return Status.fromString(statuses[random.nextInt(statuses.length)]);
+        Status[] statuses = Status.values();
+        return statuses[random.nextInt(statuses.length)];
     }
 }
