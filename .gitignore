@@ -19,7 +19,11 @@ out/
 *.iws
 *.iml
 *.ipr
-
+*.bat
+*.properties
+*.bin
+*.lock
+*.jar
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
