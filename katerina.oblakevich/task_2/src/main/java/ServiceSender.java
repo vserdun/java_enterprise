@@ -11,8 +11,20 @@ public class ServiceSender {
     private Queue<Message> messageQueue;
     private static final String MAIN_PATH = new File("messages").getAbsolutePath();
 
-    public ServiceSender() throws IOException {
+    public ServiceSender() {
         messageQueue = new ArrayDeque<>();
+    }
+
+    public void getAllMessages() {
+        int size = messageQueue.size();
+        for (int i = 0; i < size; i++) {
+            if (messageQueue.peek() != null) {
+                log.info(getMessage(messageQueue.poll()));
+            }
+        }
+    }
+
+    public void fillMessagesFromFolders() throws IOException {
         for (File sender : getFilesInFolder(MAIN_PATH)) {
             for (File receiver : getFilesInFolder(MAIN_PATH + "/" + sender.getName())) {
                 Message message = new Message();
@@ -30,15 +42,6 @@ public class ServiceSender {
                     }
                 }
                 messageQueue.offer(message);
-            }
-        }
-    }
-
-    public void getAllMessages() {
-        int size = messageQueue.size();
-        for (int i = 0; i < size; i++) {
-            if (messageQueue.peek() != null) {
-                log.info(getMessage(messageQueue.poll()));
             }
         }
     }
