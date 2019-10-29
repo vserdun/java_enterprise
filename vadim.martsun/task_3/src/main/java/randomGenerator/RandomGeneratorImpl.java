@@ -35,10 +35,10 @@ public class RandomGeneratorImpl implements RandomGenerator {
     }
 
     private LocalDate generateRandomDate(){
-        int minYear = 2010, maxYear = 2019;
-        int randomYear = random.nextInt((maxYear - minYear) + 1) + minYear;
-        int randomMonth = random.nextInt(12) + 1;
-        int randomDay = random.nextInt(27) + 1;
+        int minYear = 2010, maxYear = LocalDate.now().getYear();
+        int randomYear = randomFromRange(minYear, maxYear);
+        int randomMonth = random.nextInt(RandomGenerator.MONTHS_IN_YEAR) + 1;
+        int randomDay = random.nextInt(RandomGenerator.DAYS) + 1;
 
         return LocalDate.of(randomYear, randomMonth, randomDay);
     }
@@ -50,7 +50,7 @@ public class RandomGeneratorImpl implements RandomGenerator {
     private String generateDescription(){
         StringBuilder description = new StringBuilder();
         int max = RandomGenerator.ALPHABET.length();
-        int minDescSize = 20, maxDescSize = 100, descRange = (random.nextInt((maxDescSize - minDescSize) + 1)) + minDescSize;
+        int minDescSize = 20, maxDescSize = 100, descRange = randomFromRange(minDescSize, maxDescSize);
         for(int i = 0; i < descRange; i++){
             description.append(ALPHABET.charAt(random.nextInt(max)));
         }
@@ -60,5 +60,9 @@ public class RandomGeneratorImpl implements RandomGenerator {
     private Status generateStatus(){
         Status[] statuses = Status.values();
         return statuses[random.nextInt(statuses.length)];
+    }
+
+    private int randomFromRange(int min, int max){
+        return random.nextInt((max - min) + 1) + min;
     }
 }

@@ -1,12 +1,13 @@
 package reportsExplorer;
 
+import lombok.Data;
 import objects.Report;
 import objects.Status;
-
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+@Data
 public class ReportsExplorerImpl implements ReportsExplorer {
 
     private Collection<Report> reports;
@@ -49,7 +50,7 @@ public class ReportsExplorerImpl implements ReportsExplorer {
                 .map(r -> r.getName().concat(" ")
                         .concat(r.getDescription()).concat(" ")
                         .concat(r.getDate().toString()).concat(" ")
-                        .concat(r.getStatus().toString()))
+                        .concat(r.getStatus().toString()).concat(" "))
                 .reduce("Last Reports ", (r1, r2) -> r1 + r2);
 
         String otherReports = reports.stream().limit(reports.size() - lastReportsCount)
