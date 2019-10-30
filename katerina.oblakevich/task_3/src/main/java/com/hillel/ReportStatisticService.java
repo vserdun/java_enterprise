@@ -1,4 +1,4 @@
-package com.company;
+package com.hillel;
 
 import java.time.LocalDate;
 import java.util.Collection;
