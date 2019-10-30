@@ -28,7 +28,6 @@ out/
 /.nb-gradle/
 build/
 
-### VS Code ###
-.vscode/
+
 /anton.baraiev/task_1/
 /anton.baraiev/task_2/
