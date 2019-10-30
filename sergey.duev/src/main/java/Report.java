@@ -1,9 +1,11 @@
 import lombok.Data;
 import lombok.NonNull;
+import lombok.ToString;
 
 import java.time.LocalDate;
 
 @Data
+@ToString
 public class Report {
 
     @NonNull
