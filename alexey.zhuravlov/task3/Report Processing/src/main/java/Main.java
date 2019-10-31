@@ -1,26 +1,30 @@
+import lombok.extern.java.Log;
+
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
+
+@Log
 public class Main {
     public static void main(String[] args) {
 
         ReportProcessorImpl reportProcessor = new ReportProcessorImpl();
 
         Collection<Report> reportsByStatus = reportProcessor.getReportsByStatus(Status.YELLOW);
-        reportsByStatus.forEach(System.out::println);
+        reportsByStatus.forEach(report -> log.info(report.toString()));
 
         int reportsCountByStatus = reportProcessor.getReportsCountByStatus(Status.GREEN);
-        System.out.println(reportsCountByStatus);
+        log.info(String.valueOf(reportsCountByStatus));
 
         List<Report> reportsFromDate = reportProcessor.getReportsFromDate(LocalDate.parse("2019-05-12"));
-        reportsFromDate.forEach(System.out::println);
+        reportsFromDate.forEach(report -> log.info(report.toString()));
 
         List<Report> reportsInInterval = reportProcessor.getReportsInInterval(LocalDate.parse("2019-05-01"), LocalDate.parse("2019-07-01"));
-        reportsInInterval.forEach(System.out::println);
+        reportsInInterval.forEach(report -> log.info(report.toString()));
 
         String lastReportsLog = reportProcessor.getLastReportsLog(3);
-        System.out.println(lastReportsLog);
+        log.info(lastReportsLog);
 
 
     }
