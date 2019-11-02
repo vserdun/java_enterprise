@@ -32,5 +32,3 @@ out/
 /.nb-gradle/
 build/
 
-### VS Code ###
-.vscode/
