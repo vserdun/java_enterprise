@@ -13,8 +13,14 @@ import java.util.List;
 public class AccountServiceImpl implements AccountService {
     @Override
     public void withdraw(Account account, double amount) {
-        account.setBalance(account.getBalance() - amount);
-        String operation = LocalDate.now() + " withdraw from account id " + account.getId() + " amount " + amount;
+        String operation;
+        if (amount > account.getBalance()) {
+            operation = LocalDate.now() + " not enough resources on accout " + account.getId();
+        } else {
+            account.setBalance(account.getBalance() - amount);
+            operation = LocalDate.now() + " withdraw from account id " + account.getId() + " amount " + amount;
+        }
+
         account.addAccStatement(operation);
         log.info(operation);
     }
@@ -29,9 +35,14 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void transfer(Account account1, Account account2, double amount) {
-        withdraw(account1, amount);
-        deposit(account2, amount);
-        String operation = LocalDate.now() + " transfer from account id " + account1.getId() + " to account id " + account2.getId() + " amount " + amount;
+        String operation;
+        if (amount > account1.getBalance()) {
+            operation = LocalDate.now() + " not enough resources on accout " + account1.getId();
+        } else {
+            account1.setBalance(account1.getBalance() - amount);
+            account2.setBalance(account2.getBalance() + amount);
+            operation = LocalDate.now() + " transfer from account id " + account1.getId() + " to account id " + account2.getId() + " amount " + amount;
+        }
         account1.addAccStatement(operation);
         account2.addAccStatement(operation);
         log.info(operation);
@@ -47,7 +58,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<String> getAccStatement(Account account) {
         List<String> accStatement = account.getAccStatement();
-        accStatement.forEach(s -> log.info(s + "\n"));
+        accStatement.forEach(s -> log.info(s));
         return accStatement;
     }
 }

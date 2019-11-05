@@ -36,7 +36,7 @@ public class TestAccountService implements AccountService {
     @Override
     public List<String> getAccStatement(Account account) {
         List<String> accStatement = account.getAccStatement();
-        accStatement.forEach(s -> log.info(s+"\n"));
+        accStatement.forEach(s -> log.info(s));
         return accStatement;
     }
 }
