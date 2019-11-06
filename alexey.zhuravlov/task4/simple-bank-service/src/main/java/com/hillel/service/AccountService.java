@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface AccountService {
 
-    void withdraw (Account account, double amount);
+    boolean withdraw(Account account, double amount);
 
-    void deposit (Account account, double amount);
+    boolean deposit(Account account, double amount);
 
-    void transfer (Account account1, Account account2, double amount);
+    boolean transfer(Account account1, Account account2, double amount);
 
-    double getAccountAmount (Account account);
+    double getAccountAmount(Account account);
 
     List<String> getAccStatement(Account account);
 }

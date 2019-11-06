@@ -15,7 +15,7 @@ public class Account {
     private double balance;
     private List<String> accStatement;
 
-    public void addAccStatement(String string){
+    public void addAccStatement(String string) {
         accStatement.add(string);
     }
 

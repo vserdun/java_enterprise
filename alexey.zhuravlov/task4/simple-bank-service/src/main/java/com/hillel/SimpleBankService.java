@@ -17,24 +17,9 @@ import java.util.ArrayList;
 public class SimpleBankService {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(SimpleBankService.class);
-        Account account1 = new Account(1, "Alex", 0.0, new ArrayList<>());
-        Account account2 = new Account(2, "Ben", 0.0, new ArrayList<>());
-        Account account3 = new Account(3, "Sam", 0.0, new ArrayList<>());
-        Account account4 = new Account(4, "Gabe", 0.0, new ArrayList<>());
 
-        AccountService accountService = ctx.getBean(AccountServiceImpl.class);
-        AccountService testAccountService = ctx.getBean(TestAccountService.class);
-
-        accountService.deposit(account1, 100.0);
-        accountService.deposit(account2, 340.0);
-        accountService.deposit(account3, 1000.0);
-
-        testAccountService.deposit(account2, 100.0);
-
-        accountService.transfer(account1, account2, 50);
-
-        accountService.getAccStatement(account2);
-
+        AccountServiceDemo serviceDemo = ctx.getBean(AccountServiceDemo.class);
+        serviceDemo.demoRun();
     }
 }
 
