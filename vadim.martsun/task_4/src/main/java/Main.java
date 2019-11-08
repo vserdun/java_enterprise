@@ -13,7 +13,7 @@ import java.util.List;
 @Slf4j
 public class Main {
 
-    public static void bankServiceDemo() throws Exception {
+    private static void bankServiceDemo() throws Exception {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         BankService bankService = (BankService) context.getBean("bankService");
         RandomBankAccountService randomBankAccountService = (RandomBankAccountService) context.getBean("randomBankAccountService");

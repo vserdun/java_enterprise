@@ -2,7 +2,6 @@ package random;
 
 import objects.Account;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service

@@ -2,7 +2,6 @@ package service;
 
 import objects.Account;
 import objects.Transaction;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

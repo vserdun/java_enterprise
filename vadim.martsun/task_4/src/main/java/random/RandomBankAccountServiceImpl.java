@@ -4,7 +4,6 @@ import objects.Account;
 import objects.Gender;
 import objects.User;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +15,7 @@ public class RandomBankAccountServiceImpl implements RandomBankAccountService {
 
     @Override
     public List<Account> getRandomAccounts(int count) {
+        if(count <= 0) throw new IllegalArgumentException("Count should be more than 0");
         List<Account> accounts = new ArrayList<>();
 
         for(int i = 0; i < count; i++){
