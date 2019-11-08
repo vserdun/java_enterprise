@@ -52,7 +52,7 @@ public class BankServiceImpl implements BankService {
 
         receiver.setAmount(receiver.getAmount() + amount);
         sender.setAmount(sender.getAmount() - amount);
-        transactions.add(new Transaction(LocalDate.now(), sender, receiver));
+        transactions.add(new Transaction(LocalDate.now(), sender, receiver, amount));
         log.info("\n\n"
                 + sender.getUser().getFirstName()
                 + " "

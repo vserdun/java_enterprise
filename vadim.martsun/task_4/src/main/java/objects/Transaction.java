@@ -15,4 +15,5 @@ public class Transaction {
     private LocalDate transactionDate;
     private Account sender;
     private Account receiver;
+    float amount;
 }
