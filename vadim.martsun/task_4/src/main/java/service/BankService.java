@@ -2,9 +2,11 @@ package service;
 
 import objects.Account;
 import objects.Transaction;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface BankService {
 
     float withdraw(Account account, float amount) throws Exception;

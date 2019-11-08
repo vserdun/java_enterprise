@@ -3,12 +3,14 @@ package random;
 import objects.Account;
 import objects.Gender;
 import objects.User;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@Service
 public class RandomBankAccountServiceImpl implements RandomBankAccountService {
     private Random random = new Random();
 
