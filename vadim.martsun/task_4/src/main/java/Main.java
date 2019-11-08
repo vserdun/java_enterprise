@@ -7,7 +7,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import random.RandomBankAccountService;
 import service.BankService;
 import service.transactionExplorer.TransactionExplorer;
-import service.transactionExplorer.TransactionExplorerImpl;
 
 import java.util.List;
 

@@ -16,4 +16,5 @@ public class Transaction {
     private Account sender;
     private Account receiver;
     float amount;
+    boolean isSuccessful;
 }

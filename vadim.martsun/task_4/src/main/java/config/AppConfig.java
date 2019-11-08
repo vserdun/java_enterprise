@@ -6,6 +6,7 @@ import random.RandomBankAccountService;
 import random.RandomBankAccountServiceImpl;
 import service.BankService;
 import service.BankServiceImpl;
+import service.TestBankService;
 import service.transactionExplorer.TransactionExplorer;
 import service.transactionExplorer.TransactionExplorerImpl;
 
@@ -15,6 +16,11 @@ public class AppConfig {
     @Bean(name = "bankService")
     public BankService bankService(){
         return new BankServiceImpl();
+    }
+
+    @Bean(name = "testBankService")
+    public BankService testBankService(){
+        return new TestBankService();
     }
 
     @Bean(name = "randomBankAccountService")

@@ -12,9 +12,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class BankServiceImpl implements BankService {
-
-    private List<Transaction> transactions = new ArrayList<>();
+public class BankServiceImpl extends AbstractBankService {
 
     @Override
     public float withdraw(Account account, float amount) throws Exception {
@@ -52,7 +50,7 @@ public class BankServiceImpl implements BankService {
 
         receiver.setAmount(receiver.getAmount() + amount);
         sender.setAmount(sender.getAmount() - amount);
-        transactions.add(new Transaction(LocalDate.now(), sender, receiver, amount));
+        transactions.add(new Transaction(LocalDate.now(), sender, receiver, amount, true));
         log.info("\n\n"
                 + sender.getUser().getFirstName()
                 + " "
@@ -65,15 +63,10 @@ public class BankServiceImpl implements BankService {
         return true;
     }
 
-    @Override
-    public float getAmount(Account account) {
-        return account.getAmount();
-    }
-
-    @Override
+   /* @Override
     public List<Transaction> getTransactions(Account account) {
         return transactions.stream()
                 .filter(t -> t.getReceiver().equals(account) || t.getSender().equals(account))
                 .collect(Collectors.toList());
-    }
+    }*/
 }

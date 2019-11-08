@@ -17,10 +17,13 @@ public class TransactionExplorerImpl implements TransactionExplorer {
                 + " "
                 + transaction.getReceiver().getUser().getLastName();
 
+        String status = (transaction.isSuccessful() ? "Successful" : "Failed");
         if(transaction.getSender().equals(account)){
-            log.info(senderName + " → " + receiverName + " ($" + transaction.getAmount() + ")");
+            log.info(senderName + " → " + receiverName + " ($" + transaction.getAmount() + ")"
+                    + " " + status);
         }else if(transaction.getReceiver().equals(account)){
-            log.info(receiverName + " ← " + senderName + " ($" + transaction.getAmount() + ")");
+            log.info(receiverName + " ← " + senderName + " ($" + transaction.getAmount() + ")"
+                    + " " + status);
         }
     }
 }
