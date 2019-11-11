@@ -2,8 +2,6 @@ package com.hillel;
 
 import com.hillel.model.Account;
 import com.hillel.service.AccountService;
-import com.hillel.service.AccountServiceImpl;
-import com.hillel.service.TestAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -14,14 +12,14 @@ import java.util.ArrayList;
 public class AccountServiceDemo {
 
     @Autowired
-    @Qualifier("accountServiceImpl")
+    //@Qualifier("accountServiceImpl")
+    @Qualifier("testAccountService")
     private AccountService accountService;
 
     public void demoRun() {
         Account account1 = new Account(1, "Alex", 0.0, new ArrayList<>());
         Account account2 = new Account(2, "Ben", 0.0, new ArrayList<>());
         Account account3 = new Account(3, "Sam", 0.0, new ArrayList<>());
-        Account account4 = new Account(4, "Gabe", 0.0, new ArrayList<>());
 
         accountService.deposit(account1, 100.0);
         accountService.deposit(account2, 340.0);
