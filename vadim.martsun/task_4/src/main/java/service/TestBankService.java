@@ -3,9 +3,13 @@ package service;
 import lombok.extern.slf4j.Slf4j;
 import objects.Account;
 import objects.Transaction;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 
 @Slf4j
+@Service("testService")
 public class TestBankService extends AbstractBankService {
 
     @Override

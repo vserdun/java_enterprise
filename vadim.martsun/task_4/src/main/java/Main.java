@@ -1,24 +1,31 @@
-import config.AppConfig;
 import lombok.extern.slf4j.Slf4j;
 import objects.Account;
 import objects.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import random.RandomBankAccountService;
 import service.BankService;
 import service.transactionExplorer.TransactionExplorer;
-
 import java.util.List;
 
 @Slf4j
+@ComponentScan({"service", "service.transactionExplorer", "random"})
 public class Main {
 
-    private static void bankServiceDemo() throws Exception {
-        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        BankService bankService = (BankService) context.getBean("bankService");
-        RandomBankAccountService randomBankAccountService = (RandomBankAccountService) context.getBean("randomBankAccountService");
-        TransactionExplorer transactionExplorer = (TransactionExplorer) context.getBean("transactionExplorer");
+    @Autowired
+    @Qualifier(value = "bankService")
+    private BankService bankService;
 
+    @Autowired
+    private RandomBankAccountService randomBankAccountService;
+
+    @Autowired
+    private TransactionExplorer transactionExplorer;
+
+    private void bankServiceDemo() throws Exception {
         List<Account> accounts = randomBankAccountService.getRandomAccounts(10);
         log.info("\nGenerated accounts: ");
         accounts.forEach(a -> log.info(a.toString()));
@@ -37,6 +44,8 @@ public class Main {
     }
 
     public static void main(String ... args) throws Exception {
-        bankServiceDemo();
+        ApplicationContext context = new AnnotationConfigApplicationContext(Main.class);
+        Main main = context.getBean(Main.class);
+        main.bankServiceDemo();
     }
 }
