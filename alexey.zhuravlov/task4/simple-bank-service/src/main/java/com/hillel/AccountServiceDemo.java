@@ -12,7 +12,6 @@ import java.util.ArrayList;
 public class AccountServiceDemo {
 
     @Autowired
-    //@Qualifier("accountServiceImpl")
     @Qualifier("testAccountService")
     private AccountService accountService;
 
