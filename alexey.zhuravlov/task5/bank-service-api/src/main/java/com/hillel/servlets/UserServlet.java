@@ -20,10 +20,10 @@ import java.util.concurrent.ConcurrentHashMap;
 @WebServlet(name = "userServlet", urlPatterns = {"/users"})
 public class UserServlet extends HttpServlet {
     private int currentUserId = 1;
-    Map<Integer, User> userMap = new ConcurrentHashMap<>();
+    private Map<Integer, User> userMap = new ConcurrentHashMap<>();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application'json");
         Gson gson = new Gson();
         String userId = req.getParameter("userId");
@@ -50,7 +50,7 @@ public class UserServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json");
         Gson gson = new Gson();
         Status status;
@@ -79,8 +79,7 @@ public class UserServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("application/json");
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException { resp.setContentType("application/json");
         Gson gson = new Gson();
         Status status;
 
@@ -92,22 +91,29 @@ public class UserServlet extends HttpServlet {
             }
 
             User user = gson.fromJson(sb.toString(), User.class);
-            userMap.put(user.getId(), user);
-            currentUserId++;
-            status = new Status(true, "User was updated");
-            resp.getOutputStream().print(gson.toJson(user));
+
+            if (userMap.containsKey(user.getId())){
+                userMap.put(user.getId(), user);
+                resp.getOutputStream().print(gson.toJson(user));
+            }
+            else {
+                status = new Status(false, "User not found");
+                resp.getOutputStream().print(gson.toJson(status));
+                resp.setStatus(400);
+            }
+
         } catch (Exception e) {
             log.error("Exception while tried to update user: ", e);
             status = new Status(false, "Failed to update user");
+            resp.getOutputStream().print(gson.toJson(status));
             resp.setStatus(500);
         }
-        resp.getOutputStream().print(gson.toJson(status));
-        resp.getOutputStream().flush();
 
+        resp.getOutputStream().flush();
     }
 
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json");
         Gson gson = new Gson();
         String userId = req.getParameter("userId");

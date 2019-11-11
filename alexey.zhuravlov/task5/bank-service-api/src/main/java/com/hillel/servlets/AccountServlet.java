@@ -3,12 +3,9 @@ package com.hillel.servlets;
 import com.google.gson.Gson;
 import com.hillel.model.Account;
 import com.hillel.model.Status;
-import com.hillel.model.User;
 import com.hillel.request.CreateAccountRequest;
-import com.hillel.request.CreateUserRequest;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,10 +18,10 @@ import java.util.concurrent.ConcurrentHashMap;
 @WebServlet(name = "accountServlet", urlPatterns = {"/accounts"})
 public class AccountServlet extends HttpServlet {
     private int currentAccountId = 1;
-    Map<Integer, Account> accountMap = new ConcurrentHashMap<>();
+    private Map<Integer, Account> accountMap = new ConcurrentHashMap<>();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application'json");
         Gson gson = new Gson();
         String accountId = req.getParameter("accountId");
@@ -51,7 +48,7 @@ public class AccountServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws  IOException {
         resp.setContentType("application/json");
         Gson gson = new Gson();
         Status status;
@@ -65,7 +62,7 @@ public class AccountServlet extends HttpServlet {
 
             CreateAccountRequest createAccountRequest = gson.fromJson(sb.toString(), CreateAccountRequest.class);
 
-            Account account = new Account(currentAccountId, createAccountRequest.getBalance(), createAccountRequest.getUser(), createAccountRequest.getAccStatement());
+            Account account = new Account(currentAccountId, createAccountRequest.getBalance(), createAccountRequest.getUser());
             accountMap.put(account.getId(), account);
             currentAccountId++;
             status = new Status(true, "Account was added");
@@ -80,7 +77,7 @@ public class AccountServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json");
         Gson gson = new Gson();
         Status status;
@@ -94,21 +91,28 @@ public class AccountServlet extends HttpServlet {
 
             Account account = gson.fromJson(sb.toString(), Account.class);
 
-            accountMap.put(account.getId(), account);
-            currentAccountId++;
-            status = new Status(true, "Account was updated");
-            resp.getOutputStream().print(gson.toJson(account));
+            if (accountMap.containsKey(account.getId())){
+                accountMap.put(account.getId(), account);
+                resp.getOutputStream().print(gson.toJson(account));
+            }
+            else {
+                status = new Status(false, "Account not found");
+                resp.getOutputStream().print(gson.toJson(status));
+                resp.setStatus(400);
+            }
+
         } catch (Exception e) {
             log.error("Exception while tried to update account: ", e);
             status = new Status(false, "Failed to update account");
+            resp.getOutputStream().print(gson.toJson(status));
             resp.setStatus(500);
         }
-        resp.getOutputStream().print(gson.toJson(status));
+
         resp.getOutputStream().flush();
     }
 
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json");
         Gson gson = new Gson();
         String accountId = req.getParameter("accountId");
