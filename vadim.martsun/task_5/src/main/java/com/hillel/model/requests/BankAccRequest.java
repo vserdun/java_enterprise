@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class CreateBankAccRequest {
+public class BankAccRequest {
     private float balance;
     private String userFirstName;
     private String userLastName;
