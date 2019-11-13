@@ -1,9 +1,10 @@
 package com.hillel.servlets;
 
 import com.google.gson.Gson;
-import com.hillel.mapper.BankAccMapper;
-import com.hillel.mapper.BankAccMapperImpl;
+import com.hillel.mapper.Mapper;
+import com.hillel.mapper.MapperImpl;
 import com.hillel.model.BankAcc;
+import com.hillel.model.Database;
 import com.hillel.model.Status;
 import com.hillel.model.requests.BankAccRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -12,17 +13,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 @Slf4j
 @WebServlet(name = "BankServlet", urlPatterns = {"/bank"})
 public class BankServlet extends HttpServlet {
-    private Map<Long, BankAcc> accounts = new HashMap<>();
     private long accountId = 0;
     private Gson gson = new Gson();
-    private BankAccMapper mapper = new BankAccMapperImpl();
+    private Mapper mapper = new MapperImpl();
     private final String ACCOUNT_ID = "bankAccountId";
+
+    private Database database = Database.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -30,12 +30,12 @@ public class BankServlet extends HttpServlet {
         String getParameter = request.getParameter(ACCOUNT_ID);
         Status status;
         if(getParameter == null){
-            status = new Status(true, "Found " + accounts.size() + " accounts");
-            response.getWriter().println(gson.toJson(accounts));
+            status = new Status(true, "Found " + database.getAccounts().size() + " accounts");
+            response.getWriter().println(gson.toJson(database.getAccounts()));
         }else{
-            BankAcc extractedAccount = accounts.get(Long.parseLong(getParameter));
+            BankAcc extractedAccount = database.getAccounts().get(Long.parseLong(getParameter));
             if(extractedAccount == null){
-                status = new Status(false, "There is no account with such id");
+                status = new Status(false,"There is no account with such id");
                 response.setStatus(404);
             }else {
                 status = new Status(true, "The required account has been found");
@@ -51,7 +51,7 @@ public class BankServlet extends HttpServlet {
         Status status;
         String getParameter = request.getParameter(ACCOUNT_ID);
         if (getParameter != null) {
-            BankAcc removedAccount = accounts.remove(Long.parseLong(getParameter));
+            BankAcc removedAccount = database.getAccounts().remove(Long.parseLong(getParameter));
             if (removedAccount == null) {
                 status = new Status(true, "There is no account with such id");
                 response.setStatus(404);
@@ -79,17 +79,21 @@ public class BankServlet extends HttpServlet {
         }else{
             BankAccRequest bankAccRequest = gson.fromJson(request.getReader(), BankAccRequest.class);
             long accId = Long.parseLong(getParameter);
-            BankAcc account = accounts.get(accId);
+            BankAcc account = database.getAccounts().get(accId);
 
             if(account == null){
                 status = new Status(false, "Account has not been found");
                 response.setStatus(404);
             }else {
-                BankAcc updatedAccount = mapper.map(bankAccRequest);
-                accounts.put(accId, updatedAccount);
-
-                status = new Status(true, "Account has been successfully updated");
-                response.setStatus(200);
+                BankAcc updatedAccount = mapper.mapBankAccount(bankAccRequest);
+                if(updatedAccount.getUser() == null){
+                    status = new Status(true, "Bad request");
+                    response.setStatus(400);
+                }else {
+                    database.getAccounts().put(accId, updatedAccount);
+                    status = new Status(true, "Account has been successfully updated");
+                    response.setStatus(200);
+                }
             }
         }
         response.getWriter().println(gson.toJson(status));
@@ -100,12 +104,19 @@ public class BankServlet extends HttpServlet {
         response.setContentType("application/json");
 
         BankAccRequest bankAccRequest = gson.fromJson(request.getReader(), BankAccRequest.class);
-        BankAcc bankAccount = mapper.map(bankAccRequest);
-        accounts.put(accountId, bankAccount);
-        accountId++;
+        BankAcc bankAccount = mapper.mapBankAccount(bankAccRequest);
 
-        Status status = new Status(true, "A bank account has been added");
-        response.setStatus(200);
+        Status status;
+        if(bankAccount.getUser() != null){
+            database.getAccounts().put(accountId, bankAccount);
+            accountId++;
+            status = new Status(true, "A bank account has been added");
+            response.setStatus(200);
+        }else {
+            status = new Status(true, "No user with the specified id");
+            response.setStatus(404);
+        }
+
         response.getWriter().println(gson.toJson(status));
     }
 
