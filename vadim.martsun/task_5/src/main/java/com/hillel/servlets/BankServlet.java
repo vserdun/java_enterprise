@@ -87,7 +87,7 @@ public class BankServlet extends HttpServlet {
             }else {
                 BankAcc updatedAccount = mapper.mapBankAccount(bankAccRequest);
                 if(updatedAccount.getUser() == null){
-                    status = new Status(true, "Bad request");
+                    status = new Status(false, "Bad request");
                     response.setStatus(400);
                 }else {
                     database.getAccounts().put(accId, updatedAccount);
@@ -113,7 +113,7 @@ public class BankServlet extends HttpServlet {
             status = new Status(true, "A bank account has been added");
             response.setStatus(200);
         }else {
-            status = new Status(true, "No user with the specified id");
+            status = new Status(false, "No user with the specified id");
             response.setStatus(404);
         }
 
