@@ -41,7 +41,7 @@ public class AccountServlet extends HttpServlet {
                 log.error("Exception while tried to get account: ", e);
                 Status status = new Status(false, "Bad request");
                 resp.getOutputStream().print(gson.toJson(status));
-                resp.setStatus(400);
+                resp.setStatus(500);
             }
         }
         resp.getOutputStream().flush();
@@ -54,13 +54,8 @@ public class AccountServlet extends HttpServlet {
         Status status;
 
         try {
-            StringBuilder sb = new StringBuilder();
-            String s;
-            while ((s = req.getReader().readLine()) != null) {
-                sb.append(s);
-            }
 
-            CreateAccountRequest createAccountRequest = gson.fromJson(sb.toString(), CreateAccountRequest.class);
+            CreateAccountRequest createAccountRequest = gson.fromJson(req.getReader(), CreateAccountRequest.class);
 
             Account account = new Account(currentAccountId, createAccountRequest.getBalance(), createAccountRequest.getUser());
             accountMap.put(account.getId(), account);
@@ -83,13 +78,8 @@ public class AccountServlet extends HttpServlet {
         Status status;
 
         try {
-            StringBuilder sb = new StringBuilder();
-            String s;
-            while ((s = req.getReader().readLine()) != null) {
-                sb.append(s);
-            }
 
-            Account account = gson.fromJson(sb.toString(), Account.class);
+            Account account = gson.fromJson(req.getReader(), Account.class);
 
             if (accountMap.containsKey(account.getId())){
                 accountMap.put(account.getId(), account);
@@ -98,7 +88,7 @@ public class AccountServlet extends HttpServlet {
             else {
                 status = new Status(false, "Account not found");
                 resp.getOutputStream().print(gson.toJson(status));
-                resp.setStatus(400);
+                resp.setStatus(404);
             }
 
         } catch (Exception e) {
@@ -120,7 +110,7 @@ public class AccountServlet extends HttpServlet {
         if (accountId == null) {
             Status status = new Status(false, "Bad request");
             resp.getOutputStream().print(gson.toJson(status));
-            resp.setStatus(400);
+            resp.setStatus(500);
         } else {
             try {
                 if (accountMap.get(Integer.valueOf(accountId)) != null) {
@@ -136,7 +126,7 @@ public class AccountServlet extends HttpServlet {
                 log.error("Exception while tried to get account: ", e);
                 Status status = new Status(false, "Bad request");
                 resp.getOutputStream().print(gson.toJson(status));
-                resp.setStatus(400);
+                resp.setStatus(500);
             }
         }
 

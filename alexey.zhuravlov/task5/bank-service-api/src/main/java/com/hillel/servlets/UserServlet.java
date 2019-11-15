@@ -43,7 +43,7 @@ public class UserServlet extends HttpServlet {
                 log.error("Exception while tried to get user: ", e);
                 Status status = new Status(false, "Bad request");
                 resp.getOutputStream().print(gson.toJson(status));
-                resp.setStatus(400);
+                resp.setStatus(500);
             }
         }
         resp.getOutputStream().flush();
@@ -56,13 +56,8 @@ public class UserServlet extends HttpServlet {
         Status status;
 
         try {
-            StringBuilder sb = new StringBuilder();
-            String s;
-            while ((s = req.getReader().readLine()) != null) {
-                sb.append(s);
-            }
 
-            CreateUserRequest createUserRequest = gson.fromJson(sb.toString(), CreateUserRequest.class);
+            CreateUserRequest createUserRequest = gson.fromJson(req.getReader(), CreateUserRequest.class);
 
             User user = new User(currentUserId, createUserRequest.getFirstName(), createUserRequest.getLastName());
             userMap.put(user.getId(), user);
@@ -84,13 +79,8 @@ public class UserServlet extends HttpServlet {
         Status status;
 
         try {
-            StringBuilder sb = new StringBuilder();
-            String s;
-            while ((s = req.getReader().readLine()) != null) {
-                sb.append(s);
-            }
 
-            User user = gson.fromJson(sb.toString(), User.class);
+            User user = gson.fromJson(req.getReader(), User.class);
 
             if (userMap.containsKey(user.getId())){
                 userMap.put(user.getId(), user);
@@ -99,7 +89,7 @@ public class UserServlet extends HttpServlet {
             else {
                 status = new Status(false, "User not found");
                 resp.getOutputStream().print(gson.toJson(status));
-                resp.setStatus(400);
+                resp.setStatus(500);
             }
 
         } catch (Exception e) {
@@ -121,7 +111,7 @@ public class UserServlet extends HttpServlet {
         if (userId == null) {
             Status status = new Status(false, "Bad request");
             resp.getOutputStream().print(gson.toJson(status));
-            resp.setStatus(400);
+            resp.setStatus(500);
         } else {
             try {
                 if (userMap.get(Integer.valueOf(userId)) != null) {
@@ -137,7 +127,7 @@ public class UserServlet extends HttpServlet {
                 log.error("Exception while tried to get user: ", e);
                 Status status = new Status(false, "Bad request");
                 resp.getOutputStream().print(gson.toJson(status));
-                resp.setStatus(400);
+                resp.setStatus(500);
             }
         }
 
