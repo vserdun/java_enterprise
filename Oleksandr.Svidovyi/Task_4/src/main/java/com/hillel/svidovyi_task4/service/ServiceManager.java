@@ -1,7 +1,7 @@
-package service;
+package com.hillel.svidovyi_task4.service;
 
 
-import model.BankClient;
+import com.hillel.svidovyi_task4.model.BankClient;
 
 public interface ServiceManager {
     void moneyTransfer(BankClient supplier, BankClient reciever, Long payment);

@@ -1,18 +1,17 @@
-package configuration;
+package com.hillel.svidovyi_task4.configuration;
 
-import model.ClientRepository;
+import com.hillel.svidovyi_task4.model.ClientRepository;
+import com.hillel.svidovyi_task4.service.AccountServiceManager;
+import com.hillel.svidovyi_task4.service.ServiceManager;
+import com.hillel.svidovyi_task4.service.TestServiceManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
-import service.AccountServiceManager;
-import service.ServiceManager;
-import service.TestServiceManager;
+
 
 @Configuration
 public class BankAppConfig {
 
     @Bean(name = "clientRepository")
-    @Scope("singleton")
     public ClientRepository getClientRepository() {
         return new ClientRepository();
     }
@@ -27,4 +26,5 @@ public class BankAppConfig {
     public ServiceManager getTestServiceManager() {
         return new TestServiceManager();
     }
+
 }

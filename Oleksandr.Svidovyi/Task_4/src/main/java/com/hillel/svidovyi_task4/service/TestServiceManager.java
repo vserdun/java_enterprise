@@ -1,13 +1,12 @@
-package service;
+package com.hillel.svidovyi_task4.service;
 
+import com.hillel.svidovyi_task4.model.BankClient;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import model.BankClient;
-import org.springframework.stereotype.Component;
 
 @Slf4j
 @Data
-@Component
+//@Component
 public class TestServiceManager implements ServiceManager {
     @Override
     public void moneyTransfer(BankClient supplier, BankClient reciever, Long payment) {

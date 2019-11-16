@@ -1,4 +1,4 @@
-package model;
+package com.hillel.svidovyi_task4.model;
 
 import lombok.*;
 

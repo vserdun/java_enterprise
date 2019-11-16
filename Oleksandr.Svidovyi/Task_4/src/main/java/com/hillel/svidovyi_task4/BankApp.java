@@ -1,26 +1,34 @@
-import configuration.BankAppConfig;
-import model.BankClient;
-import model.ClientRepository;
+package com.hillel.svidovyi_task4;
+
+import com.hillel.svidovyi_task4.model.BankClient;
+import com.hillel.svidovyi_task4.model.ClientRepository;
+import com.hillel.svidovyi_task4.service.ServiceManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
-import service.ServiceManager;
-import service.TestServiceManager;
 
 import java.util.HashMap;
 
 
 @Component
+@ComponentScan("com.hillel.svidovyi_task4")
 public class BankApp {
-    private static ClientRepository clientRepository;
-    private static ServiceManager serviceManager;
+    @Autowired
+    private ClientRepository clientRepository;
+    @Autowired
+    @Qualifier("accountServiceManager")
+    private ServiceManager serviceManager;
 
 
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(BankAppConfig.class);
-//        serviceManager = ctx.getBean("accountServiceManager", AccountServiceManager.class);
-        serviceManager = ctx.getBean("testServiceManager", TestServiceManager.class);
-        clientRepository = ctx.getBean("clientRepository", ClientRepository.class);
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(BankApp.class);
+        BankApp bankApp = ctx.getBean(BankApp.class);
+        bankApp.demo();
+    }
 
+    public void demo() {
         HashMap<Integer, BankClient> clients = new HashMap<>();
         clients.put(1, new BankClient(1, "Ivan", "Tolmachev"));
         clients.put(2, new BankClient(2, "Oleg", "Borenko"));
@@ -29,19 +37,12 @@ public class BankApp {
 
         clientRepository.setClients(clients);
 
-        /*
-        // Использование AccountServiceManager
+
         serviceManager.replenish(clientRepository.getClients().get(1), 50000L);
         serviceManager.replenish(clientRepository.getClients().get(2), 70000L);
         serviceManager.replenish(clientRepository.getClients().get(3), 65000L);
         serviceManager.replenish(clientRepository.getClients().get(4), 20000L);
-        serviceManager.moneyTransfer(clientRepository.getClients().get(2), clientRepository.getClients().get(4), 3500L);
-        serviceManager.withdraw(clientRepository.getClients().get(1), 9990L);
-        serviceManager.showBallance(clientRepository.getClients().get(1));
-        */
 
-        // Использование TestServiceManager
-        serviceManager.replenish(clientRepository.getClients().get(1), 50000L);
         serviceManager.moneyTransfer(clientRepository.getClients().get(2), clientRepository.getClients().get(4), 3500L);
         serviceManager.withdraw(clientRepository.getClients().get(1), 9990L);
         serviceManager.showBallance(clientRepository.getClients().get(1));
