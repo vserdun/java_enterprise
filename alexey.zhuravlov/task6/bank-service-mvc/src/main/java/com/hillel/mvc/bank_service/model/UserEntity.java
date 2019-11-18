@@ -5,10 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@AllArgsConstructor
-@EqualsAndHashCode
-public class Account {
-    private int id;
-    private double balance;
-    private User user;
+public class UserEntity {
+    private int userId;
+    private String userFirstName;
+    private String userLastName;
 }

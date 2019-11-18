@@ -36,23 +36,19 @@
          <span class="th">Last Name</span>
      </div>
  <c:forEach items="${users}" var="user">
+     <form:form class="tr" modelAttribute="userAttribute" action="" method="post">
          <span class="td"><c:out value="${user.userId}"/></span>
          <span class="td"><c:out value="${user.userFirstName}"/></span>
          <span class="td"><c:out value="${user.userLastName}"/></span>
-         <span class="td"><c:out value="${book.bookStatus}"/></span>
          <span class="td">
-             <input id="bookId" name="bookId" type="hidden" value="${book.bookId}"/>
-             <input type="submit" id="${book.bookId}"  value="${book.bookStatus eq 'AVAILABLE' ? 'take': 'return'}"/>
+            <input type="button" onclick="location.href='edit?userId=${user.userId}';" value="Edit user"/>
          </span>
          <span class="td">
-            <input type="button" onclick="location.href='edit?bookId=${book.bookId}';" value="Edit book"/>
-         </span>
-         <span class="td">
-                     <input type="button" onclick="location.href='deleteBook?bookId=${book.bookId}';" value="Delete book"/>
+                     <input type="button" onclick="location.href='deleteUser?userId=${user.userId}';" value="Delete user"/>
                   </span>
      </form:form>
  </c:forEach>
  </div>
- <input type="button" onclick="location.href='add';" value="Add new book"/>
+ <input type="button" onclick="location.href='add';" value="Add new user"/>
 </body>
 </html>

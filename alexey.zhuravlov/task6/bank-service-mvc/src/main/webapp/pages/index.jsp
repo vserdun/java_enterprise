@@ -5,5 +5,6 @@
        <title>Simple bank service</title>
    </head>
    <body>
+   <p>Go to <a href="<c:url value="/users/list" />">Users list</a></p>
    </body>
 </html>
