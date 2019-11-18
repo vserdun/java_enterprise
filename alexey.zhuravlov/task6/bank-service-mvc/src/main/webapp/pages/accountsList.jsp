@@ -32,23 +32,23 @@
  <div class="table">
      <div class="tr">
          <span class="th">Id</span>
-         <span class="th">First Name</span>
-         <span class="th">Last Name</span>
+         <span class="th">Balance</span>
+         <span class="th">User</span>
      </div>
- <c:forEach items="${users}" var="user">
-     <form:form class="tr" modelAttribute="userAttribute" action="" method="post">
-         <span class="td"><c:out value="${user.userId}"/></span>
-         <span class="td"><c:out value="${user.userFirstName}"/></span>
-         <span class="td"><c:out value="${user.userLastName}"/></span>
+ <c:forEach items="${accounts}" var="account">
+     <form:form class="tr" modelAttribute="accountAttribute" action="" method="post">
+         <span class="td"><c:out value="${account.accountId}"/></span>
+         <span class="td"><c:out value="${account.accountBalance}"/></span>
+         <span class="td"><c:out value="${account.accountUser}"/></span>
          <span class="td">
-            <input type="button" onclick="location.href='edit?userId=${user.userId}';" value="Edit user"/>
+            <input type="button" onclick="location.href='edit?accountId=${account.accountId}';" value="Edit account"/>
          </span>
          <span class="td">
-                     <input type="button" onclick="location.href='deleteUser?userId=${user.userId}';" value="Delete user"/>
+                     <input type="button" onclick="location.href='deleteAccount?accountId=${account.accountId}';" value="Delete account"/>
                   </span>
      </form:form>
  </c:forEach>
  </div>
- <input type="button" onclick="location.href='add';" value="Add new user"/>
+ <input type="button" onclick="location.href='add';" value="Add new account"/>
 </body>
 </html>
