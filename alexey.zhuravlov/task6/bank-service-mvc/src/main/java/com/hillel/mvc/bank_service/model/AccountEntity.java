@@ -10,7 +10,7 @@ import java.util.List;
 public class AccountEntity {
     private int accountId;
     private double accountBalance;
-    private UserEntity accountUser;
+    private int userId;
     private List<String> accStatement;
 
 }

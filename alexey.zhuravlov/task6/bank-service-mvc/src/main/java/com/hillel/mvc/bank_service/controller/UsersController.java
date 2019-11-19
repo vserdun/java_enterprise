@@ -1,6 +1,8 @@
 package com.hillel.mvc.bank_service.controller;
 
+import com.hillel.mvc.bank_service.model.AccountEntity;
 import com.hillel.mvc.bank_service.model.UserEntity;
+import com.hillel.mvc.bank_service.service.AccountService;
 import com.hillel.mvc.bank_service.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,9 @@ public class UsersController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AccountService accountService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/add")
     public String addUserForm(Model model){
@@ -58,4 +63,19 @@ public class UsersController {
         userService.deleteUser(userId);
         return "redirect:/users/list";
     }
+
+
+    @RequestMapping(method = RequestMethod.GET, value = "/addAccount")
+    public String addAccountForm(Model model){
+        model.addAttribute("accountAttribute", new AccountEntity());
+        return "accountAdd";
+    }
+
+
+    @RequestMapping(method = RequestMethod.POST, value = "/addAccountForm")
+    public String addAccount(@ModelAttribute("accountAttribute") AccountEntity accountEntity){
+        accountService.addAccount(accountEntity);
+        return "redirect:/accounts/list";
+    }
+
 }

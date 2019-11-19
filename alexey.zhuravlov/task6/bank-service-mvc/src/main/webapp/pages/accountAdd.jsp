@@ -9,6 +9,11 @@
 <form:form modelAttribute="accountAttribute" action="addAccount" method="post">
    <table>
        <tr>
+            <td>
+                <form:input path="accountId" type="hidden"/>
+            </td>
+       </tr>
+       <tr>
            <td>
                <form:label path="accountBalance">Account Balance</form:label>
            </td>
@@ -17,12 +22,9 @@
            </td>
        </tr>
        <tr>
-           <td>
-               <form:label path="accountUser">Account User</form:label>
-           </td>
-           <td>
-               <form:input path="accountUser"/>
-           </td>
+            <td>
+                <form:input path="userId" type="hidden"/>
+            </td>
        </tr>
    </table>
    <input type="submit" value="Save"/>
