@@ -1,0 +1,35 @@
+package com.hillel.mvc.bank.dao;
+
+import com.hillel.mvc.bank.model.BankAccount;
+import org.springframework.stereotype.Repository;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+@Repository
+public class BankAccountRepositoryImpl implements BankAccountRepository {
+
+    private Map<Long, BankAccount> bankAccountHashMap = new ConcurrentHashMap();
+    private long nextId = 1L;
+
+    @Override
+    public void addBankAccount(BankAccount bankAccount) {
+        bankAccountHashMap.put(nextId, bankAccount);
+        nextId++;
+    }
+
+    @Override
+    public void updateBankAccount(BankAccount bankAccount) {
+        bankAccountHashMap.replace(bankAccount.getId(), bankAccount);
+    }
+
+    @Override
+    public void deleteBankAccount(long id) {
+        bankAccountHashMap.remove(id);
+    }
+
+    @Override
+    public BankAccount getBankAccount(long id) {
+        return bankAccountHashMap.get(id);
+    }
+}
