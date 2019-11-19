@@ -6,5 +6,6 @@
    </head>
    <body>
    <p>Go to <a href="<c:url value="/users/list" />">Users list</a></p>
+   <p>Go to <a href="<c:url value="/accounts/list" />">Accounts list</a></p>
    </body>
 </html>

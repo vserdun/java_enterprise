@@ -44,8 +44,11 @@
             <input type="button" onclick="location.href='edit?userId=${user.userId}';" value="Edit user"/>
          </span>
          <span class="td">
-                     <input type="button" onclick="location.href='deleteUser?userId=${user.userId}';" value="Delete user"/>
-                  </span>
+             <input type="button" onclick="location.href='deleteUser?userId=${user.userId}';" value="Delete user"/>
+         </span>
+         <span class="td">
+             <input type="button" onclick="location.href='addAccount?userId=${user.userId}';" value="Add account"/>
+          </span>
      </form:form>
  </c:forEach>
  </div>
