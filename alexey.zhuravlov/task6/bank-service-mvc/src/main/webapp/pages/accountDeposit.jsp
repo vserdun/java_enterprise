@@ -6,7 +6,7 @@
    <title>Simple library app</title>
 </head>
 <body>
-<form:form modelAttribute="accountAttribute" action="editAccount" method="post">
+<form:form modelAttribute="accountAttribute" action="depositAccount" method="post">
    <table>
        <tr>
             <td>

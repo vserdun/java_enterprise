@@ -53,5 +53,6 @@
  </c:forEach>
  </div>
  <input type="button" onclick="location.href='add';" value="Add new user"/>
+ <p>Go to <a href="<c:url value="/accounts/list" />">Accounts list</a></p>
 </body>
 </html>

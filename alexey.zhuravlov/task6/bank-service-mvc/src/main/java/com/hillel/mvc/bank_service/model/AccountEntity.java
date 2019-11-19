@@ -13,4 +13,10 @@ public class AccountEntity {
     private int userId;
     private List<String> accStatement;
 
+
+
+    public void addAccStatement(String string) {
+        accStatement.add(string);
+    }
+
 }

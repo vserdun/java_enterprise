@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -61,21 +62,25 @@ public class UsersController {
     @RequestMapping(method = RequestMethod.GET, value = "/deleteUser")
     public String deleteUser(@RequestParam("userId") int userId){
         userService.deleteUser(userId);
+        List<AccountEntity> accounts = accountService.getAccounts();
+        for (AccountEntity accountEntity: accounts
+             ) {
+            if (accountEntity.getUserId() == userId) {
+                accountService.deleteAccount(accountEntity.getAccountId());
+            }
+        }
         return "redirect:/users/list";
     }
 
 
     @RequestMapping(method = RequestMethod.GET, value = "/addAccount")
-    public String addAccountForm(Model model){
-        model.addAttribute("accountAttribute", new AccountEntity());
-        return "accountAdd";
-    }
-
-
-    @RequestMapping(method = RequestMethod.POST, value = "/addAccountForm")
-    public String addAccount(@ModelAttribute("accountAttribute") AccountEntity accountEntity){
+    public String addAccountForm(Model model, @RequestParam("userId") int userId){
+        AccountEntity accountEntity = new AccountEntity();
+        accountEntity.setAccStatement(new ArrayList<>());
+        accountEntity.setUserId(userId);
         accountService.addAccount(accountEntity);
         return "redirect:/accounts/list";
     }
+
 
 }
