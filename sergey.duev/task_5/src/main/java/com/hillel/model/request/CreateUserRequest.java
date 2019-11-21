@@ -1,4 +1,4 @@
-package com.hillel.model;
+package com.hillel.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

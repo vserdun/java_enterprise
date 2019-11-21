@@ -1,12 +1,11 @@
-package com.hillel.model;
+package com.hillel.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class UpdateUserRequest {
+public class DeleteUserRequest {
 
     private long userId;
-    private String name;
 }

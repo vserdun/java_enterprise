@@ -1,13 +1,12 @@
-package com.hillel.model;
+package com.hillel.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class UpdateBankAccountRequest {
+public class DeleteBankAccountRequest {
 
     private long userId;
     private long bankAccountId;
-    private double amount;
 }
