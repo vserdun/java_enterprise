@@ -3,21 +3,20 @@ package com.hillel.services;
 import com.hillel.models.BankAccount;
 import com.hillel.models.Statement;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Slf4j
 public class ProdBankAccountService implements BankAccountService {
 
-    private List<Statement> statements = new ArrayList<>();
-
-    public ProdBankAccountService(List<Statement> statements) {
-        this.statements = statements;
-    }
+    @Autowired
+    @Qualifier("initBankStatements")
+    private List<Statement> statementList;
 
     @Override
     public void withdrawMoney(BankAccount bankAccount, double amount) {
@@ -43,10 +42,17 @@ public class ProdBankAccountService implements BankAccountService {
 
     @Override
     public void printStatement(BankAccount bankAccount) {
-        statements.forEach(statement -> {
+        statementList.forEach(statement -> {
             if (statement.getFromId() == bankAccount.getId() || statement.getToId() == bankAccount.getId()) {
-                log.info("Bank Account %d statement -> %s", bankAccount.getId(), statement.toString());
+                log.info("Bank Account {} statement -> {}", bankAccount.getId(), statement.toString());
             }
+        });
+    }
+
+    @Override
+    public void printStatements() {
+        statementList.forEach(statement -> {
+            log.info("Statement -> {}", statement.toString());
         });
     }
 
@@ -58,7 +64,7 @@ public class ProdBankAccountService implements BankAccountService {
         addStatement(0, bankAccountId, amount);
     }
 
-    private void addStatement(long bankAccountIdFrom, long bankAccountIdTo, double amount) {
-        statements.add(new Statement(bankAccountIdFrom, bankAccountIdTo, LocalDate.now(), amount));
+    protected void addStatement(long bankAccountIdFrom, long bankAccountIdTo, double amount) {
+        statementList.add(new Statement(bankAccountIdFrom, bankAccountIdTo, LocalDate.now(), amount));
     }
 }

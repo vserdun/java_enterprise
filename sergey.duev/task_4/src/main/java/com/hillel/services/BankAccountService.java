@@ -1,7 +1,10 @@
 package com.hillel.services;
 
 import com.hillel.models.BankAccount;
+import com.hillel.models.Statement;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public interface BankAccountService {
@@ -15,4 +18,6 @@ public interface BankAccountService {
     double getBalance(BankAccount bankAccount);
 
     void printStatement(BankAccount bankAccount);
+
+    void printStatements();
 }

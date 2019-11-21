@@ -7,20 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
 @Slf4j
 public class Bank {
 
+
     @Autowired
     @Qualifier("initBankAccounts")
     private List<BankAccount> accountList;
+
     @Autowired
-    @Qualifier("initStatements")
-    private List<Statement> statements;
-    @Autowired
-    @Qualifier("getProdBankAccountService")
+    @Qualifier("prodBankAccountService")
     private BankAccountService bankAccountService;
 
     public void createBankAccount(BankAccount bankAccount) {
@@ -44,13 +44,7 @@ public class Bank {
     }
 
     public void printStatements() {
-        statements.forEach(statement -> {
-            log.info(statement.toString());
-        });
-    }
-
-    public List<Statement> getStatements() {
-        return statements;
+        bankAccountService.printStatements();
     }
 
     public double getBalance(long bankAccountId) throws BankAccountNotFoundException {
