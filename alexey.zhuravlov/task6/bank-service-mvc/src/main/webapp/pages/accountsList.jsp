@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <html>
 <head>
    <title>Simple library app</title>
@@ -41,14 +42,24 @@
          <span class="td"><c:out value="${account.accountBalance}"/></span>
          <span class="td"><c:out value="${account.userId}"/></span>
          <span class="td">
-            <input type="button" onclick="location.href='withdraw?accountId=${account.accountId}';" value="Withdraw"/>
+            <c:if test="${transfer}==enabled">
+            <input type="button" onclick="location.href='withdraw?accountId=${account.accountId}';" value="Withdraw" />
+            </c:if>
+            <c:if test="${transfer}==disabled">
+            <input type="button" onclick="location.href='withdraw?accountId=${account.accountId}';" value="Withdraw" disabled/>
+            </c:if>
          </span>
-                  <span class="td">
-                     <input type="button" onclick="location.href='deposit?accountId=${account.accountId}';" value="Deposit"/>
-                  </span>
          <span class="td">
-                     <input type="button" onclick="location.href='deleteAccount?accountId=${account.accountId}';" value="Delete account"/>
-                  </span>
+             <c:if test="${transfer}==enabled">
+             <input type="button" onclick="location.href='deposit?accountId=${account.accountId}';" value="Deposit"/>
+             </c:if>
+             <c:if test="${transfer}==disabled">
+             <input type="button" onclick="location.href='deposit?accountId=${account.accountId}';" value="Deposit" disabled/>
+             </c:if>
+             </span>
+         <span class="td">
+         <input type="button" onclick="location.href='deleteAccount?accountId=${account.accountId}';" value="Delete account"/>
+         </span>
      </form:form>
  </c:forEach>
  </div>

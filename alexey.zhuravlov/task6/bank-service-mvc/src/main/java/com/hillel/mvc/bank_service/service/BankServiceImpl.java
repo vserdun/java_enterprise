@@ -77,4 +77,9 @@ public class BankServiceImpl implements BankService {
         accStatement.forEach(s -> log.info(s));
         return accStatement;
     }
+
+    @Override
+    public boolean isTransferSupported() {
+        return true;
+    }
 }

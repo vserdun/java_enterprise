@@ -32,6 +32,10 @@ public class AccountController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("accounts", accountsList);
         modelAndView.setViewName("accountsList");
+        if (bankService.isTransferSupported())
+            modelAndView.addObject("transfer", "enabled");
+        else
+            modelAndView.addObject("transfer", "disabled");
         return modelAndView;
     }
 

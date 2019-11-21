@@ -34,4 +34,9 @@ public class TestBankService extends BankServiceImpl {
         log.info("Can't process transfer, you are in the test mode now");
         return false;
     }
+
+    @Override
+    public boolean isTransferSupported() {
+        return false;
+    }
 }

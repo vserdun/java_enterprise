@@ -14,4 +14,6 @@ public interface BankService {
     double getAccountEntityAmount(int accountId);
 
     List<String> getAccStatement(int accountId);
+
+    boolean isTransferSupported();
 }
