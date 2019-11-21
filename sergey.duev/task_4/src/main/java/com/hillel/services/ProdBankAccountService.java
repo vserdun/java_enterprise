@@ -2,6 +2,7 @@ package com.hillel.services;
 
 import com.hillel.models.BankAccount;
 import com.hillel.models.Statement;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class ProdBankAccountService implements BankAccountService {
 
     private List<Statement> statements = new ArrayList<>();
@@ -43,7 +45,7 @@ public class ProdBankAccountService implements BankAccountService {
     public void printStatement(BankAccount bankAccount) {
         statements.forEach(statement -> {
             if (statement.getFromId() == bankAccount.getId() || statement.getToId() == bankAccount.getId()) {
-                System.out.println(statement.toString());
+                log.info("Bank Account %d statement -> %s", bankAccount.getId(), statement.toString());
             }
         });
     }

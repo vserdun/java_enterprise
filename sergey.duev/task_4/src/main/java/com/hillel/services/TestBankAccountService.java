@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Slf4j
 public class TestBankAccountService extends ProdBankAccountService {
 
     public TestBankAccountService(List<Statement> statements) {
@@ -16,16 +17,16 @@ public class TestBankAccountService extends ProdBankAccountService {
 
     @Override
     public void withdrawMoney(BankAccount bankAccount, double amount) {
-        System.out.println("test withdrawMoney");
+       log.info("test withdrawMoney");
     }
 
     @Override
     public void transferMoney(BankAccount bankAccountFrom, BankAccount bankAccountTo, double amount) {
-        System.out.println("test transferMoney");
+        log.info("test transferMoney");
     }
 
     @Override
     public void putMoney(BankAccount bankAccount, double amount) {
-        System.out.println("test putMoney");
+        log.info("test putMoney");
     }
 }

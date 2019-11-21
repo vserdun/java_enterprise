@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
+@Slf4j
 public class Bank {
 
     @Autowired
@@ -44,7 +45,7 @@ public class Bank {
 
     public void printStatements() {
         statements.forEach(statement -> {
-            System.out.println(statement.toString());
+            log.info(statement.toString());
         });
     }
 
