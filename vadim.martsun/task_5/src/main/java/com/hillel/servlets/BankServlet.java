@@ -75,7 +75,7 @@ public class BankServlet extends HttpServlet {
         String getParameter = request.getParameter(ACCOUNT_ID);
         if(getParameter == null){
             status = new Status(false, "Failed");
-            response.setStatus(500);
+            response.setStatus(400);
         }else{
             BankAccRequest bankAccRequest = gson.fromJson(request.getReader(), BankAccRequest.class);
             long accId = Long.parseLong(getParameter);
