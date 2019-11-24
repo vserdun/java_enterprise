@@ -2,7 +2,6 @@ package com.hillel.spring.mvc.controllers.api;
 
 import com.hillel.spring.mvc.dao.userRepository.UserRepository;
 import com.hillel.spring.mvc.model.User;
-import com.hillel.spring.mvc.model.mappers.userMapper.UserMapper;
 import com.hillel.spring.mvc.model.requests.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,9 +15,6 @@ public class UsersController {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private UserMapper userMapper;
 
     @GetMapping
     public ResponseEntity<List<User>> getUsers(){
@@ -38,17 +34,14 @@ public class UsersController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity createUser(@RequestBody UserRequest userRequest){
-        User user = userMapper.getUser(userRequest);
-        userRepository.save(user);
+        userRepository.save(userRequest);
 
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
     public ResponseEntity updateUser(@PathVariable("userId") String userId, @RequestBody UserRequest userRequest){
-        User updatedUser = userMapper.getUser(userRequest);
-        if(userRequest == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        boolean successfully = userRepository.update(Integer.parseInt(userId), updatedUser);
+        boolean successfully = userRepository.update(Integer.parseInt(userId), userRequest);
 
         return new ResponseEntity((successfully) ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }

@@ -23,7 +23,7 @@ public class Main {
         Main main = context.getBean(Main.class);
 
         User user = new User("Martsun", "Vadim", LocalDate.of(1997,4,6), Gender.MALE);
-        Account account = new Account(1,1000f, user, LocalDate.now());
+        Account account = new Account(1000f, user, LocalDate.now());
 
         main.bankService.topUp(account, 100);
 

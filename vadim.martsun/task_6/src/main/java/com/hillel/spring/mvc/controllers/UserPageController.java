@@ -22,7 +22,7 @@ public class UserPageController {
     @RequestMapping(method = RequestMethod.GET, value = "/usersList")
     public ModelAndView getUsersList(){
         User user = new User("Martsun", "Vadim", LocalDate.of(1997,4,6), Gender.MALE);
-        userRepository.save(user);
+        //userRepository.save(user);
         List<User> userList = userRepository.getAllUsers();
 
         ModelAndView modelAndView  = new ModelAndView();
