@@ -22,7 +22,6 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	///compile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat'
 	compile group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.1.0.Final'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'

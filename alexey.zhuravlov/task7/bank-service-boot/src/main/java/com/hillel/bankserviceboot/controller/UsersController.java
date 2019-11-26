@@ -8,6 +8,7 @@ import com.hillel.bankserviceboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,7 +35,7 @@ public class UsersController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/addUser")
-    public String addUser(@ModelAttribute("userAttribute") UserEntity userEntity){
+    public String addUser(@ModelAttribute("userAttribute") @Validated UserEntity userEntity){
         userService.addUser(userEntity);
         return "redirect:/users/list";
     }
@@ -55,7 +56,7 @@ public class UsersController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/editUser")
-    public String updateUser(@ModelAttribute("userAttribute") UserEntity userEntity){
+    public String updateUser(@ModelAttribute("userAttribute") @Validated UserEntity userEntity){
         userService.addUser(userEntity);
         return "redirect:/users/list";
     }

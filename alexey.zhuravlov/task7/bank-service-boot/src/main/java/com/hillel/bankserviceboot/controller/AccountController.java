@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,10 +34,7 @@ public class AccountController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("accounts", accountsList);
         modelAndView.setViewName("accountsList");
-        if (bankService.isTransferSupported())
-            modelAndView.addObject("transfer", "enabled");
-        else
-            modelAndView.addObject("transfer", "disabled");
+        modelAndView.addObject("transfer", bankService.isTransferSupported());
         return modelAndView;
     }
 
@@ -47,7 +45,7 @@ public class AccountController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/depositAccount")
-    public String depositAccount(@ModelAttribute("accountAttribute") AccountEntity accountEntity){
+    public String depositAccount(@ModelAttribute("accountAttribute") @Validated AccountEntity accountEntity){
         bankService.deposit(accountEntity.getAccountId(), accountEntity.getAccountBalance());
         return "redirect:/accounts/list";
     }
@@ -61,7 +59,7 @@ public class AccountController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/withdrawAccount")
-    public String withdrawAccount(@ModelAttribute("accountAttribute") AccountEntity accountEntity){
+    public String withdrawAccount(@ModelAttribute("accountAttribute") @Validated AccountEntity accountEntity){
         bankService.withdraw(accountEntity.getAccountId(), accountEntity.getAccountBalance());
         return "redirect:/accounts/list";
     }

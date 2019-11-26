@@ -19,7 +19,7 @@ public class BankServiceImpl implements BankService {
     String operation;
     AccountEntity account = accountService.getAccount(accountId);
     if (amount > account.getAccountBalance()) {
-        operation = LocalDate.now() + " not enough resources on accout " + account.getAccountId();
+        operation = LocalDate.now() + " not enough resources on account " + account.getAccountId();
         return false;
     } else {
         account.setAccountBalance(account.getAccountBalance() - amount);
@@ -47,7 +47,7 @@ public class BankServiceImpl implements BankService {
         AccountEntity account2 = accountService.getAccount(accountId2);
         String operation;
         if (amount > account1.getAccountBalance()) {
-            operation = LocalDate.now() + " not enough resources on accout " + account1.getAccountId();
+            operation = LocalDate.now() + " not enough resources on account " + account1.getAccountId();
             return false;
         } else {
             account1.setAccountBalance(account1.getAccountBalance() - amount);
