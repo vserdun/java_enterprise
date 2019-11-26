@@ -30,7 +30,7 @@
         font-weight: bold;
     }
 </style>
-
+<p>Go to <a href="<c:url value="/accounts/accountList"/>">Accounts Page</a></p>
 <div class="table">
     <div class="tr">
         <span class="th">First Name</span>
@@ -48,7 +48,6 @@
         </form:form>
     </c:forEach>
 </div>
-
 
 <input type="button" onclick="location.href='add';" value="Add new user"/>
 </body>

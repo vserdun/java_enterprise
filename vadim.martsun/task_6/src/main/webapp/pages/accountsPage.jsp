@@ -30,7 +30,7 @@
         font-weight: bold;
     }
 </style>
-
+<p>Go to <a href="<c:url value="/users/usersList"/>">Users Page</a></p>
 <div class="table">
     <div class="tr">
         <span class="th">Creation date</span>
