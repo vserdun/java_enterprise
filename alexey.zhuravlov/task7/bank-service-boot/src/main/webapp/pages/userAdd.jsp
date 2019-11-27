@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
-   <title>Simple library app</title>
+   <title>Add user</title>
 </head>
 <body>
 <form:form modelAttribute="userAttribute" action="addUser" method="post">

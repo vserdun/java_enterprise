@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
-   <title>Simple library app</title>
+   <title>Accounts page</title>
 </head>
 <body>
 <form:form modelAttribute="accountAttribute" action="withdrawAccount" method="post">
