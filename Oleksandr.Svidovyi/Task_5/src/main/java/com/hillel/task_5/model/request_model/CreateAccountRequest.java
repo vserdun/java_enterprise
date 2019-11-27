@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class AccountPostRequestModel {
+public class CreateAccountRequest {
     private String clientId;
     private String currency;
     private String balance;

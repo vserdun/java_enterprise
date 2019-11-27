@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ClientPutRequestModel {
+public class UpdateClientRequest {
     private String clientId;
     private String clientName;
 }

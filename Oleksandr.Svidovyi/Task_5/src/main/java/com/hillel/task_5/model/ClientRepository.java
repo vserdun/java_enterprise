@@ -22,5 +22,17 @@ public class ClientRepository {
     public HashMap<Integer, Client> getClients() {
         return clients;
     }
+
+    public void save(Client client) {
+        clients.put(client.getId(), client);
+    }
+
+    public Client findClientById(Integer id) {
+        return clients.get(id);
+    }
+
+    public void addAccount(Integer clientId, Account account) {
+        clients.get(clientId).setAccount(account);
+    }
 }
 

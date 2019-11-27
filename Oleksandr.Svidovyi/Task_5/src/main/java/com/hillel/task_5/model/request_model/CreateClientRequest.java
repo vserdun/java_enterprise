@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ClientGetRequestModel {
-    private String clientId;
+public class CreateClientRequest {
+    private String clientName;
 }

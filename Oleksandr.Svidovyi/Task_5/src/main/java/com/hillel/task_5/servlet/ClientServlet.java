@@ -3,9 +3,8 @@ package com.hillel.task_5.servlet;
 import com.google.gson.Gson;
 import com.hillel.task_5.model.Client;
 import com.hillel.task_5.model.ClientRepository;
-import com.hillel.task_5.model.request_model.ClientGetRequestModel;
-import com.hillel.task_5.model.request_model.ClientPostRequestModel;
-import com.hillel.task_5.model.request_model.ClientPutRequestModel;
+import com.hillel.task_5.model.request_model.DeleteClientRequestModel;
+import com.hillel.task_5.model.request_model.UpdateClientRequest;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.ServletException;
@@ -23,38 +22,34 @@ public class ClientServlet extends HttpServlet {
 
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json");
         Gson gson = new Gson();
         clientRepository = ClientRepository.getInstance();
 
+
         try {
-            ClientGetRequestModel requestModel = gson.fromJson(req.getReader(), ClientGetRequestModel.class);
+            Integer id = Integer.parseInt(req.getParameter("clientId"));
 
-            if (requestModel.getClientId() != null && !requestModel.getClientId().equals("")) {
-                Integer id = Integer.decode(requestModel.getClientId());
+            if (id != null) {
 
-                if (id <= clientRepository.getClients().size()) {
-                    Client client = clientRepository.getClients().get(id);
+                Client client = clientRepository.findClientById(id);
 
-                    if (client != null) {
-                        resp.getWriter().println(gson.toJson(client));
-                    } else {
-                        resp.getWriter().println("Client not found.");
-                        resp.setStatus(404);
-                    }
+                if (client != null) {
+                    resp.getWriter().println(gson.toJson(client));
                 } else {
-                    resp.getWriter().println("The client's id is not valid");
-                    resp.setStatus(400);
+                    resp.getWriter().println("Client not found.");
+                    resp.setStatus(404);
                 }
             } else {
-                resp.getWriter().println("Please, enter client's name");
+                resp.getWriter().println(id);
+                resp.getWriter().println("The client's id is not valid");
                 resp.setStatus(400);
             }
         } catch (Exception e) {
             log.error("Exception while trying creating a client");
             resp.getWriter().println("Something went wrong. Please, try again.");
-            resp.setStatus(400);
+            resp.setStatus(500);
         }
     }
 
@@ -66,15 +61,15 @@ public class ClientServlet extends HttpServlet {
         clientRepository = ClientRepository.getInstance();
 
         try {
-            ClientPostRequestModel requestModel = gson.fromJson(req.getReader(), ClientPostRequestModel.class);
+            String clientName = req.getParameter("clientName");
 
-            if (requestModel.getClientName() != null && !requestModel.getClientName().equals("")) {
+            if (clientName != null && !clientName.equals("")) {
                 Integer clientId = currentId;
-                Client client = new Client(clientId, requestModel.getClientName());
-                clientRepository.getClients().put(clientId, client);
+                Client client = new Client(clientId, clientName);
+                clientRepository.save(client);
                 currentId++;
 
-                resp.getWriter().println("CLient was added \n" + gson.toJson(clientRepository.getClients().get(clientId)));
+                resp.getWriter().println("CLient was added \n" + gson.toJson(clientRepository.findClientById(clientId)));
             } else {
                 resp.getWriter().println("Please, enter client's name");
                 resp.setStatus(400);
@@ -82,7 +77,7 @@ public class ClientServlet extends HttpServlet {
         } catch (Exception e) {
             log.error("Exception while trying creating a client");
             resp.getWriter().println("Something went wrong. Please, try again.");
-            resp.setStatus(400);
+            resp.setStatus(500);
         }
 
     }
@@ -95,26 +90,22 @@ public class ClientServlet extends HttpServlet {
         clientRepository = ClientRepository.getInstance();
 
         try {
-            ClientPutRequestModel requestModel = gson.fromJson(req.getReader(), ClientPutRequestModel.class);
+            UpdateClientRequest requestModel = gson.fromJson(req.getReader(), UpdateClientRequest.class);
 
             if (requestModel.getClientId() != null && !requestModel.getClientId().equals("")
                     && requestModel.getClientName() != null && !requestModel.getClientName().equals("")) {
                 Integer clientId = Integer.decode(requestModel.getClientId());
 
-                if (clientId <= clientRepository.getClients().size()) {
-                    Client client = clientRepository.getClients().get(clientId);
-                    client.setName(requestModel.getClientName());
+                Client client = clientRepository.findClientById(clientId);
+                client.setName(requestModel.getClientName());
 
-                    if (client != null) {
-                        resp.getWriter().println("CLient was edited \n" + gson.toJson(clientRepository.getClients().get(clientId)));
-                    } else {
-                        resp.getWriter().println("Client not found.");
-                        resp.setStatus(404);
-                    }
+                if (client != null) {
+                    resp.getWriter().println("CLient was edited \n" + gson.toJson(client));
                 } else {
-                    resp.getWriter().println("The client's id is not valid");
-                    resp.setStatus(400);
+                    resp.getWriter().println("Client not found.");
+                    resp.setStatus(404);
                 }
+
             } else {
                 resp.getWriter().println("Please, enter client's name");
                 resp.setStatus(400);
@@ -122,7 +113,7 @@ public class ClientServlet extends HttpServlet {
         } catch (Exception e) {
             log.error("Exception while trying creating a client");
             resp.getWriter().println("Something went wrong. Please, try again.");
-            resp.setStatus(400);
+            resp.setStatus(500);
         }
     }
 
@@ -134,13 +125,14 @@ public class ClientServlet extends HttpServlet {
         clientRepository = ClientRepository.getInstance();
 
         try {
-            ClientGetRequestModel requestModel = gson.fromJson(req.getReader(), ClientGetRequestModel.class);
+            DeleteClientRequestModel requestModel = gson.fromJson(req.getReader(), DeleteClientRequestModel.class);
 
             if (requestModel.getClientId() != null && !requestModel.getClientId().equals("")) {
                 Integer id = Integer.decode(requestModel.getClientId());
 
                 if (id <= clientRepository.getClients().size()) {
                     Client client = clientRepository.getClients().get(id);
+
                     if (client != null) {
                         clientRepository.getClients().remove(id);
                         resp.getWriter().println("Client was removed.");
@@ -148,6 +140,7 @@ public class ClientServlet extends HttpServlet {
                         resp.getWriter().println("Client not found.");
                         resp.setStatus(404);
                     }
+
                 } else {
                     resp.getWriter().println("The client's id is not valid");
                     resp.setStatus(400);
@@ -159,7 +152,7 @@ public class ClientServlet extends HttpServlet {
         } catch (Exception e) {
             log.error("Exception while trying creating a client");
             resp.getWriter().println("Something went wrong. Please, try again.");
-            resp.setStatus(400);
+            resp.setStatus(500);
         }
     }
 }

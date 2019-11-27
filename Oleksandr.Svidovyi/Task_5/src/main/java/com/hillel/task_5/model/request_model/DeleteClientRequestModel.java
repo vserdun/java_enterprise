@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ClientPostRequestModel {
-    private String clientName;
+public class DeleteClientRequestModel {
+    private String clientId;
 }

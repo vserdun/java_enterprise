@@ -2,9 +2,10 @@ package com.hillel.task_5.servlet;
 
 import com.google.gson.Gson;
 import com.hillel.task_5.model.Account;
+import com.hillel.task_5.model.Client;
 import com.hillel.task_5.model.ClientRepository;
-import com.hillel.task_5.model.request_model.AccountGetRequestModel;
-import com.hillel.task_5.model.request_model.AccountPostRequestModel;
+import com.hillel.task_5.model.request_model.CreateAccountRequest;
+import com.hillel.task_5.model.request_model.DeleteAccountRequestModel;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,14 +26,13 @@ public class AccountServlet extends HttpServlet {
         clientRepository = ClientRepository.getInstance();
 
         try {
-            AccountGetRequestModel reqeustModel = gson.fromJson(req.getReader(), AccountGetRequestModel.class);
+            Integer id = Integer.parseInt(req.getParameter("clientId"));
 
-            if (reqeustModel.getClientId() != null && !reqeustModel.getClientId().equals("")) {
-                Integer clientId = Integer.decode(reqeustModel.getClientId());
+            if (id != null) {
+                Client client = clientRepository.findClientById(id);
 
-                if (clientRepository.getClients().get(clientId) != null
-                        && clientRepository.getClients().get(clientId).getAccount() != null) {
-                    Account account = clientRepository.getClients().get(clientId).getAccount();
+                if (client != null && client.getAccount() != null) {
+                    Account account = client.getAccount();
 
                     resp.getWriter().println(gson.toJson(account));
 
@@ -48,7 +48,7 @@ public class AccountServlet extends HttpServlet {
 
         } catch (Exception ex) {
             resp.getWriter().println("Something went wrong. Please, try again.");
-            resp.setStatus(400);
+            resp.setStatus(500);
         }
 
     }
@@ -61,7 +61,7 @@ public class AccountServlet extends HttpServlet {
         clientRepository = ClientRepository.getInstance();
 
         try {
-            AccountPostRequestModel reqeustModel = gson.fromJson(req.getReader(), AccountPostRequestModel.class);
+            CreateAccountRequest reqeustModel = gson.fromJson(req.getReader(), CreateAccountRequest.class);
 
             if (reqeustModel.getBalance() != null && !reqeustModel.getBalance().equals("")
                     && reqeustModel.getCurrency() != null && !reqeustModel.getCurrency().equals("")
@@ -69,14 +69,14 @@ public class AccountServlet extends HttpServlet {
                 Integer clientId = Integer.decode(reqeustModel.getClientId());
                 Long balance = Long.decode(reqeustModel.getBalance());
                 Account account = new Account(clientId, reqeustModel.getCurrency(), balance);
+                Client client = clientRepository.findClientById(clientId);
 
-                if (clientRepository.getClients().get(clientId) != null
-                        && (clientRepository.getClients().get(clientId).getAccount() == null
-                        || clientRepository.getClients().get(clientId).getAccount().getClientId() == null)) {
-                    clientRepository.getClients().get(clientId).setAccount(account);
+                if (client != null
+                        && (client.getAccount() == null || client.getAccount().getClientId() == null)) {
+                    client.setAccount(account);
 
                     resp.getWriter().println("CLient's account was created \n"
-                            + gson.toJson(clientRepository.getClients().get(clientId)));
+                            + gson.toJson(client));
 
                 } else {
                     resp.getWriter().println("Client not found or account is allready created.");
@@ -90,7 +90,7 @@ public class AccountServlet extends HttpServlet {
 
         } catch (Exception ex) {
             resp.getWriter().println("Something went wrong. Please, try again.");
-            resp.setStatus(400);
+            resp.setStatus(500);
         }
     }
 
@@ -102,7 +102,7 @@ public class AccountServlet extends HttpServlet {
         clientRepository = ClientRepository.getInstance();
 
         try {
-            AccountPostRequestModel reqeustModel = gson.fromJson(req.getReader(), AccountPostRequestModel.class);
+            CreateAccountRequest reqeustModel = gson.fromJson(req.getReader(), CreateAccountRequest.class);
 
             if (reqeustModel.getBalance() != null && !reqeustModel.getBalance().equals("")
                     && reqeustModel.getCurrency() != null && !reqeustModel.getCurrency().equals("")
@@ -110,13 +110,12 @@ public class AccountServlet extends HttpServlet {
                 Integer clientId = Integer.decode(reqeustModel.getClientId());
                 Long balance = Long.decode(reqeustModel.getBalance());
                 Account account = new Account(clientId, reqeustModel.getCurrency(), balance);
+                Client client = clientRepository.findClientById(clientId);
 
-                if (clientRepository.getClients().get(clientId) != null
-                        && clientRepository.getClients().get(clientId).getAccount() != null) {
-                    clientRepository.getClients().get(clientId).setAccount(account);
+                if (client != null && client.getAccount() != null) {
+                    client.setAccount(account);
 
-                    resp.getWriter().println("CLient's account was edited \n"
-                            + gson.toJson(clientRepository.getClients().get(clientId)));
+                    resp.getWriter().println("CLient's account was edited \n" + gson.toJson(client));
 
                 } else {
                     resp.getWriter().println("Account not found.");
@@ -130,7 +129,7 @@ public class AccountServlet extends HttpServlet {
 
         } catch (Exception ex) {
             resp.getWriter().println("Something went wrong. Please, try again.");
-            resp.setStatus(400);
+            resp.setStatus(500);
         }
     }
 
@@ -142,28 +141,21 @@ public class AccountServlet extends HttpServlet {
         clientRepository = ClientRepository.getInstance();
 
         try {
-            AccountGetRequestModel reqeustModel = gson.fromJson(req.getReader(), AccountGetRequestModel.class);
+            DeleteAccountRequestModel reqeustModel = gson.fromJson(req.getReader(), DeleteAccountRequestModel.class);
 
             if (reqeustModel.getClientId() != null && !reqeustModel.getClientId().equals("")) {
                 Integer clientId = Integer.decode(reqeustModel.getClientId());
+                Client client = clientRepository.findClientById(clientId);
 
-                if (clientId <= clientRepository.getClients().size()) {
+                if (client != null && client.getAccount() != null) {
+                    clientRepository.addAccount(clientId, new Account());
 
-                    if (clientRepository.getClients().get(clientId) != null
-                            && clientRepository.getClients().get(clientId).getAccount() != null) {
-                        clientRepository.getClients().get(clientId).setAccount(new Account());
-
-                        resp.getWriter().println("Account was deleted \n" + gson.toJson(clientRepository.getClients().get(clientId)));
+                    resp.getWriter().println("Account was deleted \n" + gson.toJson(client));
 
                     } else {
                         resp.getWriter().println("Account not found.");
                         resp.setStatus(404);
                     }
-
-                } else {
-                    resp.getWriter().println("The client's id is not valid");
-                    resp.setStatus(400);
-                }
 
             } else {
                 resp.getWriter().println("Please, enter account's attributes");
@@ -172,7 +164,7 @@ public class AccountServlet extends HttpServlet {
 
         } catch (Exception ex) {
             resp.getWriter().println("Something went wrong. Please, try again.");
-            resp.setStatus(400);
+            resp.setStatus(500);
         }
     }
 }
