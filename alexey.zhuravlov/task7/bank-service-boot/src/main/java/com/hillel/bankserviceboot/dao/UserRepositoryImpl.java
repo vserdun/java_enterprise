@@ -42,6 +42,6 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void delete(int id) {
-    usersMap.remove(id);
+        usersMap.remove(id);
     }
 }

@@ -3,8 +3,6 @@ package com.hillel.bankserviceboot.model;
 import lombok.Data;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -20,7 +18,6 @@ public class AccountEntity {
     private int userId;
 
     private List<String> accStatement;
-
 
 
     public void addAccStatement(String string) {

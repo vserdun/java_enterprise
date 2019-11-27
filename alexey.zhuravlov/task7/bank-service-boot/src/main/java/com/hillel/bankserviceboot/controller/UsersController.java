@@ -29,19 +29,19 @@ public class UsersController {
     private AccountService accountService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/add")
-    public String addUserForm(Model model){
+    public String addUserForm(Model model) {
         model.addAttribute("userAttribute", new UserEntity());
         return "userAdd";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/addUser")
-    public String addUser(@ModelAttribute("userAttribute") @Validated UserEntity userEntity){
+    public String addUser(@ModelAttribute("userAttribute") @Validated UserEntity userEntity) {
         userService.addUser(userEntity);
         return "redirect:/users/list";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/list")
-    public ModelAndView getUsersList(){
+    public ModelAndView getUsersList() {
         List<UserEntity> usersList = userService.getUsers();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("users", usersList);
@@ -50,23 +50,23 @@ public class UsersController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/edit")
-    public String editUserForm(Model model, @RequestParam("userId") int userId){
+    public String editUserForm(Model model, @RequestParam("userId") int userId) {
         model.addAttribute("userAttribute", userService.getUser(userId));
         return "userEdit";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/editUser")
-    public String updateUser(@ModelAttribute("userAttribute") @Validated UserEntity userEntity){
+    public String updateUser(@ModelAttribute("userAttribute") @Validated UserEntity userEntity) {
         userService.addUser(userEntity);
         return "redirect:/users/list";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/deleteUser")
-    public String deleteUser(@RequestParam("userId") int userId){
+    public String deleteUser(@RequestParam("userId") int userId) {
         userService.deleteUser(userId);
         List<AccountEntity> accounts = accountService.getAccounts();
-        for (AccountEntity accountEntity: accounts
-             ) {
+        for (AccountEntity accountEntity : accounts
+        ) {
             if (accountEntity.getUserId() == userId) {
                 accountService.deleteAccount(accountEntity.getAccountId());
             }
@@ -76,7 +76,7 @@ public class UsersController {
 
 
     @RequestMapping(method = RequestMethod.GET, value = "/addAccount")
-    public String addAccountForm(Model model, @RequestParam("userId") int userId){
+    public String addAccountForm(Model model, @RequestParam("userId") int userId) {
         AccountEntity accountEntity = new AccountEntity();
         accountEntity.setAccStatement(new ArrayList<>());
         accountEntity.setUserId(userId);

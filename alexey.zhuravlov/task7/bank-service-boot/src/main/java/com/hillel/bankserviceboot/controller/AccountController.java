@@ -29,7 +29,7 @@ public class AccountController {
     private BankService bankService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/list")
-    public ModelAndView getAccountsList(){
+    public ModelAndView getAccountsList() {
         List<AccountEntity> accountsList = accountService.getAccounts();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("accounts", accountsList);
@@ -39,33 +39,32 @@ public class AccountController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/deposit")
-    public String depositwAccountForm(Model model, @RequestParam("accountId") int accountId){
+    public String depositwAccountForm(Model model, @RequestParam("accountId") int accountId) {
         model.addAttribute("accountAttribute", accountService.getAccount(accountId));
         return "accountDeposit";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/depositAccount")
-    public String depositAccount(@ModelAttribute("accountAttribute") @Validated AccountEntity accountEntity){
+    public String depositAccount(@ModelAttribute("accountAttribute") @Validated AccountEntity accountEntity) {
         bankService.deposit(accountEntity.getAccountId(), accountEntity.getAccountBalance());
         return "redirect:/accounts/list";
     }
 
 
-
     @RequestMapping(method = RequestMethod.GET, value = "/withdraw")
-    public String withdrawAccountForm(Model model, @RequestParam("accountId") int accountId){
+    public String withdrawAccountForm(Model model, @RequestParam("accountId") int accountId) {
         model.addAttribute("accountAttribute", accountService.getAccount(accountId));
         return "accountWithdraw";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/withdrawAccount")
-    public String withdrawAccount(@ModelAttribute("accountAttribute") @Validated AccountEntity accountEntity){
+    public String withdrawAccount(@ModelAttribute("accountAttribute") @Validated AccountEntity accountEntity) {
         bankService.withdraw(accountEntity.getAccountId(), accountEntity.getAccountBalance());
         return "redirect:/accounts/list";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/deleteAccount")
-    public String deleteAccount(@RequestParam("accountId") int accountId){
+    public String deleteAccount(@RequestParam("accountId") int accountId) {
         accountService.deleteAccount(accountId);
         return "redirect:/accounts/list";
     }

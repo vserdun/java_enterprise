@@ -16,20 +16,20 @@ public class BankServiceImpl implements BankService {
     private AccountService accountService;
 
     public boolean withdraw(int accountId, double amount) {
-    String operation;
-    AccountEntity account = accountService.getAccount(accountId);
-    if (amount > account.getAccountBalance()) {
-        operation = LocalDate.now() + " not enough resources on account " + account.getAccountId();
-        return false;
-    } else {
-        account.setAccountBalance(account.getAccountBalance() - amount);
-        operation = LocalDate.now() + " withdraw from account id " + account.getAccountId() + " amount " + amount;
-    }
+        String operation;
+        AccountEntity account = accountService.getAccount(accountId);
+        if (amount > account.getAccountBalance()) {
+            operation = LocalDate.now() + " not enough resources on account " + account.getAccountId();
+            return false;
+        } else {
+            account.setAccountBalance(account.getAccountBalance() - amount);
+            operation = LocalDate.now() + " withdraw from account id " + account.getAccountId() + " amount " + amount;
+        }
 
-    account.addAccStatement(operation);
-    log.info(operation);
-    return true;
-}
+        account.addAccStatement(operation);
+        log.info(operation);
+        return true;
+    }
 
     @Override
     public boolean deposit(int accountId, double amount) {
