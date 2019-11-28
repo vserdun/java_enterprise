@@ -39,6 +39,7 @@
         <span class="th">Last name</span>
         <span class="th">Birth date</span>
         <span class="th">Gender</span>
+        <span class="th">Account</span>
     </div>
     <c:forEach items="${accounts}" var="account">
 
@@ -49,6 +50,8 @@
             <span class="td"><c:out value="${account.user.lastName}"/></span>
             <span class="td"><c:out value="${account.user.birthDate}"/></span>
             <span class="td"><c:out value="${account.user.gender}"/></span>
+            <span class="td"><a href="edit/${account.id}">Update</a>
+            <a href="delete/${account.id}">Delete</a></span>
         </form:form>
     </c:forEach>
 </div>

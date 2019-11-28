@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 
 @Service
 public class AccountMapperImpl implements AccountMapper {
-    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Autowired
     UserRepository userRepository;
@@ -22,6 +22,6 @@ public class AccountMapperImpl implements AccountMapper {
         LocalDate creationDate = LocalDate.parse(request.getCreationDate(), dateTimeFormatter);
         User user = userRepository.getUserById(request.getUserId());
         if(user == null) return null;
-        return new Account(request.getAmount(), user, creationDate);
+        return new Account(0,request.getAmount(), request.getUserId(), user, creationDate);
     }
 }

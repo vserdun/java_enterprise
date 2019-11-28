@@ -11,14 +11,14 @@ import java.time.format.DateTimeFormatter;
 @Service
 public class UserMapperImpl implements UserMapper{
 
-    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Override
     public User getUser(UserRequest userRequest) {
         LocalDate birthDate = LocalDate.parse(userRequest.getBirthDate(), dateTimeFormatter);
         Gender gender = Gender.fromString(userRequest.getGender());
 
-        return new User(userRequest.getLastName(),
+        return new User(0,userRequest.getLastName(),
                         userRequest.getFirstName(),
                         birthDate,
                         gender);

@@ -10,7 +10,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Account {
+    private int id;
     private Float amount;
+    private int userId;
     private User user;
     private LocalDate creationDate;
 }

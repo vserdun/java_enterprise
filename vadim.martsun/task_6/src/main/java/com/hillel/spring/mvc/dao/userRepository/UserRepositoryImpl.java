@@ -63,11 +63,10 @@ public class UserRepositoryImpl implements UserRepository {
         for(Map.Entry<Integer, Account> entry : accountRepository.getMap().entrySet()){
             if(entry.getValue().getUser().equals(userInMap)){
                 accountRepository.delete(entry.getKey());
-                userMap.remove(id);
-                return true;
             }
         }
-        return false;
+        userMap.remove(id);
+        return true;
     }
 
     @Override
@@ -77,6 +76,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void save(User user) {
+        user.setId(userId);
         userMap.put(userId, user);
         userId++;
     }

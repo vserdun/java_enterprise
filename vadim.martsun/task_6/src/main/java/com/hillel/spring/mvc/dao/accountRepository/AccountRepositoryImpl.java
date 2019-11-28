@@ -39,6 +39,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public boolean save(Account account) {
+        account.setId(accountId);
         accountMap.put(accountId, account);
         accountId++;
         return true;
@@ -47,6 +48,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public boolean update(int id, AccountRequest accountRequest) {
         Account updatedAccount = accountMapper.getAccount(accountRequest);
+        System.out.println("updated acc " + updatedAccount);
         return update(id, updatedAccount);
     }
 
