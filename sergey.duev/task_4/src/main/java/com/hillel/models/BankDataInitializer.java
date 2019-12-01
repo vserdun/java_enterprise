@@ -1,10 +1,13 @@
 package com.hillel.models;
 
+import org.springframework.stereotype.Component;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@Component
 public class BankDataInitializer {
 
     public List<BankAccount> initBankAccounts() {

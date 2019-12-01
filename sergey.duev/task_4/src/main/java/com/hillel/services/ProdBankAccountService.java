@@ -3,20 +3,17 @@ package com.hillel.services;
 import com.hillel.models.BankAccount;
 import com.hillel.models.Statement;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Slf4j
 public class ProdBankAccountService implements BankAccountService {
 
-    @Autowired
-    @Qualifier("initBankStatements")
-    private List<Statement> statementList;
+    private List<Statement> statementList = new ArrayList<>();
 
     @Override
     public void withdrawMoney(BankAccount bankAccount, double amount) {

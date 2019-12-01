@@ -5,6 +5,7 @@ import com.hillel.services.BankAccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -14,14 +15,22 @@ import java.util.List;
 @Slf4j
 public class Bank {
 
-
     @Autowired
-    @Qualifier("initBankAccounts")
+    private BankDataInitializer bankDataInitializer;
+
     private List<BankAccount> accountList;
 
     @Autowired
     @Qualifier("prodBankAccountService")
     private BankAccountService bankAccountService;
+
+    public List<BankAccount> getAccountList() {
+        return accountList;
+    }
+
+    public void setAccountList(List<BankAccount> accountList) {
+        this.accountList = accountList;
+    }
 
     public void createBankAccount(BankAccount bankAccount) {
         accountList.add(bankAccount);
