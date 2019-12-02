@@ -1,4 +1,4 @@
-package com.hillel.mvc.bank;
+package com.hillel.mvc.bank.controller;
 
 import com.hillel.mvc.bank.model.User;
 import com.hillel.mvc.bank.service.BankService;
@@ -14,15 +14,13 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-@RequestMapping("/bank")
-public class BankController {
-
-    public static final String PATH_USERS = "/users";
+@RequestMapping("/bank/users")
+public class UsersController {
 
     @Autowired
     private BankService bankService;
 
-    @RequestMapping(method = RequestMethod.GET, value = PATH_USERS)
+    @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getUsers() {
         List<User> users = bankService.getAllUsers();
         ModelAndView modelAndView = new ModelAndView();

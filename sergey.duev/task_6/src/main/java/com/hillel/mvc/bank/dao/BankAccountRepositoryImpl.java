@@ -3,6 +3,8 @@ package com.hillel.mvc.bank.dao;
 import com.hillel.mvc.bank.model.BankAccount;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -31,5 +33,10 @@ public class BankAccountRepositoryImpl implements BankAccountRepository {
     @Override
     public BankAccount getBankAccount(long id) {
         return bankAccountHashMap.get(id);
+    }
+
+    @Override
+    public List<BankAccount> getAllBankAccounts() {
+        return new ArrayList<>(bankAccountHashMap.values());
     }
 }

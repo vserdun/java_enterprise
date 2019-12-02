@@ -1,6 +1,5 @@
 package com.hillel.mvc.bank.dao;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -9,7 +8,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-public class UserBankAccountsImpl implements UserBankAccounts {
+public class UserBankAccountsRepositoryImpl implements UserBankAccountsRepository {
 
     private Map<Long, List<Long>> userBankAccounts = new ConcurrentHashMap<>();
 

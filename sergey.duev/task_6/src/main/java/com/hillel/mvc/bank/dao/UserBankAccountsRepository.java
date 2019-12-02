@@ -2,7 +2,7 @@ package com.hillel.mvc.bank.dao;
 
 import java.util.List;
 
-public interface UserBankAccounts {
+public interface UserBankAccountsRepository {
 
     void addUserBankAccount(long userId, long bankAccountId);
 
