@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
-@MultipartConfig
 @WebServlet(name = "UserServlet", urlPatterns = {"/users"})
 public class UserServlet extends HttpServlet {
     private int currentUserId = 1;
@@ -71,7 +70,7 @@ public class UserServlet extends HttpServlet {
                 resp.setStatus(404);
             }
         }catch (Exception e) {
-            message = "Error, while trying to get user info";
+            message = "Error, while trying to update user info";
             status = new CrudEventStatus(false, message);
             resp.setStatus(500);
         }
@@ -80,7 +79,7 @@ public class UserServlet extends HttpServlet {
     }
 
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json");
         String message;
         CrudEventStatus status;
@@ -107,7 +106,7 @@ public class UserServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json");
         Gson gson = new Gson();
         String message;
