@@ -21,7 +21,7 @@ public class BankAccountServlet extends HttpServlet {
     private Map<Long, BankAccount> accounts = new ConcurrentHashMap<>();
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json");
         Gson gson = new Gson();
         CrudEventStatus status;
@@ -45,7 +45,7 @@ public class BankAccountServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json");
         Gson gson = new Gson();
         CrudEventStatus status;
@@ -67,6 +67,64 @@ public class BankAccountServlet extends HttpServlet {
             }
         }catch (Exception e) {
             message = "Error, while trying to update account info";
+            status = new CrudEventStatus(false, message);
+            resp.setStatus(500);
+        }
+        resp.getWriter().println(status.getDescription());
+        resp.getWriter().flush();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.setContentType("application/json");
+        Gson gson = new Gson();
+        String message;
+        CrudEventStatus status;
+        if (req.getParameter("id") != null) {
+            try {
+                long accountId = Long.parseLong(req.getParameter("id"));
+                if (accounts.containsKey(accountId)) {
+                    message = gson.toJson(accounts.get(accountId));
+                    status = new CrudEventStatus(true, message);
+                }else {
+                    message = "There is no account with such id";
+                    status = new CrudEventStatus(false, message);
+                    resp.setStatus(404);
+                }
+            }catch (Exception e) {
+                message = "Error while trying to get account info";
+                status = new CrudEventStatus(false, message);
+                resp.setStatus(500);
+            }
+        }else {
+            message = "Bad request";
+            status = new CrudEventStatus(false, message);
+            resp.setStatus(500);
+        }
+        resp.getWriter().println(status.getDescription());
+        resp.getWriter().flush();
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.setContentType("application/json");
+        String message;
+        CrudEventStatus status;
+        try{
+            if(req.getParameter("id") != null) {
+                Long id = Long.parseLong(req.getParameter("id"));
+                accounts.remove(id);
+                message = String.format("Account id = %d was successfully removed", id);
+                status = new CrudEventStatus(true, message);
+                log.info(message);
+            } else {
+                message = "There is no account with given id";
+                status = new CrudEventStatus(false, message);
+                log.info(message);
+                resp.setStatus(400);
+            }
+        }catch (Exception e) {
+            message = "Error, while trying to delete an account";
             status = new CrudEventStatus(false, message);
             resp.setStatus(500);
         }

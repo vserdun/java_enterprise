@@ -85,7 +85,7 @@ public class UserServlet extends HttpServlet {
         CrudEventStatus status;
         try{
             if(req.getParameter("id") != null) {
-                Integer id = Integer.parseInt(req.getParameter("id"));
+                int id = Integer.parseInt(req.getParameter("id"));
                 users.remove(id);
                 message = String.format("User id = %d was successfully removed", id);
                 status = new CrudEventStatus(true, message);
