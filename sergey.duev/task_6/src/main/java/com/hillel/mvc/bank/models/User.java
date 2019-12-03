@@ -1,4 +1,4 @@
-package com.hillel.mvc.bank.model;
+package com.hillel.mvc.bank.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,6 +1,6 @@
 package com.hillel.mvc.bank.dao;
 
-import com.hillel.mvc.bank.model.BankAccount;
+import com.hillel.mvc.bank.models.BankAccount;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

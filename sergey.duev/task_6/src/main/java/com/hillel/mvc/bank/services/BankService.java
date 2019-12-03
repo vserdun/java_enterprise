@@ -1,11 +1,15 @@
-package com.hillel.mvc.bank.service;
+package com.hillel.mvc.bank.services;
 
 import com.hillel.mvc.bank.dao.BankAccountRepository;
 import com.hillel.mvc.bank.dao.UserBankAccountsRepository;
 import com.hillel.mvc.bank.dao.UserRepository;
-import com.hillel.mvc.bank.model.BankAccount;
-import com.hillel.mvc.bank.model.User;
+import com.hillel.mvc.bank.models.BankAccount;
+import com.hillel.mvc.bank.models.Statement;
+import com.hillel.mvc.bank.models.User;
+import com.hillel.mvc.bank.models.exceptions.BankAccountNotFoundException;
+import com.hillel.mvc.bank.services.bankaccount.BankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,6 +24,9 @@ public class BankService {
     private UserRepository userRepository;
     @Autowired
     private UserBankAccountsRepository userBankAccountsRepository;
+    @Autowired
+    @Qualifier("prodBankAccountService")
+    private BankAccountService bankAccountService;
 
     public List<User> getAllUsers() {
         return userRepository.getAllUsers();
@@ -79,6 +86,14 @@ public class BankService {
         return bankAccountRepository.getAllBankAccounts();
     }
 
+    private BankAccount findBankAccount(long bankAccountId) throws BankAccountNotFoundException {
+        BankAccount bankAccount = bankAccountRepository.getBankAccount(bankAccountId);
+        if (bankAccount != null) {
+           return bankAccount;
+        }
+        throw new BankAccountNotFoundException(bankAccountId);
+    }
+
     public BankAccount getBankAccount(long id) {
         return bankAccountRepository.getBankAccount(id);
     }
@@ -110,5 +125,29 @@ public class BankService {
             }
         }
         return new ArrayList<>();
+    }
+
+    public Statement withdrawMoney(long bankAccountId, double amount) throws BankAccountNotFoundException {
+        return bankAccountService.withdrawMoney(findBankAccount(bankAccountId), amount);
+    }
+
+    public Statement transferMoney(long bankAccountIdFrom, long bankAccountIdTo, double amount) throws BankAccountNotFoundException{
+        return bankAccountService.transferMoney(findBankAccount(bankAccountIdFrom), findBankAccount(bankAccountIdTo), amount);
+    }
+
+    public Statement putMoney(long bankAccountId, double amount)throws BankAccountNotFoundException{
+        return bankAccountService.putMoney(findBankAccount(bankAccountId), amount);
+    }
+
+    public double getBalance(long bankAccountId) throws BankAccountNotFoundException{
+        return bankAccountService.getBalance(findBankAccount(bankAccountId));
+    }
+
+    public List<Statement> printStatement(long bankAccountId) throws BankAccountNotFoundException{
+        return bankAccountService.printStatement(findBankAccount(bankAccountId));
+    }
+
+    public List<Statement> printStatements() {
+        return bankAccountService.printStatements();
     }
 }

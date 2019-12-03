@@ -1,6 +1,6 @@
 package com.hillel.mvc.bank.dao;
 
-import com.hillel.mvc.bank.model.User;
+import com.hillel.mvc.bank.models.User;
 
 import java.util.List;
 

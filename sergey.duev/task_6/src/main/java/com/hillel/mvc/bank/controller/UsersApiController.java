@@ -1,14 +1,13 @@
 package com.hillel.mvc.bank.controller;
 
-import com.hillel.mvc.bank.model.BankAccount;
-import com.hillel.mvc.bank.model.User;
-import com.hillel.mvc.bank.service.BankService;
+import com.hillel.mvc.bank.models.BankAccount;
+import com.hillel.mvc.bank.models.User;
+import com.hillel.mvc.bank.services.BankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -73,6 +72,4 @@ public class UsersApiController {
     public ResponseEntity<List<BankAccount>> deleteUserBankAccount(@PathVariable(value = VAR_USER_ID) long userId, @PathVariable(value = VAR_BANK_ACCOUNT_ID) long bankAccountId) {
         return new ResponseEntity<>(bankService.deleteUserBankAccount(userId, bankAccountId), HttpStatus.OK);
     }
-
-
 }

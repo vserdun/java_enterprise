@@ -1,7 +1,7 @@
 package com.hillel.mvc.bank.controller;
 
-import com.hillel.mvc.bank.model.User;
-import com.hillel.mvc.bank.service.BankService;
+import com.hillel.mvc.bank.models.User;
+import com.hillel.mvc.bank.services.BankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
