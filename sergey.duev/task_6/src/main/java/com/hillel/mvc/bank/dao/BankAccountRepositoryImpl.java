@@ -15,9 +15,11 @@ public class BankAccountRepositoryImpl implements BankAccountRepository {
     private long nextId = 1L;
 
     @Override
-    public void addBankAccount(BankAccount bankAccount) {
-        bankAccountHashMap.put(nextId, bankAccount);
+    public long addBankAccount(BankAccount bankAccount) {
+        long id = nextId;
+        bankAccountHashMap.put(id, bankAccount);
         nextId++;
+        return id;
     }
 
     @Override

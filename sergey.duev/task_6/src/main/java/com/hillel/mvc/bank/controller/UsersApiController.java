@@ -61,17 +61,17 @@ public class UsersApiController {
 
     @PostMapping(PATH_USERS + "/{" + VAR_USER_ID +"}" + PATH_BANK_ACCOUNTS)
     public ResponseEntity<List<BankAccount>> addUserBankAccount(@PathVariable long userId, BankAccount bankAccount) {
-        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
+        return new ResponseEntity<>(bankService.addUserBankAccount(userId, bankAccount), HttpStatus.OK);
     }
 
     @PutMapping(PATH_USERS + "/{" + VAR_USER_ID +"}" + PATH_BANK_ACCOUNTS + "/{" + VAR_BANK_ACCOUNT_ID +"}")
     public ResponseEntity<List<BankAccount>> updateUserBankAccount(@PathVariable(value = VAR_USER_ID) long userId, @PathVariable(value = VAR_BANK_ACCOUNT_ID) long bankAccountId, BankAccount bankAccount) {
-        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
+        return new ResponseEntity<>(bankService.updateUserBankAccount(userId, bankAccountId, bankAccount), HttpStatus.OK);
     }
 
     @DeleteMapping(PATH_USERS + "/{" + VAR_USER_ID +"}" + PATH_BANK_ACCOUNTS + "/{" + VAR_BANK_ACCOUNT_ID +"}")
     public ResponseEntity<List<BankAccount>> deleteUserBankAccount(@PathVariable(value = VAR_USER_ID) long userId, @PathVariable(value = VAR_BANK_ACCOUNT_ID) long bankAccountId) {
-        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
+        return new ResponseEntity<>(bankService.deleteUserBankAccount(userId, bankAccountId), HttpStatus.OK);
     }
 
 

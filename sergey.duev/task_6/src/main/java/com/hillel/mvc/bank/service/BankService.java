@@ -82,4 +82,33 @@ public class BankService {
     public BankAccount getBankAccount(long id) {
         return bankAccountRepository.getBankAccount(id);
     }
+
+    public List<BankAccount> addUserBankAccount(long id, BankAccount bankAccount) {
+        if (userRepository.getUser(id) != null) {
+            long bankAccountId = bankAccountRepository.addBankAccount(bankAccount);
+            userBankAccountsRepository.addUserBankAccount(id, bankAccountId);
+            return getUserBankAccounts(id);
+        }
+        return new ArrayList<>();
+    }
+
+    public List<BankAccount> updateUserBankAccount(long userId, long bankAccountId, BankAccount bankAccount) {
+        if (userRepository.getUser(userId) != null) {
+            if (bankAccountRepository.getBankAccount(bankAccountId) != null) {
+                bankAccountRepository.updateBankAccount(bankAccount);
+                return getUserBankAccounts(userId);
+            }
+        }
+        return new ArrayList<>();
+    }
+
+    public List<BankAccount> deleteUserBankAccount(long userId, long bankAccountId) {
+        if (userRepository.getUser(userId) != null) {
+            if (bankAccountRepository.getBankAccount(bankAccountId) != null) {
+                userBankAccountsRepository.deleteUserBankAccount(userId, bankAccountId);
+                bankAccountRepository.deleteBankAccount(bankAccountId);
+            }
+        }
+        return new ArrayList<>();
+    }
 }

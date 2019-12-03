@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BankAccountRepository {
 
-    void addBankAccount(BankAccount bankAccount);
+    long addBankAccount(BankAccount bankAccount);
 
     void updateBankAccount(BankAccount bankAccount);
 
