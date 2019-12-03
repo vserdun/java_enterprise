@@ -6,7 +6,6 @@ import com.hillel.model.CrudEventStatus;
 import com.hillel.model.request.CreateBankAccountRequest;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -112,7 +111,7 @@ public class BankAccountServlet extends HttpServlet {
         CrudEventStatus status;
         try{
             if(req.getParameter("id") != null) {
-                Long id = Long.parseLong(req.getParameter("id"));
+                long id = Long.parseLong(req.getParameter("id"));
                 accounts.remove(id);
                 message = String.format("Account id = %d was successfully removed", id);
                 status = new CrudEventStatus(true, message);
