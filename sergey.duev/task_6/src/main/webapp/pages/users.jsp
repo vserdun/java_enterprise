@@ -44,6 +44,9 @@
          <span class="td">
              <input type="button" onclick="location.href='delete?id=${user.id}';" value="Delete User"/>
          </span>
+         <span class="td">
+              <input type="button" onclick="location.href='bankAccounts?id=${user.id}';" value="Bank Accounts"/>
+          </span>
      </form:form>
  </c:forEach>
  </div>

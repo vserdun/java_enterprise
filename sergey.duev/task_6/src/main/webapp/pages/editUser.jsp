@@ -6,7 +6,7 @@
    <title>Bank</title>
 </head>
 <body>
-<form:form modelAttribute="userAttribute" action="editUser" method="post">
+<form:form modelAttribute="userAttribute" action="editUser/${user.id}" method="post">
    <table>
         <tr>
           <td>
