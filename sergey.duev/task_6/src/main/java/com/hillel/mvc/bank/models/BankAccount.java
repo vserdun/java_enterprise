@@ -13,7 +13,5 @@ public class BankAccount {
     private long id;
     @NonNull
     private LocalDate createdAt;
-    @NonNull
-    private String clientName;
     private double balance;
 }

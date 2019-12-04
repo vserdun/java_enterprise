@@ -1,6 +1,7 @@
 package com.hillel.mvc.bank.dao;
 
 import com.hillel.mvc.bank.models.User;
+import com.hillel.mvc.bank.models.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -23,22 +24,31 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void updateUser(User user) {
+    public void updateUser(long id, User user) throws UserNotFoundException {
+        throwExceptionIfUserNotExists(id);
         userMap.replace(user.getId(), user);
     }
 
     @Override
-    public void deleteUser(long id) {
+    public void deleteUser(long id) throws UserNotFoundException {
+        throwExceptionIfUserNotExists(id);
         userMap.remove(id);
     }
 
     @Override
-    public User getUser(long id) {
+    public User getUser(long id) throws UserNotFoundException {
+        throwExceptionIfUserNotExists(id);
         return userMap.get(id);
     }
 
     @Override
     public List<User> getAllUsers() {
         return new ArrayList<>(userMap.values());
+    }
+
+    private void throwExceptionIfUserNotExists(long userId) throws UserNotFoundException {
+        if (!userMap.keySet().contains(userId)) {
+            throw new UserNotFoundException(userId);
+        }
     }
 }
