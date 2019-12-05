@@ -7,13 +7,19 @@ import com.hillel.mvc.bank.models.Statement;
 import com.hillel.mvc.bank.models.User;
 import com.hillel.mvc.bank.models.exceptions.BankAccountNotFoundException;
 import com.hillel.mvc.bank.models.exceptions.UserNotFoundException;
+import com.hillel.mvc.bank.models.exceptions.UserValidationException;
 import com.hillel.mvc.bank.services.bankaccount.BankAccountService;
+import org.hibernate.validator.internal.engine.constraintvalidation.ConstraintTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class BankService {
@@ -25,6 +31,7 @@ public class BankService {
     @Autowired
     @Qualifier("prodBankAccountService")
     private BankAccountService bankAccountService;
+    private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     public List<User> getAllUsers() {
         return userRepository.getAllUsers();
@@ -34,7 +41,8 @@ public class BankService {
         return userRepository.getUser(id);
     }
 
-    public User addUser(User user) throws UserNotFoundException{
+    public User addUser(User user) throws UserNotFoundException, UserValidationException{
+        throwExceptionIfUserNotValid(user);
         return userRepository.getUser( userRepository.addUser(user));
     }
 
@@ -106,5 +114,16 @@ public class BankService {
 
     public List<Statement> printStatements() {
         return bankAccountService.printStatements();
+    }
+
+    private void throwExceptionIfUserNotValid(User user) throws UserValidationException {
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        if (!violations.isEmpty()) {
+            List<String> violationMsg = new ArrayList<>();
+            violations.forEach(v -> {
+                violationMsg.add(v.getPropertyPath() + v.getMessage());
+            });
+            throw new UserValidationException(violationMsg);
+        }
     }
 }

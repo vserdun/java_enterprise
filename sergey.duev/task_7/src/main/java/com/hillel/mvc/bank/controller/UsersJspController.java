@@ -2,6 +2,7 @@ package com.hillel.mvc.bank.controller;
 
 import com.hillel.mvc.bank.models.User;
 import com.hillel.mvc.bank.models.exceptions.UserNotFoundException;
+import com.hillel.mvc.bank.models.exceptions.UserValidationException;
 import com.hillel.mvc.bank.services.BankService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +37,19 @@ public class UsersJspController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/addUser")
-    public String addUser(@ModelAttribute("userAttribute") User user) {
+    public ModelAndView addUser(@ModelAttribute("userAttribute") User user) {
+        ModelAndView modelAndView = new ModelAndView();
         try {
             bankService.addUser(user);
-            return "redirect:/bank/users";
+            modelAndView.setViewName("redirect:/bank/users");
+            return modelAndView;
         } catch (UserNotFoundException e) {
-            return "redirect:/bank/404";
+            modelAndView.setViewName("404");
+            return modelAndView;
+        } catch (UserValidationException e) {
+            modelAndView.setViewName("violentions");
+            modelAndView.addObject("violentions", e.getViolations());
+            return modelAndView;
         }
     }
 
@@ -56,7 +64,7 @@ public class UsersJspController {
             return modelAndView;
         } catch (UserNotFoundException e) {
             ModelAndView modelAndView = new ModelAndView();
-            modelAndView.setViewName("redirect:/bank/404");
+            modelAndView.setViewName("404");
             return modelAndView;
         }
     }
@@ -68,7 +76,7 @@ public class UsersJspController {
             bankService.updateUser(id ,user);
             return "redirect:/bank/users";
         } catch (UserNotFoundException e) {
-            return "redirect:/bank/404";
+            return "404";
         }
     }
 
@@ -78,7 +86,7 @@ public class UsersJspController {
             bankService.deleteUser(id);
             return "redirect:/bank/users";
         } catch (UserNotFoundException e) {
-            return "redirect:/bank/404";
+            return "404";
         }
     }
 }

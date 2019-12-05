@@ -4,6 +4,7 @@ import com.hillel.mvc.bank.models.BankAccount;
 import com.hillel.mvc.bank.models.User;
 import com.hillel.mvc.bank.models.exceptions.BankAccountNotFoundException;
 import com.hillel.mvc.bank.models.exceptions.UserNotFoundException;
+import com.hillel.mvc.bank.models.exceptions.UserValidationException;
 import com.hillel.mvc.bank.services.BankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,11 +40,13 @@ public class UsersApiController {
     }
 
     @PostMapping(PATH_USERS)
-    public ResponseEntity<User> addUser(@RequestBody User user) {
+    public ResponseEntity addUser(@RequestBody User user) {
         try {
-            return new ResponseEntity<>(bankService.addUser(user), HttpStatus.OK);
+            return new ResponseEntity(bankService.addUser(user), HttpStatus.OK);
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (UserValidationException e) {
+            return new ResponseEntity(e.getViolations(), HttpStatus.BAD_REQUEST);
         }
     }
 
