@@ -1,7 +1,6 @@
 package com.hillel.spring.mvc.controllers;
 
 import com.hillel.spring.mvc.dao.userRepository.UserRepository;
-import com.hillel.spring.mvc.model.Gender;
 import com.hillel.spring.mvc.model.User;
 import com.hillel.spring.mvc.model.mappers.userMapper.UserMapper;
 import com.hillel.spring.mvc.model.requests.UserRequest;
@@ -13,9 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.jws.soap.SOAPBinding;
-import java.time.LocalDate;
 import java.util.List;
 
 @Controller
