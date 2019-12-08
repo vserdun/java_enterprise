@@ -4,7 +4,6 @@ import com.hillel.spring.mvc.model.Gender;
 import com.hillel.spring.mvc.model.User;
 import com.hillel.spring.mvc.model.requests.UserRequest;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 

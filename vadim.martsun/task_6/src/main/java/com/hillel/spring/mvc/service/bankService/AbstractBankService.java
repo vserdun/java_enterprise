@@ -2,7 +2,6 @@ package com.hillel.spring.mvc.service.bankService;
 
 import com.hillel.spring.mvc.model.Account;
 import com.hillel.spring.mvc.model.Transaction;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

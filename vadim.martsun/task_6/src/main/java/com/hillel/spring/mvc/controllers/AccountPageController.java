@@ -2,10 +2,8 @@ package com.hillel.spring.mvc.controllers;
 
 import com.hillel.spring.mvc.dao.accountRepository.AccountRepository;
 import com.hillel.spring.mvc.model.Account;
-import com.hillel.spring.mvc.model.User;
 import com.hillel.spring.mvc.model.mappers.accountMapper.AccountMapper;
 import com.hillel.spring.mvc.model.requests.AccountRequest;
-import com.hillel.spring.mvc.model.requests.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
