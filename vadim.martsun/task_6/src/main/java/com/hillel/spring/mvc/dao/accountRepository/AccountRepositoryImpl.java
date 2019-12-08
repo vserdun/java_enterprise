@@ -1,7 +1,7 @@
 package com.hillel.spring.mvc.dao.accountRepository;
 
-import com.hillel.spring.mvc.dao.userRepository.UserRepository;
 import com.hillel.spring.mvc.model.Account;
+import com.hillel.spring.mvc.model.User;
 import com.hillel.spring.mvc.model.mappers.accountMapper.AccountMapper;
 import com.hillel.spring.mvc.model.requests.AccountRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AccountRepositoryImpl implements AccountRepository {
 
     private Map<Integer, Account> accountMap = new ConcurrentHashMap<>();
+    private Map<User, Account> userAccountMap = new ConcurrentHashMap<>();
     private int accountId;
 
     @Autowired
@@ -33,7 +34,9 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public boolean save(AccountRequest accountRequest) {
         Account account = accountMapper.getAccount(accountRequest);
-        if(account.getUser() == null) return false;
+        if(account.getUser() == null){
+            return false;
+        }
         return save(account);
     }
 
@@ -41,6 +44,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     public boolean save(Account account) {
         account.setId(accountId);
         accountMap.put(accountId, account);
+        userAccountMap.put(account.getUser(), account);
         accountId++;
         return true;
     }
@@ -48,7 +52,6 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public boolean update(int id, AccountRequest accountRequest) {
         Account updatedAccount = accountMapper.getAccount(accountRequest);
-        System.out.println("updated acc " + updatedAccount);
         return update(id, updatedAccount);
     }
 
@@ -56,6 +59,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     public boolean update(int id, Account account) {
         if((account.getUser() == null) || (!accountMap.containsKey(id))) return false;
         accountMap.put(id, account);
+        userAccountMap.put(account.getUser(), account);
         return true;
     }
 
@@ -64,11 +68,12 @@ public class AccountRepositoryImpl implements AccountRepository {
         Account oldAccount = accountMap.get(id);
         if(oldAccount == null) return false;
         accountMap.remove(id);
+        userAccountMap.remove(oldAccount.getUser());
         return true;
     }
 
     @Override
-    public Map<Integer, Account> getMap() {
-        return accountMap;
+    public Map<User, Account> getMap() {
+        return userAccountMap;
     }
 }

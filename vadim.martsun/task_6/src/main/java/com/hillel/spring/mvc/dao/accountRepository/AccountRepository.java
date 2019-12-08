@@ -1,6 +1,7 @@
 package com.hillel.spring.mvc.dao.accountRepository;
 
 import com.hillel.spring.mvc.model.Account;
+import com.hillel.spring.mvc.model.User;
 import com.hillel.spring.mvc.model.requests.AccountRequest;
 
 import java.util.List;
@@ -14,5 +15,5 @@ public interface AccountRepository {
     boolean update(int id, AccountRequest accountRequest);
     boolean update(int id, Account account);
     boolean delete(int id);
-    Map<Integer, Account> getMap();
+    Map<User, Account> getMap();
 }

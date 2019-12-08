@@ -13,7 +13,7 @@
     <form:form modelAttribute="accountAttribute" action="addAccount" method="post">
         <table>
             <tr>
-                <td><form:label path="creationDate">Creation date (Format: dd.MM.yyyy)</form:label></td>
+                <td><form:label path="creationDate">Creation date (Format: yyyy-MM-dd)</form:label></td>
                 <td><form:input path="creationDate"/></td>
             </tr>
             <tr>

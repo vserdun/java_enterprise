@@ -21,7 +21,7 @@
             <td><span><form:input path="lastName"/></span></td>
         </tr>
         <tr>
-            <td><span><form:label path="birthDate">Birth date (Format: dd.MM.yyyy)</form:label></span></td>
+            <td><span><form:label path="birthDate">Birth date (Format: yyyy-MM-dd)</form:label></span></td>
             <td><span><form:input path="birthDate"/></span></td>
         </tr>
             <tr>

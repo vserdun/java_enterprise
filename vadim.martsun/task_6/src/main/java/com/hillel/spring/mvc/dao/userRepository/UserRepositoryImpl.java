@@ -44,13 +44,9 @@ public class UserRepositoryImpl implements UserRepository {
         User previous = userMap.get(id);
         if(previous == null) return false;
 
-        for(Map.Entry<Integer, Account> entry : accountRepository.getMap().entrySet()){
-            if(entry.getValue().getUser().equals(previous)){
-                Account updatedAccount = entry.getValue();
-                updatedAccount.setUser(updatedUser);
-                accountRepository.update(entry.getKey(), updatedAccount);
-            }
-        }
+        Account account = accountRepository.getMap().get(previous);
+        account.setUser(updatedUser);
+        accountRepository.update(account.getId(), account);
         userMap.put(id, updatedUser);
         return true;
     }
@@ -60,11 +56,8 @@ public class UserRepositoryImpl implements UserRepository {
         User userInMap = userMap.get(id);
         if(userInMap == null) return false;
 
-        for(Map.Entry<Integer, Account> entry : accountRepository.getMap().entrySet()){
-            if(entry.getValue().getUser().equals(userInMap)){
-                accountRepository.delete(entry.getKey());
-            }
-        }
+        Account account = accountRepository.getMap().get(userInMap);
+        accountRepository.delete(account.getId());
         userMap.remove(id);
         return true;
     }
