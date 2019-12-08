@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.time.LocalDate;
 
 @Slf4j
-public class TestBankService extends AbstractBankService{
+public class TestBankService extends AbstractBankService {
     @Override
     public float withdraw(Account account, float amount) throws Exception {
         log.info("Test mode doesn't allow withdrawing. Try again later or contact support.");

@@ -17,12 +17,12 @@ public class AccountMapperImpl implements AccountMapper {
     UserRepository userRepository;
 
     @Override
-    public Account getAccount(AccountRequest request){
+    public Account getAccount(AccountRequest request) {
         LocalDate creationDate = LocalDate.parse(request.getCreationDate(), dateTimeFormatter);
         User user = userRepository.getUserById(request.getUserId());
-        if(user == null){
+        if (user == null) {
             return null;
         }
-        return new Account(0,request.getAmount(), request.getUserId(), user, creationDate);
+        return new Account(0, request.getAmount(), request.getUserId(), user, creationDate);
     }
 }

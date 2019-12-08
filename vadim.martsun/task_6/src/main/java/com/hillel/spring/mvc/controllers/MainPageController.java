@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class MainPageController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public String getView(){
+    public String getView() {
         return "index";
     }
 }

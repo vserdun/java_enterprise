@@ -11,13 +11,13 @@ import java.time.LocalDate;
 public class BankServiceImpl extends AbstractBankService {
     @Override
     public float withdraw(Account account, float amount) throws Exception {
-        if(isValid(amount)){
+        if (isValid(amount)) {
             float accountAmount = account.getAmount();
-            if(accountAmount < amount) throw new Exception("There is not enough money on the current account");
+            if (accountAmount < amount) throw new Exception("There is not enough money on the current account");
             account.setAmount(accountAmount - amount);
             log.info("\n\n${} has been withdrawn from an account belonged to {} \nCurrent balance is: ${}",
                     amount,
-                    account.getUser().getFirstName() + " " +account.getUser().getLastName(),
+                    account.getUser().getFirstName() + " " + account.getUser().getLastName(),
                     account.getAmount());
         }
         return account.getAmount();
@@ -36,8 +36,8 @@ public class BankServiceImpl extends AbstractBankService {
     }
 
     @Override
-    public boolean transfer(Account sender, Account receiver, float amount){
-        if((!isValid(amount)) || (sender.getAmount() < amount)) return false;
+    public boolean transfer(Account sender, Account receiver, float amount) {
+        if ((!isValid(amount)) || (sender.getAmount() < amount)) return false;
 
         receiver.setAmount(receiver.getAmount() + amount);
         sender.setAmount(sender.getAmount() - amount);
@@ -48,7 +48,7 @@ public class BankServiceImpl extends AbstractBankService {
         return true;
     }
 
-    private boolean isValid(float amount){
+    private boolean isValid(float amount) {
         return amount > 0;
     }
 }

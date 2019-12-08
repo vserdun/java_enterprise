@@ -11,7 +11,7 @@ public interface BankService {
 
     boolean transfer(Account sender, Account receiver, float amount);
 
-    default float getAmount(Account account){
+    default float getAmount(Account account) {
         return account.getAmount();
     }
 
