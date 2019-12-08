@@ -24,8 +24,10 @@ public class AccountController {
     @RequestMapping(value = "/{accountId}", method = RequestMethod.GET)
     public ResponseEntity<Account> getAccountById(@PathVariable("accountId") String accountId) {
         Account account = accountRepository.getById(Integer.parseInt(accountId));
-        if(account == null) return new ResponseEntity<>(account, HttpStatus.OK);
-        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if(account == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(account, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST)

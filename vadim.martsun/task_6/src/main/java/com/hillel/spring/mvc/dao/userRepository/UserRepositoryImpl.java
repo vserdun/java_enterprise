@@ -42,7 +42,9 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public boolean update(int id, User updatedUser) {
         User previous = userMap.get(id);
-        if(previous == null) return false;
+        if(previous == null){
+            return false;
+        }
 
         Account account = accountRepository.getMap().get(previous);
         account.setUser(updatedUser);
@@ -54,7 +56,9 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public boolean delete(int id) {
         User userInMap = userMap.get(id);
-        if(userInMap == null) return false;
+        if(userInMap == null){
+            return false;
+        }
 
         Account account = accountRepository.getMap().get(userInMap);
         accountRepository.delete(account.getId());

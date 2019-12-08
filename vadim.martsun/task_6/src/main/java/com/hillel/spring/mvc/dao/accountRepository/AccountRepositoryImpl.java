@@ -57,7 +57,9 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public boolean update(int id, Account account) {
-        if((account.getUser() == null) || (!accountMap.containsKey(id))) return false;
+        if((account.getUser() == null) || (!accountMap.containsKey(id))){
+            return false;
+        }
         accountMap.put(id, account);
         userAccountMap.put(account.getUser(), account);
         return true;
@@ -66,7 +68,9 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public boolean delete(int id) {
         Account oldAccount = accountMap.get(id);
-        if(oldAccount == null) return false;
+        if(oldAccount == null){
+            return false;
+        }
         accountMap.remove(id);
         userAccountMap.remove(oldAccount.getUser());
         return true;

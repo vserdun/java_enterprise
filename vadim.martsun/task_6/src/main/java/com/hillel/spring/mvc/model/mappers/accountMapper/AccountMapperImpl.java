@@ -21,7 +21,9 @@ public class AccountMapperImpl implements AccountMapper {
     public Account getAccount(AccountRequest request){
         LocalDate creationDate = LocalDate.parse(request.getCreationDate(), dateTimeFormatter);
         User user = userRepository.getUserById(request.getUserId());
-        if(user == null) return null;
+        if(user == null){
+            return null;
+        }
         return new Account(0,request.getAmount(), request.getUserId(), user, creationDate);
     }
 }
