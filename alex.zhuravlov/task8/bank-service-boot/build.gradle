@@ -20,6 +20,8 @@ repositories {
 }
 
 dependencies {
+	compile group: 'org.springframework', name: 'spring-aop'
+	compile group: 'org.aspectj', name: 'aspectjweaver'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compile group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.1.0.Final'
 	compileOnly 'org.projectlombok:lombok'
