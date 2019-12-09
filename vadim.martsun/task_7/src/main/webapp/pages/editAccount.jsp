@@ -22,17 +22,17 @@
                 <td><form:hidden path="id"/></td>
             </tr>
             <tr>
-                <td>First name: </td>
+                <td>Creation date: </td>
                 <td><form:input path="creationDate"/>
                     <form:errors path="creationDate" cssClass="error"/> </td>
             </tr>
             <tr>
-                <td>Last name: </td>
+                <td>Amount: </td>
                 <td><form:input path="amount"/>
                     <form:errors path="amount" cssClass="error"/></td>
             </tr>
             <tr>
-                <td>Birth date :</td>
+                <td>User Id :</td>
                 <td><form:input path="userId"/>
                     <form:errors path="userId" cssClass="error"/></td>
             </tr>
