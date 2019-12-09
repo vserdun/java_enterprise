@@ -1,7 +1,7 @@
 package com.hillel.mvc.springboot.dao.userRepository;
 
 import com.hillel.mvc.springboot.model.User;
-import com.hillel.spring.mvc.model.requests.UserRequest;
+import com.hillel.mvc.springboot.model.requests.UserRequest;
 import java.util.List;
 import java.util.Map;
 

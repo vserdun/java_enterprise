@@ -4,6 +4,11 @@
 <html>
 <head>
     <title>Bank App</title>
+    <style type="text/css">
+        .error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 <p>Go to <a href="<c:url value="/accounts/accountList"/>">Accounts Page</a></p>
@@ -14,15 +19,18 @@
         <table>
             <tr>
                 <td><form:label path="creationDate">Creation date (Format: yyyy-MM-dd)</form:label></td>
-                <td><form:input path="creationDate"/></td>
+                <td><form:input path="creationDate"/>
+                    <form:errors path="creationDate" cssClass="error" /></td>
             </tr>
             <tr>
                 <td><span><form:label path="amount">Amount</form:label></span></td>
-                <td><span><form:input path="amount"/></span></td>
+                <td><span><form:input path="amount"/>
+                <form:errors path="amount" cssClass="error" /></span></td>
             </tr>
             <tr>
                 <td><span><form:label path="userId">User id</form:label></span></td>
-                <td><span><form:input path="userId"/></span></td>
+                <td><span><form:input path="userId"/>
+                <form:errors path="userId" cssClass="error" /></span></td>
             </tr>
         </table>
         <input type="submit" value="Save"/>

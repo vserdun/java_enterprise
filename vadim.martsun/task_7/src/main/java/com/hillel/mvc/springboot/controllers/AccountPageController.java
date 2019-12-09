@@ -2,16 +2,18 @@ package com.hillel.mvc.springboot.controllers;
 import com.hillel.mvc.springboot.dao.accountRepository.AccountRepository;
 import com.hillel.mvc.springboot.model.Account;
 import com.hillel.mvc.springboot.model.mappers.accountMapper.AccountMapper;
-import com.hillel.spring.mvc.model.requests.AccountRequest;
+import com.hillel.mvc.springboot.model.requests.AccountRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -41,10 +43,15 @@ public class AccountPageController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/addAccount")
-    public String addAccount(@ModelAttribute("accountAttribute") AccountRequest accountRequest) {
+    public String addAccount(@ModelAttribute("accountAttribute") @Valid AccountRequest accountRequest,
+                             BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "addAccount";
+        }
         Account account = accountMapper.getAccount(accountRequest);
         accountRepository.save(account);
         return "redirect:/accounts/accountList";
+
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/edit/{accountId}")
@@ -59,9 +66,12 @@ public class AccountPageController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/edit/update")
-    public String editAccount(@ModelAttribute("accountAttribute") AccountRequest accountRequest) {
-        boolean u = accountRepository.update(accountRequest.getId(), accountRequest);
-        System.out.println("Input account" + accountRequest);
+    public String editAccount(@ModelAttribute("accountAttribute") @Valid AccountRequest accountRequest,
+                              BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return "editAccount";
+        }
+        accountRepository.update(accountRequest.getId(), accountRequest);
         return "redirect:/accounts/accountList";
     }
 

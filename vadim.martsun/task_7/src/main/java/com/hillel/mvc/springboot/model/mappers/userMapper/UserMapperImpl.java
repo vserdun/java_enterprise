@@ -2,7 +2,7 @@ package com.hillel.mvc.springboot.model.mappers.userMapper;
 
 import com.hillel.mvc.springboot.model.Gender;
 import com.hillel.mvc.springboot.model.User;
-import com.hillel.spring.mvc.model.requests.UserRequest;
+import com.hillel.mvc.springboot.model.requests.UserRequest;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

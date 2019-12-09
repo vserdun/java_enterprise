@@ -4,7 +4,7 @@ import com.hillel.mvc.springboot.dao.accountRepository.AccountRepository;
 import com.hillel.mvc.springboot.model.Account;
 import com.hillel.mvc.springboot.model.User;
 import com.hillel.mvc.springboot.model.mappers.userMapper.UserMapper;
-import com.hillel.spring.mvc.model.requests.UserRequest;
+import com.hillel.mvc.springboot.model.requests.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;

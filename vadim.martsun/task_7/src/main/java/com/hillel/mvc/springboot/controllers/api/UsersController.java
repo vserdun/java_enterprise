@@ -2,7 +2,7 @@ package com.hillel.mvc.springboot.controllers.api;
 
 import com.hillel.mvc.springboot.dao.userRepository.UserRepository;
 import com.hillel.mvc.springboot.model.User;
-import com.hillel.spring.mvc.model.requests.UserRequest;
+import com.hillel.mvc.springboot.model.requests.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

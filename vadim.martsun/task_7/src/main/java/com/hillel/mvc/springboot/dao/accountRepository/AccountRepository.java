@@ -2,7 +2,7 @@ package com.hillel.mvc.springboot.dao.accountRepository;
 
 import com.hillel.mvc.springboot.model.Account;
 import com.hillel.mvc.springboot.model.User;
-import com.hillel.spring.mvc.model.requests.AccountRequest;
+import com.hillel.mvc.springboot.model.requests.AccountRequest;
 
 import java.util.List;
 import java.util.Map;

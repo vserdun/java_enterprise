@@ -3,7 +3,7 @@ package com.hillel.mvc.springboot.model.mappers.accountMapper;
 import com.hillel.mvc.springboot.dao.userRepository.UserRepository;
 import com.hillel.mvc.springboot.model.Account;
 import com.hillel.mvc.springboot.model.User;
-import com.hillel.spring.mvc.model.requests.AccountRequest;
+import com.hillel.mvc.springboot.model.requests.AccountRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;

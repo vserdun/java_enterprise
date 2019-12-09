@@ -4,6 +4,11 @@
 <html>
 <head>
     <title>Bank App</title>
+    <style type="text/css">
+        .error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 <p>Go to <a href="<c:url value="/accounts/accountList"/>">Accounts Page</a></p>
@@ -14,21 +19,25 @@
         <table>
         <tr>
             <td><form:label path="firstName">First name</form:label></td>
-            <td><form:input path="firstName"/></td>
+            <td><form:input path="firstName"/>
+                <form:errors path="firstName" cssClass="error" /></td>
         </tr>
         <tr>
             <td><span><form:label path="lastName">Last name</form:label></span></td>
-            <td><span><form:input path="lastName"/></span></td>
+            <td><span><form:input path="lastName"/>
+            <form:errors path="lastName" cssClass="error" /></span></td>
         </tr>
         <tr>
             <td><span><form:label path="birthDate">Birth date (Format: yyyy-MM-dd)</form:label></span></td>
-            <td><span><form:input path="birthDate"/></span></td>
+            <td><span><form:input path="birthDate"/>
+            <form:errors path="birthDate" cssClass="error" /></span></td>
         </tr>
             <tr>
                 <td><span><form:label path="gender">Gender</form:label></span></td>
                 <td>
                     <form:radiobutton path="gender" value="male" label="Male"/>
                     <form:radiobutton path="gender" value="female" label="Female"/>
+                    <form:errors path="gender" cssClass="error" />
                 </td>
             </tr>
         </table>

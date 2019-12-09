@@ -3,16 +3,18 @@ package com.hillel.mvc.springboot.controllers;
 import com.hillel.mvc.springboot.dao.userRepository.UserRepository;
 import com.hillel.mvc.springboot.model.User;
 import com.hillel.mvc.springboot.model.mappers.userMapper.UserMapper;
-import com.hillel.spring.mvc.model.requests.UserRequest;
+import com.hillel.mvc.springboot.model.requests.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -43,7 +45,11 @@ public class UserPageController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/addUser")
-    public String addUser(@ModelAttribute("userAttribute") UserRequest userRequest) {
+    public String addUser(@ModelAttribute("userAttribute") @Valid UserRequest userRequest,
+                          BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return "addUser";
+        }
         User user = userMapper.getUser(userRequest);
         userRepository.save(user);
         return "redirect:/users/usersList";
@@ -64,7 +70,10 @@ public class UserPageController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/edit/update")
-    public String editUserPage(@ModelAttribute("userAttribute") User user) {
+    public String editUser(@ModelAttribute("userAttribute") @Valid User user, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return "editUser";
+        }
         userRepository.update(user.getId(), user);
         return "redirect:/users/usersList";
     }
