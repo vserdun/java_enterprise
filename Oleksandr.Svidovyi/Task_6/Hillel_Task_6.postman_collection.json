@@ -1,0 +1,425 @@
+{
+  "info": {
+    "_postman_id": "37b78466-ae7b-4a8a-ba7f-b025624d5088",
+    "name": "Hillel_Task_6",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "get clients list",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8098/com.hillel.task_6/api/clients/list",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8098",
+          "path": [
+            "com.hillel.task_6",
+            "api",
+            "clients",
+            "list"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "add new client",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"firstName\": \"Oleksandr\",\r\n    \"secondName\": \"Svidicus\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8098/com.hillel.task_6/api/clients",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8098",
+          "path": [
+            "com.hillel.task_6",
+            "api",
+            "clients"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get client",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "type": "text",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8098/com.hillel.task_6/api/clients/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8098",
+          "path": [
+            "com.hillel.task_6",
+            "api",
+            "clients",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update client",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Accept",
+            "type": "text",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"firstName\": \"Oleksandrix\",\r\n    \"secondName\": \"Svidic\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8098/com.hillel.task_6/api/clients/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8098",
+          "path": [
+            "com.hillel.task_6",
+            "api",
+            "clients",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete client",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8098/com.hillel.task_6/api/clients/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8098",
+          "path": [
+            "com.hillel.task_6",
+            "api",
+            "clients",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get client accounts",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8098/com.hillel.task_6/api/clients/1/accounts/list",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8098",
+          "path": [
+            "com.hillel.task_6",
+            "api",
+            "clients",
+            "1",
+            "accounts",
+            "list"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "create account",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"balance\": \"500\",\r\n    \"currency\": \"grn\"\r\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8098/com.hillel.task_6/api/clients/1/accounts",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8098",
+          "path": [
+            "com.hillel.task_6",
+            "api",
+            "clients",
+            "1",
+            "accounts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete account",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"balance\": \"500\",\r\n    \"currency\": \"grn\"\r\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8098/com.hillel.task_6/api/clients/1/accounts",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8098",
+          "path": [
+            "com.hillel.task_6",
+            "api",
+            "clients",
+            "1",
+            "accounts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "money transfer",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"recieverId\":\"2\",\r\n    \"payment\": \"400\",\r\n    \"currency\": \"usd\"\r\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8098/com.hillel.task_6/api/clients/1/accounts/transfer",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8098",
+          "path": [
+            "com.hillel.task_6",
+            "api",
+            "clients",
+            "1",
+            "accounts",
+            "transfer"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "replenish account",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"payment\": \"150\",\r\n    \"currency\": \"usd\"\r\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8098/com.hillel.task_6/api/clients/1/accounts/replenish",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8098",
+          "path": [
+            "com.hillel.task_6",
+            "api",
+            "clients",
+            "1",
+            "accounts",
+            "replenish"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "withdraw money",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"payment\": \"200\",\r\n    \"currency\": \"grn\"\r\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8098/com.hillel.task_6/api/clients/2/accounts/withdraw",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8098",
+          "path": [
+            "com.hillel.task_6",
+            "api",
+            "clients",
+            "2",
+            "accounts",
+            "withdraw"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "protocolProfileBehavior": {}
+}
