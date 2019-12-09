@@ -28,14 +28,14 @@ public class BankAccountServlet extends HttpServlet {
         try {
             CreateBankAccountRequest createBankAccountRequest = gson.fromJson(req.getReader(), CreateBankAccountRequest.class);
             BankAccount bankAccount = new BankAccount(createBankAccountRequest.getId(), createBankAccountRequest.getAmount(),
-                                                        createBankAccountRequest.getUser());
+                    createBankAccountRequest.getUser());
             accounts.put(createBankAccountRequest.getId(), bankAccount);
             message = String.format("Account %s was successfully added", createBankAccountRequest.getId());
             status = new CrudEventStatus(true, message);
             log.info(message);
-        }catch (Exception e) {
+        } catch (Exception e) {
             message = "Exception while adding an account";
-            status= new CrudEventStatus(false, message);
+            status = new CrudEventStatus(false, message);
             log.error(message);
             resp.setStatus(500);
         }
@@ -49,7 +49,7 @@ public class BankAccountServlet extends HttpServlet {
         Gson gson = new Gson();
         CrudEventStatus status;
         String message;
-        try{
+        try {
             CreateBankAccountRequest createBankAccountRequest = gson.fromJson(req.getReader(), CreateBankAccountRequest.class);
             long id = createBankAccountRequest.getId();
             if (accounts.containsKey(id)) {
@@ -58,13 +58,13 @@ public class BankAccountServlet extends HttpServlet {
                 message = String.format("Bank account id = %d info was updated", id);
                 status = new CrudEventStatus(true, message);
                 log.info(message);
-            }else {
+            } else {
                 message = String.format("There is no bank account w/ given id = %d", id);
                 status = new CrudEventStatus(false, message);
                 log.warn(message);
                 resp.setStatus(404);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             message = "Error, while trying to update account info";
             status = new CrudEventStatus(false, message);
             resp.setStatus(500);
@@ -85,17 +85,17 @@ public class BankAccountServlet extends HttpServlet {
                 if (accounts.containsKey(accountId)) {
                     message = gson.toJson(accounts.get(accountId));
                     status = new CrudEventStatus(true, message);
-                }else {
+                } else {
                     message = "There is no account with such id";
                     status = new CrudEventStatus(false, message);
                     resp.setStatus(404);
                 }
-            }catch (Exception e) {
+            } catch (Exception e) {
                 message = "Error while trying to get account info";
                 status = new CrudEventStatus(false, message);
                 resp.setStatus(500);
             }
-        }else {
+        } else {
             message = "Bad request";
             status = new CrudEventStatus(false, message);
             resp.setStatus(500);
@@ -109,20 +109,28 @@ public class BankAccountServlet extends HttpServlet {
         resp.setContentType("application/json");
         String message;
         CrudEventStatus status;
-        try{
-            if(req.getParameter("id") != null) {
+        try {
+            if (req.getParameter("id") != null) {
                 long id = Long.parseLong(req.getParameter("id"));
-                accounts.remove(id);
-                message = String.format("Account id = %d was successfully removed", id);
-                status = new CrudEventStatus(true, message);
-                log.info(message);
+                if (accounts.get(id) != null) {
+                    accounts.remove(id);
+                    message = String.format("Account id = %d was successfully removed", id);
+                    status = new CrudEventStatus(true, message);
+                    log.info(message);
+                } else {
+                    message = "Account was not found";
+                    status = new CrudEventStatus(false, message);
+                    log.info(message);
+                    resp.setStatus(404);
+                }
+
             } else {
-                message = "There is no account with given id";
+                message = "Required request parameter \"id\" is missed";
                 status = new CrudEventStatus(false, message);
                 log.info(message);
                 resp.setStatus(400);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             message = "Error, while trying to delete an account";
             status = new CrudEventStatus(false, message);
             resp.setStatus(500);

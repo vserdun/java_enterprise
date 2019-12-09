@@ -26,18 +26,18 @@ public class UserServlet extends HttpServlet {
         Gson gson = new Gson();
         CrudEventStatus status;
         String message;
-        try{
+        try {
             CreateUserRequest createUserRequest = gson.fromJson(req.getReader(), CreateUserRequest.class);
             User user = new User(createUserRequest.getName(), createUserRequest.getPhoneNumber(),
-                                    createUserRequest.getAge(), currentUserId);
+                    createUserRequest.getAge(), currentUserId);
             users.put(currentUserId, user);
             currentUserId++;
             message = String.format("User %s was successfully added", createUserRequest.getName());
             status = new CrudEventStatus(true, message);
             log.info(message);
-        }catch (Exception e) {
+        } catch (Exception e) {
             message = "Exception while adding a user";
-            status= new CrudEventStatus(false, message);
+            status = new CrudEventStatus(false, message);
             log.error(message);
             resp.setStatus(500);
         }
@@ -51,7 +51,7 @@ public class UserServlet extends HttpServlet {
         Gson gson = new Gson();
         CrudEventStatus status;
         String message;
-        try{
+        try {
             CreateUserRequest createUserRequest = gson.fromJson(req.getReader(), CreateUserRequest.class);
             int id = createUserRequest.getId();
             if (users.containsKey(id)) {
@@ -61,13 +61,13 @@ public class UserServlet extends HttpServlet {
                 message = String.format("User id = %d info was updated", id);
                 status = new CrudEventStatus(true, message);
                 log.info(message);
-            }else {
+            } else {
                 message = String.format("There is no user for id = %d", id);
                 status = new CrudEventStatus(false, message);
                 log.warn(message);
                 resp.setStatus(404);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             message = "Error, while trying to update user info";
             status = new CrudEventStatus(false, message);
             resp.setStatus(500);
@@ -81,20 +81,27 @@ public class UserServlet extends HttpServlet {
         resp.setContentType("application/json");
         String message;
         CrudEventStatus status;
-        try{
-            if(req.getParameter("id") != null) {
+        try {
+            if (req.getParameter("id") != null) {
                 int id = Integer.parseInt(req.getParameter("id"));
-                users.remove(id);
-                message = String.format("User id = %d was successfully removed", id);
-                status = new CrudEventStatus(true, message);
-                log.info(message);
+                if (users.get(id) != null) {
+                    users.remove(id);
+                    message = String.format("User id = %d was successfully removed", id);
+                    status = new CrudEventStatus(true, message);
+                    log.info(message);
+                } else {
+                    message = "User was not found";
+                    status = new CrudEventStatus(false, message);
+                    log.info(message);
+                    resp.setStatus(404);
+                }
             } else {
-                message = "There is no user for given id";
+                message = "Required request parameter \"id\" is missed";
                 status = new CrudEventStatus(false, message);
                 log.info(message);
                 resp.setStatus(400);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             message = "Error, while trying to delete a user";
             status = new CrudEventStatus(false, message);
             resp.setStatus(500);
@@ -115,17 +122,17 @@ public class UserServlet extends HttpServlet {
                 if (users.containsKey(userId)) {
                     message = gson.toJson(users.get(userId));
                     status = new CrudEventStatus(true, message);
-                }else {
+                } else {
                     message = "There is no user with such id";
                     status = new CrudEventStatus(false, message);
                     resp.setStatus(404);
                 }
-            }catch (Exception e) {
+            } catch (Exception e) {
                 message = "Error while trying to get user info";
                 status = new CrudEventStatus(false, message);
                 resp.setStatus(500);
             }
-        }else {
+        } else {
             message = "Bad request";
             status = new CrudEventStatus(false, message);
             resp.setStatus(500);
