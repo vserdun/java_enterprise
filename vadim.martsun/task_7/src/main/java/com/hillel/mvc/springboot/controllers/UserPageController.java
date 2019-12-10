@@ -65,12 +65,17 @@ public class UserPageController {
     @RequestMapping(method = RequestMethod.GET, value = "/edit/{userId}")
     public String editUserPage(@PathVariable("userId") int userId, Model model) {
         User user = userRepository.getUserById(userId);
-        model.addAttribute("userAttribute", user);
+        UserRequest userRequest = new UserRequest(user.getId(),
+                                                  user.getLastName(),
+                                                  user.getFirstName(),
+                                                  user.getBirthDate().toString(),
+                                                  user.getGender().toString());
+        model.addAttribute("userAttribute", userRequest);
         return "editUser";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/edit/update")
-    public String editUser(@ModelAttribute("userAttribute") @Valid User user, BindingResult bindingResult) {
+    public String editUser(@ModelAttribute("userAttribute") @Valid UserRequest user, BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
             return "editUser";
         }

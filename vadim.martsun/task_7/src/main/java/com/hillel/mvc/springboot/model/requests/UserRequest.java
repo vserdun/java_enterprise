@@ -11,6 +11,8 @@ import javax.validation.constraints.Pattern;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRequest {
+    private int id;
+
     @NotEmpty(message = "Last name is required.")
     @Pattern(regexp = "[A-Z][a-z]+", message = "Incorrect name.")
     private String lastName;

@@ -47,8 +47,10 @@ public class UserRepositoryImpl implements UserRepository {
         }
 
         Account account = accountRepository.getMap().get(previous);
-        account.setUser(updatedUser);
-        accountRepository.update(account.getId(), account);
+        if(account != null){
+            account.setUser(updatedUser);
+            accountRepository.update(account.getId(), account);
+        }
         userMap.put(id, updatedUser);
         return true;
     }
@@ -61,7 +63,9 @@ public class UserRepositoryImpl implements UserRepository {
         }
 
         Account account = accountRepository.getMap().get(userInMap);
-        accountRepository.delete(account.getId());
+        if(account != null){
+            accountRepository.delete(account.getId());
+        }
         userMap.remove(id);
         return true;
     }
