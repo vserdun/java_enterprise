@@ -23,6 +23,6 @@ public class AccountMapperImpl implements AccountMapper {
         if (user == null) {
             return null;
         }
-        return new Account(0, request.getAmount(), request.getUserId(), user, creationDate);
+        return new Account(request.getId(), request.getAmount(), request.getUserId(), user, creationDate);
     }
 }

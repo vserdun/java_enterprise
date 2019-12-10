@@ -17,7 +17,7 @@ public class UserMapperImpl implements UserMapper {
         LocalDate birthDate = LocalDate.parse(userRequest.getBirthDate(), dateTimeFormatter);
         Gender gender = Gender.fromString(userRequest.getGender());
 
-        return new User(0, userRequest.getLastName(),
+        return new User(userRequest.getId(), userRequest.getLastName(),
                 userRequest.getFirstName(),
                 birthDate,
                 gender);

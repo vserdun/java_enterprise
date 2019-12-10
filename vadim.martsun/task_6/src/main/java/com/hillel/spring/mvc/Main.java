@@ -21,12 +21,5 @@ public class Main {
     public static void main(String ... args){
         ApplicationContext context = new AnnotationConfigApplicationContext(Main.class);
         Main main = context.getBean(Main.class);
-
-        //User user = new User("Martsun", "Vadim", LocalDate.of(1997,4,6), Gender.MALE);
-       // Account account = new Account(1000f, user, LocalDate.now());
-
-        //main.bankService.topUp(account, 100);
-
-       // System.out.println(account);
     }
 }
