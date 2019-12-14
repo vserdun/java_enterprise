@@ -5,6 +5,7 @@ import com.hillel.bankserviceboot.dao.AccountRepository;
 import com.hillel.bankserviceboot.model.AccountEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,11 +20,13 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.save(accountEntity);
     }
 
+    @Transactional
     @Override
     public List<AccountEntity> getAccounts() {
         return accountRepository.getAccountsList();
     }
 
+    @Transactional
     @Override
     public AccountEntity getAccount(int id) {
         return accountRepository.getAccountEntityById(id);
@@ -31,7 +34,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void updateAccount(AccountEntity accountEntity) {
-        accountRepository.update(accountEntity);
+        accountRepository.save(accountEntity);
     }
 
     @Override

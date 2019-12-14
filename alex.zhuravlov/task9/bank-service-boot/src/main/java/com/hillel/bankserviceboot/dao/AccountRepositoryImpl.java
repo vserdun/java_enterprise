@@ -2,46 +2,44 @@ package com.hillel.bankserviceboot.dao;
 
 
 import com.hillel.bankserviceboot.model.AccountEntity;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+@Transactional
 public class AccountRepositoryImpl implements AccountRepository {
 
-    private int currentAccountId = 1;
-    private Map<Integer, AccountEntity> accountsMap = new ConcurrentHashMap<>();
+    @Autowired
+    private SessionFactory sessionFactory;
 
+    private Session getSession() {
+        return sessionFactory.getCurrentSession();
+    }
+
+    @Transactional
     @Override
     public List<AccountEntity> getAccountsList() {
-        return new ArrayList<>(accountsMap.values());
+        return sessionFactory.getCurrentSession().createQuery("from AccountEntity", AccountEntity.class).list();
     }
 
     @Override
     public AccountEntity getAccountEntityById(int id) {
-        return accountsMap.get(id);
+        return sessionFactory.getCurrentSession().get(AccountEntity.class, id);
     }
 
     @Override
     public void save(AccountEntity accountEntity) {
-        if (accountsMap.get(accountEntity.getAccountId()) == null) {
-            accountEntity.setAccountId(currentAccountId);
-            currentAccountId++;
-        }
-
-        accountsMap.put(accountEntity.getAccountId(), accountEntity);
-    }
-
-    @Override
-    public void update(AccountEntity accountEntity) {
-        accountsMap.put(accountEntity.getAccountId(), accountEntity);
+        sessionFactory.getCurrentSession().saveOrUpdate(accountEntity);
     }
 
     @Override
     public void delete(int id) {
-        accountsMap.remove(id);
+        AccountEntity accountEntity = getAccountEntityById(id);
+        sessionFactory.getCurrentSession().delete(accountEntity);
     }
 }

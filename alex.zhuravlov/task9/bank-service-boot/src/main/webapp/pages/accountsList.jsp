@@ -39,7 +39,7 @@
      <form:form class="tr" modelAttribute="accountAttribute" action="" method="post">
          <span class="td"><c:out value="${account.accountId}"/></span>
          <span class="td"><c:out value="${account.accountBalance}"/></span>
-         <span class="td"><c:out value="${account.userId}"/></span>
+         <span class="td"><c:out value="${account.user.userId}"/></span>
          <span class="td">
             <c:choose>
                 <c:when test="${transfer == true}">

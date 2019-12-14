@@ -4,9 +4,9 @@ import com.hillel.bankserviceboot.model.AccountEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Slf4j
 @Service
@@ -15,6 +15,7 @@ public class BankServiceImpl implements BankService {
     @Autowired
     private AccountService accountService;
 
+    @Transactional
     public boolean withdraw(int accountId, double amount) {
         String operation;
         AccountEntity account = accountService.getAccount(accountId);
@@ -31,6 +32,7 @@ public class BankServiceImpl implements BankService {
         return true;
     }
 
+    @Transactional
     @Override
     public boolean deposit(int accountId, double amount) {
         AccountEntity account = accountService.getAccount(accountId);
@@ -41,6 +43,7 @@ public class BankServiceImpl implements BankService {
         return true;
     }
 
+    @Transactional
     @Override
     public boolean transfer(int accountId1, int accountId2, double amount) {
         AccountEntity account1 = accountService.getAccount(accountId1);
@@ -70,11 +73,11 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public List<String> getAccStatement(int accountId) {
+    public String getAccStatement(int accountId) {
         AccountEntity account = accountService.getAccount(accountId);
-        List<String> accStatement = account.getAccStatement();
+        String accStatement = account.getAccStatement();
         log.info("_________AccountEntity Statement_________");
-        accStatement.forEach(s -> log.info(s));
+        log.info(accStatement);
         return accStatement;
     }
 

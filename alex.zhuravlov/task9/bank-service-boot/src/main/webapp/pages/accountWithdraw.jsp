@@ -10,7 +10,7 @@
    <table>
        <tr>
             <td>
-                  <form:input path="accountId" type="hidden"/>
+                  <form:hidden path="accountId"/>
             </td>
        </tr>
        <tr>
@@ -23,7 +23,7 @@
        </tr>
        <tr>
             <td>
-                <form:input path="userId" type="hidden"/>
+                <form:hidden path="user"/>
             </td>
        </tr>
    </table>

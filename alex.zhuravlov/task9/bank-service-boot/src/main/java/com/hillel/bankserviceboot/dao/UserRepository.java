@@ -12,7 +12,5 @@ public interface UserRepository {
 
     void save(UserEntity userEntity);
 
-    void update(UserEntity userEntity);
-
     void delete(int id);
 }

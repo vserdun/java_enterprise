@@ -10,7 +10,7 @@
    <table>
        <tr>
             <td>
-                  <form:input path="accountId" type="hidden"/>
+                  <form:hidden path="accountId"/>
             </td>
        </tr>
        <tr>
@@ -22,10 +22,10 @@
            </td>
        </tr>
        <tr>
-            <td>
-                <form:input path="userId" type="hidden"/>
-            </td>
-       </tr>
+                   <td>
+                         <form:hidden path="user"/>
+                   </td>
+              </tr>
    </table>
    <input type="submit" value="Save"/>
 </form:form>

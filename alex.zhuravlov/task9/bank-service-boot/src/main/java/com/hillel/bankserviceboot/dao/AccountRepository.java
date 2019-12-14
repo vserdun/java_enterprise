@@ -11,7 +11,5 @@ public interface AccountRepository {
 
     void save(AccountEntity accountEntity);
 
-    void update(AccountEntity accountEntity);
-
     void delete(int id);
 }

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -67,7 +66,7 @@ public class UsersController {
         List<AccountEntity> accounts = accountService.getAccounts();
         for (AccountEntity accountEntity : accounts
         ) {
-            if (accountEntity.getUserId() == userId) {
+            if (accountEntity.getUser().getUserId() == userId) {
                 accountService.deleteAccount(accountEntity.getAccountId());
             }
         }
@@ -78,8 +77,7 @@ public class UsersController {
     @RequestMapping(method = RequestMethod.GET, value = "/addAccount")
     public String addAccountForm(Model model, @RequestParam("userId") int userId) {
         AccountEntity accountEntity = new AccountEntity();
-        accountEntity.setAccStatement(new ArrayList<>());
-        accountEntity.setUserId(userId);
+        accountEntity.setUser(userService.getUser(userId));
         accountService.addAccount(accountEntity);
         return "redirect:/accounts/list";
     }

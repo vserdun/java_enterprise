@@ -2,46 +2,44 @@ package com.hillel.bankserviceboot.dao;
 
 
 import com.hillel.bankserviceboot.model.UserEntity;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
+@Transactional
 @Repository
 public class UserRepositoryImpl implements UserRepository {
 
-    private int currentUserId = 1;
-    private Map<Integer, UserEntity> usersMap = new ConcurrentHashMap<>();
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    private Session getSession() {
+        return sessionFactory.getCurrentSession();
+    }
+
 
     @Override
     public List<UserEntity> getUsersList() {
-        return new ArrayList<>(usersMap.values());
+        return sessionFactory.getCurrentSession().createQuery("from UserEntity", UserEntity.class).list();
     }
 
     @Override
     public UserEntity getUserEntityById(int id) {
-        return usersMap.get(id);
+        return sessionFactory.getCurrentSession().get(UserEntity.class, id);
     }
 
     @Override
     public void save(UserEntity userEntity) {
-        if (usersMap.get(userEntity.getUserId()) == null) {
-            userEntity.setUserId(currentUserId);
-            currentUserId++;
-        }
-
-        usersMap.put(userEntity.getUserId(), userEntity);
-    }
-
-    @Override
-    public void update(UserEntity userEntity) {
-        usersMap.put(userEntity.getUserId(), userEntity);
+        sessionFactory.getCurrentSession().saveOrUpdate(userEntity);
     }
 
     @Override
     public void delete(int id) {
-        usersMap.remove(id);
+        UserEntity userEntity = getUserEntityById(id);
+        sessionFactory.getCurrentSession().delete(userEntity);
     }
 }

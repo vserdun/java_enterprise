@@ -3,8 +3,6 @@ package com.hillel.bankserviceboot.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Slf4j
 @Service
 public class TestBankService extends BankServiceImpl {
@@ -14,7 +12,7 @@ public class TestBankService extends BankServiceImpl {
     }
 
     @Override
-    public List<String> getAccStatement(int accountId) {
+    public String getAccStatement(int accountId) {
         return super.getAccStatement(accountId);
     }
 
