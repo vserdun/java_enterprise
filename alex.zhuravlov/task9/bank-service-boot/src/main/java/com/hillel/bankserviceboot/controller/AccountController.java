@@ -2,6 +2,7 @@ package com.hillel.bankserviceboot.controller;
 
 
 import com.hillel.bankserviceboot.model.AccountEntity;
+import com.hillel.bankserviceboot.model.Deposit;
 import com.hillel.bankserviceboot.service.AccountService;
 import com.hillel.bankserviceboot.service.BankService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,14 +40,16 @@ public class AccountController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/deposit")
-    public String depositwAccountForm(Model model, @RequestParam("accountId") int accountId) {
-        model.addAttribute("accountAttribute", accountService.getAccount(accountId));
+    public String depositAccountForm(Model model, @RequestParam("accountId") int accountId) {
+        Deposit deposit = new Deposit();
+        deposit.setAccountId(accountId);
+        model.addAttribute("deposit", deposit);
         return "accountDeposit";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/depositAccount")
-    public String depositAccount(@ModelAttribute("accountAttribute") @Validated AccountEntity accountEntity) {
-        bankService.deposit(accountEntity.getAccountId(), accountEntity.getAccountBalance());
+    public String depositAccount(@ModelAttribute("deposit") Deposit deposit) {
+        bankService.deposit(deposit.getAccountId(), deposit.getAmount());
         return "redirect:/accounts/list";
     }
 
