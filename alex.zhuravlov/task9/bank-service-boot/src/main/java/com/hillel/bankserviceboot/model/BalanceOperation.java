@@ -3,7 +3,7 @@ package com.hillel.bankserviceboot.model;
 import lombok.Data;
 
 @Data
-public class Deposit {
+public class BalanceOperation {
     private int accountId;
-    private int amount;
+    private double amount;
 }

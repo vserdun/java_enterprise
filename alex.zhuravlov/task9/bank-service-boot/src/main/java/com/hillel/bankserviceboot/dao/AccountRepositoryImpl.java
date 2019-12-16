@@ -21,7 +21,6 @@ public class AccountRepositoryImpl implements AccountRepository {
         return sessionFactory.getCurrentSession();
     }
 
-    @Transactional
     @Override
     public List<AccountEntity> getAccountsList() {
         return sessionFactory.getCurrentSession().createQuery("from AccountEntity", AccountEntity.class).list();

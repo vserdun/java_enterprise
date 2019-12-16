@@ -43,7 +43,6 @@ public class BankServiceImpl implements BankService {
         return true;
     }
 
-    @Transactional
     @Override
     public boolean transfer(int accountId1, int accountId2, double amount) {
         AccountEntity account1 = accountService.getAccount(accountId1);

@@ -3,31 +3,27 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
-   <title>Accounts page</title>
+   <title>Withdraw</title>
 </head>
 <body>
-<form:form modelAttribute="accountAttribute" action="withdrawAccount" method="post">
+<form:form modelAttribute="withdraw" action="withdrawAccount" method="post">
    <table>
        <tr>
             <td>
-                  <form:hidden path="accountId"/>
+                <form:hidden path="accountId"/>
             </td>
        </tr>
        <tr>
            <td>
-               <form:label path="accountBalance">Account Balance</form:label>
+               <form:label path="amount">Amount</form:label>
            </td>
            <td>
-               <form:input path="accountBalance"/>
+               <form:input path="amount"/>
            </td>
-       </tr>
-       <tr>
-            <td>
-                <form:hidden path="user"/>
-            </td>
        </tr>
    </table>
    <input type="submit" value="Save"/>
 </form:form>
+
 </body>
 </html>

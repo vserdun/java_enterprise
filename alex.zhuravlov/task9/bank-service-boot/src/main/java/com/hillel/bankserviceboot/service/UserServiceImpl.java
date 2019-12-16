@@ -5,7 +5,6 @@ import com.hillel.bankserviceboot.dao.UserRepository;
 import com.hillel.bankserviceboot.model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,13 +19,11 @@ public class UserServiceImpl implements UserService {
         userRepository.save(userEntity);
     }
 
-    @Transactional
     @Override
     public List<UserEntity> getUsers() {
         return userRepository.getUsersList();
     }
 
-    @Transactional
     @Override
     public UserEntity getUser(int id) {
         return userRepository.getUserEntityById(id);

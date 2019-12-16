@@ -28,7 +28,7 @@ public class AccountEntity {
     private UserEntity user;
 
     @Column(name = "account_statement")
-    private String accStatement= "";
+    private String accStatement = "";
 
 
     public void addAccStatement(String string) {
