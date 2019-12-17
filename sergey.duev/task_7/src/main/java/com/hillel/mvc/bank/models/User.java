@@ -13,17 +13,15 @@ import java.time.LocalDate;
 public class User {
 
     private long id;
-    @NotBlank
+    @NotBlank(message = "Name must be not blank")
     private String name;
-    @NotBlank
+    @NotBlank(message = "Last name must be not blank")
     private String lastName;
-    @Min(18)
+    @Min(message = "Age must be more then 18", value = 18)
     private int age;
-    @NotNull
-    private LocalDate birthday;
-    @NotNull
+    @NotNull(message = "Gender must be not blank")
     private Gender gender;
-    @Email
+    @Email(message = "Email must be valid")
     private String email;
     private boolean isApprove;
 

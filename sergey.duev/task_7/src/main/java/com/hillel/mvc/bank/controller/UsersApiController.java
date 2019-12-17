@@ -31,7 +31,7 @@ public class UsersApiController {
     }
 
     @GetMapping(PATH_USERS + "/{" + VAR_USER_ID +"}")
-    public ResponseEntity<User> getUser(@PathVariable long id) {
+    public ResponseEntity<User> getUser(@PathVariable(VAR_USER_ID) long id) {
         try {
             return new ResponseEntity<>(bankService.getUser(id), HttpStatus.OK);
         } catch (UserNotFoundException e) {
@@ -51,17 +51,17 @@ public class UsersApiController {
     }
 
     @PutMapping(PATH_USERS + "/{" + VAR_USER_ID +"}")
-    public ResponseEntity<User> updateUser(@PathVariable long userId, @RequestBody User user) {
+    public ResponseEntity updateUser(@PathVariable(VAR_USER_ID) long userId, @RequestBody User user) {
         try {
             bankService.updateUser(userId, user);
             return new ResponseEntity<>(bankService.getUser(user.getId()), HttpStatus.OK);
         } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
     @DeleteMapping(PATH_USERS + "/{" + VAR_USER_ID +"}")
-    public ResponseEntity<List<User>> deleteUser(@PathVariable long id) {
+    public ResponseEntity<List<User>> deleteUser(@PathVariable(VAR_USER_ID) long id) {
         try {
             return new ResponseEntity<>(bankService.deleteUser(id), HttpStatus.OK);
         } catch (UserNotFoundException e) {
@@ -70,7 +70,7 @@ public class UsersApiController {
     }
 
     @GetMapping(PATH_USERS + "/{" + VAR_USER_ID +"}" + PATH_BANK_ACCOUNTS)
-    public ResponseEntity<List<BankAccount>> getUserBankAccounts(@PathVariable long userId) {
+    public ResponseEntity<List<BankAccount>> getUserBankAccounts(@PathVariable(VAR_USER_ID) long userId) {
         try {
             return new ResponseEntity<>(bankService.getUserBankAccounts(userId), HttpStatus.OK);
         } catch (UserNotFoundException unfe) {
@@ -79,7 +79,7 @@ public class UsersApiController {
     }
 
     @GetMapping(PATH_USERS + "/{" + VAR_USER_ID +"}" + PATH_BANK_ACCOUNTS + "/{" + VAR_BANK_ACCOUNT_ID +"}")
-    public ResponseEntity<BankAccount> getUserBankAccount(@PathVariable(value = VAR_USER_ID) long userId, @PathVariable(value = VAR_BANK_ACCOUNT_ID) long bankAccountId) {
+    public ResponseEntity<BankAccount> getUserBankAccount(@PathVariable(VAR_USER_ID) long userId, @PathVariable(VAR_BANK_ACCOUNT_ID) long bankAccountId) {
         try {
             return new ResponseEntity<>(bankService.getUserBankAccount(userId, bankAccountId), HttpStatus.OK);
         } catch (UserNotFoundException unfe) {
@@ -90,7 +90,7 @@ public class UsersApiController {
     }
 
     @PostMapping(PATH_USERS + "/{" + VAR_USER_ID +"}" + PATH_BANK_ACCOUNTS)
-    public ResponseEntity<List<BankAccount>> addUserBankAccount(@PathVariable long userId, BankAccount bankAccount) {
+    public ResponseEntity<List<BankAccount>> addUserBankAccount(@PathVariable(VAR_USER_ID) long userId, BankAccount bankAccount) {
         try {
             return new ResponseEntity<>(bankService.addUserBankAccount(userId, bankAccount), HttpStatus.OK);
         } catch (UserNotFoundException unfe) {
@@ -99,7 +99,7 @@ public class UsersApiController {
     }
 
     @PutMapping(PATH_USERS + "/{" + VAR_USER_ID +"}" + PATH_BANK_ACCOUNTS + "/{" + VAR_BANK_ACCOUNT_ID +"}")
-    public ResponseEntity<List<BankAccount>> updateUserBankAccount(@PathVariable(value = VAR_USER_ID) long userId, @PathVariable(value = VAR_BANK_ACCOUNT_ID) long bankAccountId, BankAccount bankAccount) {
+    public ResponseEntity<List<BankAccount>> updateUserBankAccount(@PathVariable(VAR_USER_ID) long userId, @PathVariable(VAR_BANK_ACCOUNT_ID) long bankAccountId, BankAccount bankAccount) {
         try {
             return new ResponseEntity<>(bankService.updateUserBankAccount(userId, bankAccountId, bankAccount), HttpStatus.OK);
         } catch (UserNotFoundException e) {
@@ -110,7 +110,7 @@ public class UsersApiController {
     }
 
     @DeleteMapping(PATH_USERS + "/{" + VAR_USER_ID +"}" + PATH_BANK_ACCOUNTS + "/{" + VAR_BANK_ACCOUNT_ID +"}")
-    public ResponseEntity<List<BankAccount>> deleteUserBankAccount(@PathVariable(value = VAR_USER_ID) long userId, @PathVariable(value = VAR_BANK_ACCOUNT_ID) long bankAccountId) {
+    public ResponseEntity<List<BankAccount>> deleteUserBankAccount(@PathVariable(VAR_USER_ID) long userId, @PathVariable(VAR_BANK_ACCOUNT_ID) long bankAccountId) {
         try {
             return new ResponseEntity<>(bankService.deleteUserBankAccount(userId, bankAccountId), HttpStatus.OK);
         } catch (UserNotFoundException e) {

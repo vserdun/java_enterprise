@@ -16,6 +16,38 @@
                <form:input path="name"/>
            </td>
        </tr>
+       <tr>
+          <td>
+              <form:label path="lastName">User last name</form:label>
+          </td>
+          <td>
+              <form:input path="lastName"/>
+          </td>
+      </tr>
+      <tr>
+        <td>
+            <form:label path="age">User age</form:label>
+        </td>
+        <td>
+            <form:input path="age"/>
+        </td>
+      </tr>
+        <tr>
+          <td>
+              <form:label path="gender">User gender</form:label>
+          </td>
+          <td>
+              <form:input path="gender"/>
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <form:label path="email">User email</form:label>
+          </td>
+          <td>
+              <form:input path="email"/>
+          </td>
+        </tr>
    </table>
    <input type="submit" value="Save"/>
 </form:form>

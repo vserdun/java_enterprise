@@ -6,6 +6,7 @@ import com.hillel.mvc.bank.models.exceptions.UserValidationException;
 import com.hillel.mvc.bank.services.BankService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -44,12 +45,9 @@ public class UsersJspController {
             modelAndView.setViewName("redirect:/bank/users");
             return modelAndView;
         } catch (UserNotFoundException e) {
-            modelAndView.setViewName("404");
-            return modelAndView;
+            return getErrorPage(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (UserValidationException e) {
-            modelAndView.setViewName("violentions");
-            modelAndView.addObject("violentions", e.getViolations());
-            return modelAndView;
+            return getErrorPage(HttpStatus.BAD_REQUEST, e.getViolations().toString());
         }
     }
 
@@ -63,30 +61,39 @@ public class UsersJspController {
             model.addAttribute("userAttribute", new User());
             return modelAndView;
         } catch (UserNotFoundException e) {
-            ModelAndView modelAndView = new ModelAndView();
-            modelAndView.setViewName("404");
-            return modelAndView;
+            return getErrorPage(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/editUser/{id}")
-    public String getEditUserForm(@PathVariable("id") long id, @ModelAttribute("userAttribute") User user) {
+    public ModelAndView getEditUserForm(@PathVariable("id") long id, @ModelAttribute("userAttribute") User user) {
         try {
-            log.info("id =-> {}", id);
+            ModelAndView modelAndView = new ModelAndView();
             bankService.updateUser(id ,user);
-            return "redirect:/bank/users";
+            modelAndView.setViewName("redirect:/bank/users");
+            return modelAndView;
         } catch (UserNotFoundException e) {
-            return "404";
+            return getErrorPage(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/delete")
-    public String deleteUser(@RequestParam("id") int id) {
+    public ModelAndView deleteUser(@RequestParam("id") int id) {
         try {
+            ModelAndView modelAndView = new ModelAndView();
             bankService.deleteUser(id);
-            return "redirect:/bank/users";
+            modelAndView.setViewName("redirect:/bank/users");
+            return modelAndView;
         } catch (UserNotFoundException e) {
-            return "404";
+            return getErrorPage(HttpStatus.NOT_FOUND, e.getMessage());
         }
+    }
+
+    private ModelAndView getErrorPage(HttpStatus status, String message) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("error");
+        modelAndView.addObject("status", status.value());
+        modelAndView.addObject("message", message);
+        return modelAndView;
     }
 }

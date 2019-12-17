@@ -121,7 +121,7 @@ public class BankService {
         if (!violations.isEmpty()) {
             List<String> violationMsg = new ArrayList<>();
             violations.forEach(v -> {
-                violationMsg.add(v.getPropertyPath() + v.getMessage());
+                violationMsg.add(v.getMessage());
             });
             throw new UserValidationException(violationMsg);
         }
