@@ -24,22 +24,22 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<UserEntity> getUsersList() {
-        return sessionFactory.getCurrentSession().createQuery("from UserEntity", UserEntity.class).list();
+        return getSession().createQuery("from UserEntity", UserEntity.class).list();
     }
 
     @Override
     public UserEntity getUserEntityById(int id) {
-        return sessionFactory.getCurrentSession().get(UserEntity.class, id);
+        return getSession().get(UserEntity.class, id);
     }
 
     @Override
     public void save(UserEntity userEntity) {
-        sessionFactory.getCurrentSession().saveOrUpdate(userEntity);
+        getSession().saveOrUpdate(userEntity);
     }
 
     @Override
     public void delete(int id) {
         UserEntity userEntity = getUserEntityById(id);
-        sessionFactory.getCurrentSession().delete(userEntity);
+        getSession().delete(userEntity);
     }
 }

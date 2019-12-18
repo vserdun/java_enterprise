@@ -23,22 +23,22 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public List<AccountEntity> getAccountsList() {
-        return sessionFactory.getCurrentSession().createQuery("from AccountEntity", AccountEntity.class).list();
+        return getSession().createQuery("from AccountEntity", AccountEntity.class).list();
     }
 
     @Override
     public AccountEntity getAccountEntityById(int id) {
-        return sessionFactory.getCurrentSession().get(AccountEntity.class, id);
+        return getSession().get(AccountEntity.class, id);
     }
 
     @Override
     public void save(AccountEntity accountEntity) {
-        sessionFactory.getCurrentSession().saveOrUpdate(accountEntity);
+        getSession().saveOrUpdate(accountEntity);
     }
 
     @Override
     public void delete(int id) {
         AccountEntity accountEntity = getAccountEntityById(id);
-        sessionFactory.getCurrentSession().delete(accountEntity);
+        getSession().delete(accountEntity);
     }
 }
