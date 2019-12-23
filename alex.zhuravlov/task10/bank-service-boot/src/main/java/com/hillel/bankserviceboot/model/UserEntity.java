@@ -29,4 +29,8 @@ public class UserEntity {
     @NonNull
     @Column(name = "last_name")
     private String userLastName;
+
+    @NonNull
+    @Embedded
+    private AddressEntity address;
 }

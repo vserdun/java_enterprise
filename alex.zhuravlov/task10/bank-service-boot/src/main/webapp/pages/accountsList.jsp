@@ -61,7 +61,10 @@
           </c:choose>
          </span>
          <span class="td">
-         <input type="button" onclick="location.href='deleteAccount?accountId=${account.accountId}';" value="Delete account"/>
+            <input type="button" onclick="location.href='deleteAccount?accountId=${account.accountId}';" value="Delete account"/>
+         </span>
+         <span class="td">
+            <input type="button" onclick="location.href='addCard?accountId=${account.accountId}';" value="Add card"/>
          </span>
      </form:form>
  </c:forEach>

@@ -1,11 +1,14 @@
 package com.hillel.bankserviceboot.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 @Table(name = "accounts")
@@ -30,6 +33,12 @@ public class AccountEntity {
     @Column(name = "account_statement")
     private String accStatement = "";
 
+    @ManyToMany
+    @JoinTable(joinColumns = {@JoinColumn(name = "account_id")},
+            inverseJoinColumns = {@JoinColumn(name = "card_id")})
+
+    @EqualsAndHashCode.Exclude
+    private Set<BankCard> cards;
 
     public void addAccStatement(String string) {
         accStatement.concat("\n" + string);

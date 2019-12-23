@@ -3,6 +3,7 @@ package com.hillel.bankserviceboot.controller;
 
 import com.hillel.bankserviceboot.model.AccountEntity;
 import com.hillel.bankserviceboot.model.BalanceOperation;
+import com.hillel.bankserviceboot.model.BankCard;
 import com.hillel.bankserviceboot.service.AccountService;
 import com.hillel.bankserviceboot.service.BankService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +71,13 @@ public class AccountController {
     @RequestMapping(method = RequestMethod.GET, value = "/deleteAccount")
     public String deleteAccount(@RequestParam("accountId") int accountId) {
         accountService.deleteAccount(accountId);
+        return "redirect:/accounts/list";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/addCard")
+    public String addAccountForm(Model model, @RequestParam("accountId") int accountId) {
+        BankCard bankCard = new BankCard();
+        ////////////////////////////////////
         return "redirect:/accounts/list";
     }
 
