@@ -6,6 +6,7 @@ import com.hillel.bankserviceboot.model.BalanceOperation;
 import com.hillel.bankserviceboot.model.BankCard;
 import com.hillel.bankserviceboot.service.AccountService;
 import com.hillel.bankserviceboot.service.BankService;
+import com.hillel.bankserviceboot.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -17,17 +18,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/accounts")
 public class AccountController {
 
     @Autowired
-    AccountService accountService;
+    private AccountService accountService;
 
     @Autowired
     @Qualifier("bankServiceImpl")
     private BankService bankService;
+
+    @Autowired
+    private CardService cardService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/list")
     public ModelAndView getAccountsList() {
@@ -74,10 +79,18 @@ public class AccountController {
         return "redirect:/accounts/list";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/addCard")
-    public String addAccountForm(Model model, @RequestParam("accountId") int accountId) {
+    @RequestMapping(method = RequestMethod.GET, value = "/addCardForm")
+    public String addCardForm(Model model) {
         BankCard bankCard = new BankCard();
-        ////////////////////////////////////
+        Map<String, String> accountsMap = accountService.getAccontsMap();
+        model.addAttribute("accountsMap", accountsMap);
+        model.addAttribute("bankCard", bankCard);
+        return "cardAdd";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/addCard")
+    public String addCard(@ModelAttribute("bankCard") BankCard bankCard) {
+        cardService.save(bankCard);
         return "redirect:/accounts/list";
     }
 

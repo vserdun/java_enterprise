@@ -41,4 +41,5 @@ public class AccountRepositoryImpl implements AccountRepository {
         AccountEntity accountEntity = getAccountEntityById(id);
         getSession().delete(accountEntity);
     }
+
 }

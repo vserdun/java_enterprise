@@ -6,7 +6,9 @@ import com.hillel.bankserviceboot.model.AccountEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -38,4 +40,17 @@ public class AccountServiceImpl implements AccountService {
     public void deleteAccount(int id) {
         accountRepository.delete(id);
     }
+
+    @Override
+    public Map<String, String> getAccontsMap() {
+        List<AccountEntity> accounts = getAccounts();
+        Map<String, String> accountMap = new HashMap<>();
+        for (AccountEntity account : accounts) {
+            String id = String.valueOf(account.getAccountId());
+            accountMap.put(id, id);
+        }
+        return accountMap;
+    }
+
+
 }
