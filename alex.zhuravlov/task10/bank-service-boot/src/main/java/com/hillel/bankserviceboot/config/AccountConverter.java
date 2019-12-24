@@ -16,9 +16,9 @@ public class AccountConverter implements Converter<String, AccountEntity> {
 
     @Override
     public AccountEntity convert(String source) {
-        String accountId = source;
-        AccountEntity accountEntity = accountService.getAccount(Integer.parseInt(accountId));
-        log.info("Successfully converted accountId to account id = {}", accountId);
+        int accountId = Integer.parseInt(source);
+        AccountEntity accountEntity = accountService.getAccount(accountId);
+        log.info("Successfully converted accountId to account id = {}", accountEntity.getAccountId());
         return accountEntity;
     }
 }

@@ -81,10 +81,11 @@ public class AccountController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/addCardForm")
     public String addCardForm(Model model) {
-        BankCard bankCard = new BankCard();
-        Map<String, String> accountsMap = accountService.getAccontsMap();
+
+        Map<String, String> accountsMap = accountService.getAccountsMap();
+
         model.addAttribute("accountsMap", accountsMap);
-        model.addAttribute("bankCard", bankCard);
+        model.addAttribute("bankCard", new BankCard());
         return "cardAdd";
     }
 

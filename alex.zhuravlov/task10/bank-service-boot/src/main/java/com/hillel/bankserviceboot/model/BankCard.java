@@ -1,9 +1,6 @@
 package com.hillel.bankserviceboot.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -12,6 +9,7 @@ import java.util.Set;
 @Entity
 @Table(name = "cards")
 @NoArgsConstructor
+@AllArgsConstructor
 public class BankCard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +19,7 @@ public class BankCard {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
+
     @ManyToMany
     @JoinTable(joinColumns = {@JoinColumn(name = "card_id")},
             inverseJoinColumns = {@JoinColumn(name = "account_id")})

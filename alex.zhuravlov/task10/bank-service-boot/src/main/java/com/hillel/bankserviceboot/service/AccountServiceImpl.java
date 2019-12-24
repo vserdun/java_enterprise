@@ -42,12 +42,15 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Map<String, String> getAccontsMap() {
+    public Map<String, String> getAccountsMap() {
         List<AccountEntity> accounts = getAccounts();
+
         Map<String, String> accountMap = new HashMap<>();
+
         for (AccountEntity account : accounts) {
             String id = String.valueOf(account.getAccountId());
-            accountMap.put(id, id);
+            String text = "Account id:"+id;
+            accountMap.put(id, text);
         }
         return accountMap;
     }

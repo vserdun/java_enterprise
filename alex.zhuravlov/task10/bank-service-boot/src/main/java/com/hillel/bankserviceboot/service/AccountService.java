@@ -16,5 +16,5 @@ public interface AccountService {
 
     void deleteAccount(int id);
 
-    Map<String, String> getAccontsMap();
+    Map<String, String> getAccountsMap();
 }
