@@ -60,5 +60,10 @@ public class ClientService {
 
         return null;
     }
+
+
+    public List<Account> getAccountsByClientId(int clientId) {
+        return clientRepository.getClientById(clientId).getAccounts();
+    }
 }
 

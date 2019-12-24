@@ -22,7 +22,7 @@ public class ApiAccountController {
     private ClientService clientService;
 
     @Autowired
-    @Qualifier("testAccountServiceImpl")
+    @Qualifier("accountServiceImpl")
     private AccountService accountService;
 
 
@@ -34,7 +34,7 @@ public class ApiAccountController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        List<Account> accounts = clientService.getClient(id).getAccounts();
+        List<Account> accounts = clientService.getAccountsByClientId(id);
 
         return new ResponseEntity<>(accounts, HttpStatus.OK);
     }
@@ -90,7 +90,7 @@ public class ApiAccountController {
             }
             message = "You don't have " + transferModel.getCurrency() + " account or enough money to provide transaction.";
 
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>("Client not found.", HttpStatus.NOT_FOUND);
@@ -102,11 +102,12 @@ public class ApiAccountController {
         Client client = clientService.getClient(id);
         long payment = accountModel.getPayment();
         String currency = accountModel.getCurrency();
-        Account account = clientService.findAccountByCurrency(id, currency);
 
         String message = "";
 
         if (client != null) {
+            Account account = clientService.findAccountByCurrency(id, currency);
+
             if (account != null) {
                 message = accountService.replenish(account, payment);
 
@@ -125,11 +126,12 @@ public class ApiAccountController {
         Client client = clientService.getClient(id);
         long payment = accountModel.getPayment();
         String currency = accountModel.getCurrency();
-        Account account = clientService.findAccountByCurrency(id, currency);
 
         String message = "";
 
         if (client != null) {
+            Account account = clientService.findAccountByCurrency(id, currency);
+
             if (account != null && account.getBalance() >= payment) {
                 message = accountService.withdraw(account, payment);
 

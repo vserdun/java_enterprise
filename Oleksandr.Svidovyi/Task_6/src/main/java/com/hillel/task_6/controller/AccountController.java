@@ -21,7 +21,7 @@ public class AccountController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/list")
     public ModelAndView getAccounts(@PathVariable int id) {
-        List<Account> accounts = clientService.getClient(id).getAccounts();
+        List<Account> accounts = clientService.getAccountsByClientId(id);
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("clientAccounts", accounts);
