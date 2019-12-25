@@ -7,6 +7,7 @@ import com.hillel.mvc.springboot.model.requests.AccountRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public boolean save(AccountRequest accountRequest) {
         Account account = accountMapper.getAccount(accountRequest);
-        if(account.getUser() == null){
+        if (account.getUser() == null) {
             return false;
         }
         return save(account);
@@ -59,7 +60,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public boolean update(int id, Account account) {
-        if((account.getUser() == null) || (!accountMap.containsKey(id))){
+        if ((account.getUser() == null) || (!accountMap.containsKey(id))) {
             return false;
         }
         accountMap.put(id, account);
@@ -70,7 +71,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public boolean delete(int id) {
         Account oldAccount = accountMap.get(id);
-        if(oldAccount == null){
+        if (oldAccount == null) {
             return false;
         }
         accountMap.remove(id);
