@@ -17,11 +17,11 @@ public class BankCard {
     private int cardId;
 
 
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-
     @ManyToMany
     @JoinTable(joinColumns = {@JoinColumn(name = "card_id")},
             inverseJoinColumns = {@JoinColumn(name = "account_id")})
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<AccountEntity> accounts;
 }

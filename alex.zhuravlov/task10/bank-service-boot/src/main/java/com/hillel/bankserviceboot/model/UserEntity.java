@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -33,4 +34,7 @@ public class UserEntity {
     @NonNull
     @Embedded
     private AddressEntity address;
+
+    @OneToMany(mappedBy = "user")
+    private List<AccountEntity> accountEntityList;
 }

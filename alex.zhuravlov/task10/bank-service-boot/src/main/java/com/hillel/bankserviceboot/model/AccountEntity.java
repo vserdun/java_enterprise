@@ -3,6 +3,7 @@ package com.hillel.bankserviceboot.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -25,8 +26,10 @@ public class AccountEntity {
     @Column(name = "account_balance")
     private double accountBalance;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private UserEntity user;
 
     @Column(name = "account_statement")
@@ -34,7 +37,9 @@ public class AccountEntity {
 
 
     @ManyToMany(mappedBy = "accounts")
+
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Set<BankCard> cards;
 
     public void addAccStatement(String string) {

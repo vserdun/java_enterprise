@@ -18,7 +18,7 @@ public class AccountConverter implements Converter<String, AccountEntity> {
     public AccountEntity convert(String source) {
         int accountId = Integer.parseInt(source);
         AccountEntity accountEntity = accountService.getAccount(accountId);
-        log.info("Successfully converted accountId to account id = {}", accountEntity.getAccountId());
+        log.info("Successfully _______ converted accountId to account id = {}", accountEntity.getAccountId());
         return accountEntity;
     }
 }

@@ -25,6 +25,6 @@ public class TestDataConfig implements InitializingBean {
                 new UserEntity("Oleg", "Ivanov",
                         new AddressEntity("Kanatnaya 23", "Odessa", "65000", "state2")));
 
-        //usersList.forEach(userEntity -> userRepository.save(userEntity));
+        usersList.forEach(userEntity -> userRepository.save(userEntity));
     }
 }

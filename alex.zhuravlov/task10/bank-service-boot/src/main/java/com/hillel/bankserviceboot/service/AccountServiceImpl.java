@@ -49,7 +49,7 @@ public class AccountServiceImpl implements AccountService {
 
         for (AccountEntity account : accounts) {
             String id = String.valueOf(account.getAccountId());
-            String text = "Account id:"+id;
+            String text = "Account id:" + id;
             accountMap.put(id, text);
         }
         return accountMap;
