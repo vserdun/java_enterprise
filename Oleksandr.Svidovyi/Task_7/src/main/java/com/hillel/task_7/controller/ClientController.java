@@ -5,6 +5,7 @@ import com.hillel.task_7.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,7 +42,7 @@ public class ClientController {
 
 
     @RequestMapping(method = RequestMethod.POST, value = "/addClient")
-    public String saveClient(@ModelAttribute("clientAttribute") Client client) {
+    public String saveClient(@ModelAttribute("clientAttribute") @Validated Client client) {
         clientService.saveClient(client);
 
         return "redirect:list";

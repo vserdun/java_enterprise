@@ -47,15 +47,21 @@ public class ClientService {
 
 
     public void removeAccount(int id, Account account) {
-        clientRepository.getClientById(id).getAccounts().remove(account);
+        Client client = clientRepository.getClientById(id);
+
+        if (client != null) client.getAccounts().remove(account);
     }
 
 
     public Account findAccountByCurrency(int clientId, String currency) {
-        List<Account> accounts = clientRepository.getClientById(clientId).getAccounts();
+        Client client = clientRepository.getClientById(clientId);
 
-        for (Account acc : accounts) {
-            if (acc.getCurrency().equals(currency)) return acc;
+        if (client != null) {
+            List<Account> accounts = clientRepository.getClientById(clientId).getAccounts();
+
+            for (Account acc : accounts) {
+                if (acc.getCurrency().equals(currency)) return acc;
+            }
         }
 
         return null;

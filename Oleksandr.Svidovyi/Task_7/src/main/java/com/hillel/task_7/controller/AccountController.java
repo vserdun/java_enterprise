@@ -5,6 +5,7 @@ import com.hillel.task_7.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,14 +40,14 @@ public class AccountController {
 
 
     @RequestMapping(method = RequestMethod.POST, value = "/addAccount")
-    public String saveAccount(@ModelAttribute("clientAccountAttribute") Account account, @PathVariable int id) {
+    public String saveAccount(@ModelAttribute("clientAccountAttribute") @Validated Account account, @PathVariable int id) {
         clientService.saveAccount(id, account);
 
         return "redirect:list";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/deleteAccount")
-    public String deleteClient(@PathVariable int id, @ModelAttribute("accountAttribute") Account account) {
+    public String deleteClient(@PathVariable int id, @ModelAttribute("accountAttribute") @Validated Account account) {
         clientService.removeAccount(id, account);
 
         return "redirect:list";

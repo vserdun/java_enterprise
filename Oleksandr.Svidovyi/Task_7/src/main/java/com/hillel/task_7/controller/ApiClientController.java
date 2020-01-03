@@ -5,6 +5,7 @@ import com.hillel.task_7.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class ApiClientController {
 
 
     @PostMapping
-    public ResponseEntity<Client> addClient(@RequestBody Client client) {
+    public ResponseEntity<Client> addClient(@RequestBody @Validated Client client) {
 
         if (client != null && client.getFirstName() != null
                 && client.getSecondName() != null) {
@@ -49,7 +50,7 @@ public class ApiClientController {
 
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<Client> updateClient(@RequestBody Client clientUpdateDetails, @PathVariable int id) {
+    public ResponseEntity<Client> updateClient(@RequestBody @Validated Client clientUpdateDetails, @PathVariable int id) {
         Client client = clientService.getClient(id);
 
         if (client != null) {
