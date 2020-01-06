@@ -56,6 +56,8 @@ public class BankServiceImpl implements BankService {
             account2.setAccountBalance(account2.getAccountBalance() + amount);
             operation = LocalDate.now() + " transfer from account id " + account1.getAccountId() + " to account id " + account2.getAccountId() + " amount " + amount;
         }
+        accountService.updateAccount(account1);
+        accountService.updateAccount(account2);
         account1.addAccStatement(operation);
         account2.addAccStatement(operation);
         log.info(operation);

@@ -65,5 +65,4 @@ public class LoggingAndStatAspect {
         log.info("Deleted accounts:{}", deletedAccounts);
     }
 
-
 }

@@ -1,9 +1,6 @@
 package com.hillel.bankserviceboot.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -14,6 +11,7 @@ import java.util.Set;
 @Table(name = "accounts")
 @Data
 @NoArgsConstructor
+@RequiredArgsConstructor
 public class AccountEntity {
 
     @Id
@@ -24,12 +22,14 @@ public class AccountEntity {
     @NotNull
     @Min(value = 0)
     @Column(name = "account_balance")
+    @NonNull
     private double accountBalance;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @NonNull
     private UserEntity user;
 
     @Column(name = "account_statement")

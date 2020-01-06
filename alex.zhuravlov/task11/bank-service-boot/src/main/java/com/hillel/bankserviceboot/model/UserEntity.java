@@ -1,9 +1,6 @@
 package com.hillel.bankserviceboot.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -31,10 +28,11 @@ public class UserEntity {
     @Column(name = "last_name")
     private String userLastName;
 
-    @NonNull
     @Embedded
     private AddressEntity address;
 
     @OneToMany(mappedBy = "user")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<AccountEntity> accountEntityList;
 }
