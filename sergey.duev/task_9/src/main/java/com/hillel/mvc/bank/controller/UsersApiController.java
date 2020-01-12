@@ -1,7 +1,7 @@
 package com.hillel.mvc.bank.controller;
 
-import com.hillel.mvc.bank.models.BankAccount;
-import com.hillel.mvc.bank.models.UserEntity;
+import com.hillel.mvc.bank.models.entities.BankAccountEntity;
+import com.hillel.mvc.bank.models.entities.UserEntity;
 import com.hillel.mvc.bank.models.exceptions.BankAccountNotFoundException;
 import com.hillel.mvc.bank.models.exceptions.UserNotFoundException;
 import com.hillel.mvc.bank.models.exceptions.UserValidationException;
@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/bank")
@@ -26,8 +27,8 @@ public class UsersApiController {
     private BankService bankService;
 
     @GetMapping(PATH_USERS)
-    public ResponseEntity<List<UserEntity>> getAllUsers() {
-        return new ResponseEntity<>(bankService.getAllUsers(), HttpStatus.OK);
+    public ResponseEntity getAllUsers() {
+        return new ResponseEntity(bankService.getAllUsers(), HttpStatus.OK);
     }
 
     @GetMapping(PATH_USERS + "/{" + VAR_USER_ID +"}")
@@ -39,7 +40,7 @@ public class UsersApiController {
         }
     }
 
-    @PostMapping(PATH_USERS)
+    @PutMapping(PATH_USERS)
     public ResponseEntity addUser(@RequestBody UserEntity user) {
         try {
             return new ResponseEntity(bankService.addUser(user), HttpStatus.OK);
@@ -50,7 +51,7 @@ public class UsersApiController {
         }
     }
 
-    @PutMapping(PATH_USERS + "/{" + VAR_USER_ID +"}")
+    @PostMapping(PATH_USERS + "/{" + VAR_USER_ID +"}")
     public ResponseEntity updateUser(@PathVariable(VAR_USER_ID) long userId, @RequestBody UserEntity user) {
         try {
             bankService.updateUser(userId, user);
@@ -70,7 +71,7 @@ public class UsersApiController {
     }
 
     @GetMapping(PATH_USERS + "/{" + VAR_USER_ID +"}" + PATH_BANK_ACCOUNTS)
-    public ResponseEntity<List<BankAccount>> getUserBankAccounts(@PathVariable(VAR_USER_ID) long userId) {
+    public ResponseEntity<Set<BankAccountEntity>> getUserBankAccounts(@PathVariable(VAR_USER_ID) long userId) {
         try {
             return new ResponseEntity<>(bankService.getUserBankAccounts(userId), HttpStatus.OK);
         } catch (UserNotFoundException unfe) {
@@ -79,7 +80,7 @@ public class UsersApiController {
     }
 
     @GetMapping(PATH_USERS + "/{" + VAR_USER_ID +"}" + PATH_BANK_ACCOUNTS + "/{" + VAR_BANK_ACCOUNT_ID +"}")
-    public ResponseEntity<BankAccount> getUserBankAccount(@PathVariable(VAR_USER_ID) long userId, @PathVariable(VAR_BANK_ACCOUNT_ID) long bankAccountId) {
+    public ResponseEntity<BankAccountEntity> getUserBankAccount(@PathVariable(VAR_USER_ID) long userId, @PathVariable(VAR_BANK_ACCOUNT_ID) long bankAccountId) {
         try {
             return new ResponseEntity<>(bankService.getUserBankAccount(userId, bankAccountId), HttpStatus.OK);
         } catch (UserNotFoundException unfe) {
@@ -89,8 +90,8 @@ public class UsersApiController {
         }
     }
 
-    @PostMapping(PATH_USERS + "/{" + VAR_USER_ID +"}" + PATH_BANK_ACCOUNTS)
-    public ResponseEntity<List<BankAccount>> addUserBankAccount(@PathVariable(VAR_USER_ID) long userId, BankAccount bankAccount) {
+    @PutMapping(PATH_USERS + "/{" + VAR_USER_ID +"}" + PATH_BANK_ACCOUNTS)
+    public ResponseEntity<Set<BankAccountEntity>> addUserBankAccount(@PathVariable(VAR_USER_ID) long userId, @RequestBody BankAccountEntity bankAccount) {
         try {
             return new ResponseEntity<>(bankService.addUserBankAccount(userId, bankAccount), HttpStatus.OK);
         } catch (UserNotFoundException unfe) {
@@ -98,8 +99,8 @@ public class UsersApiController {
         }
     }
 
-    @PutMapping(PATH_USERS + "/{" + VAR_USER_ID +"}" + PATH_BANK_ACCOUNTS + "/{" + VAR_BANK_ACCOUNT_ID +"}")
-    public ResponseEntity<List<BankAccount>> updateUserBankAccount(@PathVariable(VAR_USER_ID) long userId, @PathVariable(VAR_BANK_ACCOUNT_ID) long bankAccountId, BankAccount bankAccount) {
+    @PostMapping(PATH_USERS + "/{" + VAR_USER_ID +"}" + PATH_BANK_ACCOUNTS + "/{" + VAR_BANK_ACCOUNT_ID +"}")
+    public ResponseEntity<BankAccountEntity> updateUserBankAccount(@PathVariable(VAR_USER_ID) long userId, @PathVariable(VAR_BANK_ACCOUNT_ID) long bankAccountId, @RequestBody BankAccountEntity bankAccount) {
         try {
             return new ResponseEntity<>(bankService.updateUserBankAccount(userId, bankAccountId, bankAccount), HttpStatus.OK);
         } catch (UserNotFoundException e) {
@@ -110,7 +111,7 @@ public class UsersApiController {
     }
 
     @DeleteMapping(PATH_USERS + "/{" + VAR_USER_ID +"}" + PATH_BANK_ACCOUNTS + "/{" + VAR_BANK_ACCOUNT_ID +"}")
-    public ResponseEntity<List<BankAccount>> deleteUserBankAccount(@PathVariable(VAR_USER_ID) long userId, @PathVariable(VAR_BANK_ACCOUNT_ID) long bankAccountId) {
+    public ResponseEntity<Set<BankAccountEntity>> deleteUserBankAccount(@PathVariable(VAR_USER_ID) long userId, @PathVariable(VAR_BANK_ACCOUNT_ID) long bankAccountId) {
         try {
             return new ResponseEntity<>(bankService.deleteUserBankAccount(userId, bankAccountId), HttpStatus.OK);
         } catch (UserNotFoundException e) {

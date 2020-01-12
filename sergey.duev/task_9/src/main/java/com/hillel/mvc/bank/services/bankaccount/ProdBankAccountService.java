@@ -1,6 +1,6 @@
 package com.hillel.mvc.bank.services.bankaccount;
 
-import com.hillel.mvc.bank.models.BankAccount;
+import com.hillel.mvc.bank.models.entities.BankAccountEntity;
 import com.hillel.mvc.bank.models.Statement;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,29 +16,29 @@ public class ProdBankAccountService implements BankAccountService {
     private List<Statement> statementList = new ArrayList<>();
 
     @Override
-    public Statement withdrawMoney(BankAccount bankAccount, double amount) {
+    public Statement withdrawMoney(BankAccountEntity bankAccount, double amount) {
         bankAccount.setBalance(bankAccount.getBalance() - amount);
         return addWithdrawMoneyStatement(bankAccount.getId(), amount);
     }
 
     @Override
-    public Statement transferMoney(BankAccount bankAccountFrom, BankAccount bankAccountTo, double amount) {
+    public Statement transferMoney(BankAccountEntity bankAccountFrom, BankAccountEntity bankAccountTo, double amount) {
         withdrawMoney(bankAccountFrom, amount);
         putMoney(bankAccountTo, amount);
         return addStatement(bankAccountFrom.getId(), bankAccountTo.getId(), amount);
     }
 
     @Override
-    public Statement putMoney(BankAccount bankAccount, double amount) {
+    public Statement putMoney(BankAccountEntity bankAccount, double amount) {
         bankAccount.setBalance(bankAccount.getBalance() + amount);
         return addPutMoneyStatement(bankAccount.getId(), amount);
     }
 
     @Override
-    public double getBalance(BankAccount bankAccount) {return bankAccount.getBalance();}
+    public double getBalance(BankAccountEntity bankAccount) {return bankAccount.getBalance();}
 
     @Override
-    public List<Statement> printStatement(BankAccount bankAccount) {
+    public List<Statement> printStatement(BankAccountEntity bankAccount) {
         List<Statement> statements = new ArrayList<>();
         statementList.forEach(statement -> {
             if (statement.getFromId() == bankAccount.getId() || statement.getToId() == bankAccount.getId()) {

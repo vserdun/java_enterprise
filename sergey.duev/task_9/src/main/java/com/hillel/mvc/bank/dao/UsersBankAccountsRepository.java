@@ -1,26 +1,18 @@
 package com.hillel.mvc.bank.dao;
 
-import com.hillel.mvc.bank.models.BankAccount;
+import com.hillel.mvc.bank.models.entities.BankAccountEntity;
 import com.hillel.mvc.bank.models.exceptions.BankAccountNotFoundException;
 import com.hillel.mvc.bank.models.exceptions.UserNotFoundException;
 
-import java.util.List;
-
 public interface UsersBankAccountsRepository {
 
-    void addUserBankAccount(long userId, BankAccount bankAccount);
+    void addUserBankAccount(BankAccountEntity bankAccount);
 
-    void updateUserBankAccount(long userId, long bankAccountId, BankAccount bankAccount) throws UserNotFoundException, BankAccountNotFoundException;
+    void updateUserBankAccount(BankAccountEntity bankAccount) throws UserNotFoundException, BankAccountNotFoundException;
 
     void deleteUserBankAccount(long userId, long bankAccountId) throws UserNotFoundException, BankAccountNotFoundException;
 
-    List<BankAccount> getUserBankAccounts(long userId) throws UserNotFoundException;
+    BankAccountEntity getUserBankAccount(long userId, long bankAccountId) throws UserNotFoundException, BankAccountNotFoundException;
 
-    BankAccount getUserBankAccount(long userId, long bankAccountId) throws UserNotFoundException, BankAccountNotFoundException;
-
-    BankAccount getBankAccount(long bankAccountId) throws BankAccountNotFoundException;
-
-
-
-
+    BankAccountEntity getBankAccount(long bankAccountId) throws BankAccountNotFoundException;
 }

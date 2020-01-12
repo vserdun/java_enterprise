@@ -20,7 +20,7 @@ public class HibernateConfig {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setPackagesToScan(
-                "com.hillel.mvc.bank.models");
+                "com.hillel.mvc.bank.models.entities");
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }

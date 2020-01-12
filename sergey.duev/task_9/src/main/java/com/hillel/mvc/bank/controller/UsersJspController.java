@@ -1,6 +1,6 @@
 package com.hillel.mvc.bank.controller;
 
-import com.hillel.mvc.bank.models.UserEntity;
+import com.hillel.mvc.bank.models.entities.UserEntity;
 import com.hillel.mvc.bank.models.exceptions.UserNotFoundException;
 import com.hillel.mvc.bank.models.exceptions.UserValidationException;
 import com.hillel.mvc.bank.services.BankService;

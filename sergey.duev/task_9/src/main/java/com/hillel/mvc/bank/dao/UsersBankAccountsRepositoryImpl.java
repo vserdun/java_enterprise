@@ -1,71 +1,66 @@
 package com.hillel.mvc.bank.dao;
 
-import com.hillel.mvc.bank.models.BankAccount;
+import com.hillel.mvc.bank.models.entities.BankAccountEntity;
 import com.hillel.mvc.bank.models.exceptions.BankAccountNotFoundException;
 import com.hillel.mvc.bank.models.exceptions.UserNotFoundException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import javax.persistence.NoResultException;
+import javax.transaction.Transactional;
 
 @Repository
+@Transactional
 public class UsersBankAccountsRepositoryImpl implements UsersBankAccountsRepository {
 
-    private Map<Long, Map<Long, BankAccount>> usersBankAccounts = new ConcurrentHashMap<>();
-    private long nextId = 1L;
+    @Autowired
+    private SessionFactory sessionFactory;
 
     @Override
-    public void addUserBankAccount(long userId, BankAccount bankAccount) {
-        usersBankAccounts.putIfAbsent(userId, new ConcurrentHashMap<>()).put(nextId, bankAccount);
-        nextId++;
+    public void addUserBankAccount(BankAccountEntity bankAccount) {
+        Session session = sessionFactory.getCurrentSession();
+        session.save(bankAccount);
     }
 
     @Override
-    public void updateUserBankAccount(long userId, long bankAccountId, BankAccount bankAccount) throws UserNotFoundException, BankAccountNotFoundException {
-        throwExceptionIfBankAccountNotExists(userId, bankAccountId);
-        usersBankAccounts.get(userId).put(bankAccountId, bankAccount);
+    public void updateUserBankAccount(BankAccountEntity bankAccount) throws UserNotFoundException, BankAccountNotFoundException {
+        Session session = sessionFactory.getCurrentSession();
+        BankAccountEntity bankAccountEntity = session.get(BankAccountEntity.class, bankAccount.getId());
+        bankAccount.setUserEntity(bankAccountEntity.getUserEntity());
+        session.merge(bankAccount);
     }
 
     @Override
     public void deleteUserBankAccount(long userId, long bankAccountId) throws UserNotFoundException, BankAccountNotFoundException {
-        throwExceptionIfBankAccountNotExists(userId, bankAccountId);
-        usersBankAccounts.get(userId).remove(bankAccountId);
+        Session session = sessionFactory.getCurrentSession();
+        session.createQuery("delete BankAccountEntity e where e.userEntity.id = :userId and e.id = :bankAccountId")
+            .setParameter("userId", userId)
+            .setParameter("bankAccountId", bankAccountId)
+            .executeUpdate();
     }
 
     @Override
-    public List<BankAccount> getUserBankAccounts(long userId) throws UserNotFoundException {
-        throwExceptionIfUserNotExists(userId);
-        return new ArrayList<>(usersBankAccounts.get(userId).values());
-    }
-
-    @Override
-    public BankAccount getUserBankAccount(long userId, long bankAccountId) throws UserNotFoundException, BankAccountNotFoundException{
-        throwExceptionIfBankAccountNotExists(userId, bankAccountId);
-        return usersBankAccounts.get(userId).get(bankAccountId);
-    }
-
-    @Override
-    public BankAccount getBankAccount(long bankAccountId) throws BankAccountNotFoundException {
-        for (Map<Long, BankAccount> bankAccountMap : usersBankAccounts.values()) {
-            if (bankAccountMap.keySet().contains(bankAccountId)) {
-                return bankAccountMap.get(bankAccountId);
-            }
+    public BankAccountEntity getUserBankAccount(long userId, long bankAccountId) throws UserNotFoundException, BankAccountNotFoundException{
+        Session session = sessionFactory.getCurrentSession();
+        try {
+            return session.createQuery("from BankAccountEntity b where b.userEntity.id = :userId and b.id = :bankAccountId", BankAccountEntity.class)
+                    .setParameter("userId", userId)
+                    .setParameter("bankAccountId", bankAccountId)
+                    .getSingleResult();
+        } catch (NoResultException nre) {
+            throw new BankAccountNotFoundException(bankAccountId);
         }
-        throw new BankAccountNotFoundException(bankAccountId);
     }
 
-    private void throwExceptionIfBankAccountNotExists(long userId, long bankAccountId) throws UserNotFoundException, BankAccountNotFoundException{
-       throwExceptionIfUserNotExists(userId);
-       if (!usersBankAccounts.get(userId).containsKey(bankAccountId)) {
-           throw new BankAccountNotFoundException(bankAccountId);
-       }
-    }
-
-    private void  throwExceptionIfUserNotExists(long userId) throws UserNotFoundException {
-        if (!usersBankAccounts.containsKey(userId)) {
-            throw new UserNotFoundException(userId);
+    @Override
+    public BankAccountEntity getBankAccount(long bankAccountId) throws BankAccountNotFoundException {
+        Session session = sessionFactory.getCurrentSession();
+        try {
+            return session.get(BankAccountEntity.class, bankAccountId);
+        } catch (NoResultException nre) {
+            throw new BankAccountNotFoundException(bankAccountId);
         }
     }
 }

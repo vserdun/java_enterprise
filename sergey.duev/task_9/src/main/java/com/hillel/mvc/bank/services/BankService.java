@@ -2,21 +2,24 @@ package com.hillel.mvc.bank.services;
 
 import com.hillel.mvc.bank.dao.UsersBankAccountsRepository;
 import com.hillel.mvc.bank.dao.UserRepository;
-import com.hillel.mvc.bank.models.BankAccount;
+import com.hillel.mvc.bank.models.entities.BankAccountEntity;
 import com.hillel.mvc.bank.models.Statement;
-import com.hillel.mvc.bank.models.UserEntity;
+import com.hillel.mvc.bank.models.entities.UserEntity;
 import com.hillel.mvc.bank.models.exceptions.BankAccountNotFoundException;
 import com.hillel.mvc.bank.models.exceptions.UserNotFoundException;
 import com.hillel.mvc.bank.models.exceptions.UserValidationException;
 import com.hillel.mvc.bank.services.bankaccount.BankAccountService;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -32,14 +35,19 @@ public class BankService {
     private BankAccountService bankAccountService;
     private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
+    @Transactional
     public List<UserEntity> getAllUsers() {
         return userRepository.getAllUsers();
     }
 
+    @Transactional
     public UserEntity getUser(long id) throws UserNotFoundException{
-        return userRepository.getUser(id);
+        UserEntity userEntity = userRepository.getUser(id);
+        Hibernate.initialize(userEntity.getBankAccountEntityList());
+        return userEntity;
     }
 
+    @Transactional
     public UserEntity addUser(UserEntity user) throws UserNotFoundException, UserValidationException{
         throwExceptionIfUserNotValid(user);
         return userRepository.getUser( userRepository.addUser(user));
@@ -51,44 +59,49 @@ public class BankService {
     }
 
     public UserEntity updateUser(long userId, UserEntity user) throws UserNotFoundException{
-        userRepository.updateUser(userId, user);
-        return userRepository.getUser(user.getId());
+        userRepository.updateUser(user);
+        return userRepository.getUser(userId);
     }
 
-    public List<BankAccount> getUserBankAccounts(long userId) throws UserNotFoundException {
-        return usersBankAccountsRepository.getUserBankAccounts(userId);
+    @Transactional
+    public Set<BankAccountEntity> getUserBankAccounts(long userId) throws UserNotFoundException {
+        UserEntity userEntity = userRepository.getUser(userId);
+        Hibernate.initialize(userEntity.getBankAccountEntityList());
+        return userEntity.getBankAccountEntityList();
     }
 
-    public BankAccount getUserBankAccount(long userId, long bankAccountId) throws UserNotFoundException, BankAccountNotFoundException {
+    public BankAccountEntity getUserBankAccount(long userId, long bankAccountId) throws UserNotFoundException, BankAccountNotFoundException {
         return usersBankAccountsRepository.getUserBankAccount(userId, bankAccountId);
     }
 
-    private BankAccount findBankAccount(long bankAccountId) throws BankAccountNotFoundException {
+    private BankAccountEntity findBankAccount(long bankAccountId) throws BankAccountNotFoundException {
         return usersBankAccountsRepository.getBankAccount(bankAccountId);
     }
 
-    public List<BankAccount> addUserBankAccount(long id, BankAccount bankAccount) throws UserNotFoundException {
-        if (userRepository.getUser(id) != null) {
-            usersBankAccountsRepository.addUserBankAccount(id, bankAccount);
-            return getUserBankAccounts(id);
-        }
-        return new ArrayList<>();
+    @Transactional
+    public Set<BankAccountEntity> addUserBankAccount(long id, BankAccountEntity bankAccount) throws UserNotFoundException {
+        UserEntity userEntity = userRepository.getUser(id);
+        userEntity.addBankAccount(bankAccount);
+        return userEntity.getBankAccountEntityList();
     }
 
-    public List<BankAccount> updateUserBankAccount(long userId, long bankAccountId, BankAccount bankAccount) throws UserNotFoundException, BankAccountNotFoundException {
-        if (userRepository.getUser(userId) != null) {
-            usersBankAccountsRepository.updateUserBankAccount(userId, bankAccountId, bankAccount);
-            return getUserBankAccounts(userId);
-        }
-        return new ArrayList<>();
+    @Transactional
+    public BankAccountEntity updateUserBankAccount(long userId, long bankAccountId, BankAccountEntity bankAccount) throws UserNotFoundException, BankAccountNotFoundException {
+        usersBankAccountsRepository.updateUserBankAccount(bankAccount);
+        return usersBankAccountsRepository.getUserBankAccount(userId, bankAccountId);
     }
 
-    public List<BankAccount> deleteUserBankAccount(long userId, long bankAccountId) throws UserNotFoundException, BankAccountNotFoundException{
-        if (userRepository.getUser(userId) != null) {
-            usersBankAccountsRepository.deleteUserBankAccount(userId, bankAccountId);
+    @Transactional
+    public Set<BankAccountEntity> deleteUserBankAccount(long userId, long bankAccountId) throws UserNotFoundException, BankAccountNotFoundException{
+        UserEntity userEntity = userRepository.getUser(userId);
+        if (userEntity != null) {
+            BankAccountEntity bankAccountEntity = usersBankAccountsRepository.getBankAccount(bankAccountId);
+            if (bankAccountEntity != null) {
+                userEntity.removeBankAccount(bankAccountEntity);
+            }
             return getUserBankAccounts(userId);
         }
-        return new ArrayList<>();
+        return new HashSet<>();
     }
 
     public Statement withdrawMoney(long bankAccountId, double amount) throws BankAccountNotFoundException {

@@ -1,7 +1,8 @@
 package com.hillel.mvc.bank.dao;
 
-import com.hillel.mvc.bank.models.UserEntity;
+import com.hillel.mvc.bank.models.entities.UserEntity;
 import com.hillel.mvc.bank.models.exceptions.UserNotFoundException;
+import org.hibernate.Hibernate;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -25,12 +26,12 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void updateUser(long id, UserEntity user) throws UserNotFoundException {
+    public void updateUser(UserEntity user) throws UserNotFoundException {
         try {
             Session session = sessionFactory.getCurrentSession();
             session.update(user);
         } catch (ObjectNotFoundException onfe) {
-            throw new UserNotFoundException(id, onfe);
+            throw new UserNotFoundException(user.getId(), onfe);
         }
     }
 
@@ -42,7 +43,6 @@ public class UserRepositoryImpl implements UserRepository {
         } catch (ObjectNotFoundException onfe) {
             throw new UserNotFoundException(id, onfe);
         }
-
     }
 
     @Override
@@ -59,6 +59,10 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public List<UserEntity> getAllUsers() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from UserEntity", UserEntity.class).list();
+        List<UserEntity> userEntities = session.createQuery("from UserEntity", UserEntity.class).list();
+        userEntities.forEach(userEntity -> {
+            Hibernate.initialize(userEntity.getBankAccountEntityList());
+        });
+        return userEntities;
     }
 }
