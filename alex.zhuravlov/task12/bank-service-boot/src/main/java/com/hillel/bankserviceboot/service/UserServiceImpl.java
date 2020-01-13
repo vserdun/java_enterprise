@@ -3,14 +3,13 @@ package com.hillel.bankserviceboot.service;
 
 import com.hillel.bankserviceboot.dao.RoleRepository;
 import com.hillel.bankserviceboot.dao.UserRepository;
+import com.hillel.bankserviceboot.model.RoleEntity;
 import com.hillel.bankserviceboot.model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -43,6 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(UserEntity userEntity) {
+        userEntity.setPassword(bCryptPasswordEncoder.encode(userEntity.getPassword()));
         userRepository.save(userEntity);
     }
 
@@ -54,5 +54,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity findByUsername(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public Map<String, String> getRolesMap() {
+        List<RoleEntity> roles = roleRepository.getRolesList();
+
+        Map<String, String> rolesMap = new HashMap<>();
+
+        for (RoleEntity role : roles) {
+            String name = role.getName();
+            String text = "Role name:" + name;
+            rolesMap.put(name, text);
+        }
+        return rolesMap;
     }
 }

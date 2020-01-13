@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 @Controller
@@ -53,13 +54,17 @@ public class UsersController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/edit")
     public String editUserForm(Model model, @RequestParam("userId") int userId) {
+        Map<String, String> rolesMap = userService.getRolesMap();
+
+        model.addAttribute("rolesMap", rolesMap);
+
         model.addAttribute("userAttribute", userService.getUser(userId));
         return "userEdit";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/editUser")
     public String updateUser(@ModelAttribute("userAttribute") @Validated UserEntity userEntity) {
-        userService.addUser(userEntity);
+        userService.updateUser(userEntity);
         return "redirect:/users/list";
     }
 

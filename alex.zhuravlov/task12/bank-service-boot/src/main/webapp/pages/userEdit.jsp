@@ -31,6 +31,28 @@
            <td>
                <form:input path="lastName"/>
            </td>
+          <td>
+               <form:label path="email">User email</form:label>
+           </td>
+           <td>
+               <form:input path="email"/>
+           </td>
+       </tr>
+       <tr>
+           <td>
+               User password
+           </td>
+           <td>
+               <form:input path="password"/>
+           </td>
+           <tr>
+           <td>
+               <form:label path="roles"/>ROLE:
+           </td>
+           <td>
+               <form:select path="roles" items="${rolesMap}"/>
+           </td>
+       </tr>
        </tr>
    </table>
    <input type="submit" value="Save"/>
