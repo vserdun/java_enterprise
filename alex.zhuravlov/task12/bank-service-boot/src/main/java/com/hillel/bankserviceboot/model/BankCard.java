@@ -20,8 +20,7 @@ public class BankCard {
     @ManyToMany
     @JoinTable(joinColumns = {@JoinColumn(name = "card_id")},
             inverseJoinColumns = {@JoinColumn(name = "account_id")})
-
-    @ToString.Exclude
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Set<AccountEntity> accounts;
 }

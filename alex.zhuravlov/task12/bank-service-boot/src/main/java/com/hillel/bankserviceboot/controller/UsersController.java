@@ -6,6 +6,7 @@ import com.hillel.bankserviceboot.model.UserEntity;
 import com.hillel.bankserviceboot.service.AccountService;
 import com.hillel.bankserviceboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 @Controller
 @RequestMapping("/users")
 public class UsersController {
@@ -61,7 +64,12 @@ public class UsersController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/deleteUser")
-    public String deleteUser(@RequestParam("userId") int userId) {
+    public String deleteUser(@RequestParam("userId") int userId, HttpServletRequest httpRequest) {
+        UserEntity byUsername = userService.findByUsername(httpRequest.getUserPrincipal().getName());
+        if (byUsername.getUserId() == userId) {
+            return "redirect:/users/list";
+        }
+
         userService.deleteUser(userId);
         List<AccountEntity> accounts = accountService.getAccounts();
         for (AccountEntity accountEntity : accounts
@@ -72,7 +80,6 @@ public class UsersController {
         }
         return "redirect:/users/list";
     }
-
 
     @RequestMapping(method = RequestMethod.GET, value = "/addAccount")
     public String addAccountForm(Model model, @RequestParam("userId") int userId) {

@@ -4,6 +4,8 @@
 <html>
 <head>
    <title>Users list</title>
+      <link rel="stylesheet"
+      		 href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 </head>
 <body>
 <style>
@@ -29,6 +31,7 @@
        font-weight: bold;
    }
 </style>
+<jsp:include page="navbar.jsp"/>
  <div class="table">
      <div class="tr">
          <span class="th">Id</span>
@@ -38,8 +41,8 @@
  <c:forEach items="${users}" var="user">
      <form:form class="tr" modelAttribute="userAttribute" action="" method="post">
          <span class="td"><c:out value="${user.userId}"/></span>
-         <span class="td"><c:out value="${user.userFirstName}"/></span>
-         <span class="td"><c:out value="${user.userLastName}"/></span>
+         <span class="td"><c:out value="${user.firstName}"/></span>
+         <span class="td"><c:out value="${user.lastName}"/></span>
          <span class="td">
             <input type="button" onclick="location.href='edit?userId=${user.userId}';" value="Edit user"/>
          </span>
@@ -53,6 +56,7 @@
  </c:forEach>
  </div>
  <input type="button" onclick="location.href='add';" value="Add new user"/>
- <p>Go to <a href="<c:url value="/accounts/list" />">Accounts list</a></p>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+     <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </body>
 </html>

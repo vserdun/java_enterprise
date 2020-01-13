@@ -31,9 +31,12 @@ dependencies {
     compile group: 'org.aspectj', name: 'aspectjweaver'
     compile group: 'org.hibernate', name: 'hibernate-gradle-plugin', version: '5.4.10.Final'
     testCompile group: 'com.h2database', name: 'h2', version: '1.4.200'
+    //compile group: 'com.h2database', name: 'h2', version: '1.4.200'
     compile group: 'org.springframework', name: 'spring-orm'
     compile group: 'org.apache.tomcat', name: 'tomcat-dbcp', version: '8.5.49'
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.18'
+    compile("org.springframework.boot:spring-boot-starter-security")
+    compile group: 'org.springframework.security', name: 'spring-security-taglibs'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }

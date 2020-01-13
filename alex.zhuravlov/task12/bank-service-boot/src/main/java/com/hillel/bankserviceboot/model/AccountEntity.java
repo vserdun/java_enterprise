@@ -12,23 +12,26 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(onlyExplicitlyIncluded = true)
 public class AccountEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id")
+    @ToString.Include
+    @EqualsAndHashCode.Include
     private int accountId;
 
     @NotNull
     @Min(value = 0)
     @Column(name = "account_balance")
-    @NonNull
+    @ToString.Include
+    @EqualsAndHashCode.Include
     private double accountBalance;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
     @NonNull
     private UserEntity user;
 
@@ -37,21 +40,10 @@ public class AccountEntity {
 
 
     @ManyToMany(mappedBy = "accounts")
-
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
     private Set<BankCard> cards;
 
     public void addAccStatement(String string) {
         accStatement.concat("\n" + string);
     }
 
-    @Override
-    public String toString() {
-        return "AccountEntity{" +
-                "accountId=" + accountId +
-                ", accountBalance=" + accountBalance +
-                ", user=" + user.getUserId() +
-                '}';
-    }
 }

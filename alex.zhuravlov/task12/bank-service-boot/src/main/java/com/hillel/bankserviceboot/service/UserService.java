@@ -16,4 +16,6 @@ public interface UserService {
     void updateUser(UserEntity userEntity);
 
     void deleteUser(int id);
+
+    UserEntity findByUsername(String email);
 }

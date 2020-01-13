@@ -4,8 +4,11 @@
 <html>
 <head>
    <title>Edit user</title>
+      <link rel="stylesheet"
+      		 href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 </head>
 <body>
+<jsp:include page="navbar.jsp"/>
 <form:form modelAttribute="userAttribute" action="editUser" method="post">
    <table>
        <tr>
@@ -15,22 +18,24 @@
        </tr>
        <tr>
            <td>
-               <form:label path="userFirstName">User First Name</form:label>
+               <form:label path="firstName">User First Name</form:label>
            </td>
            <td>
-               <form:input path="userFirstName"/>
+               <form:input path="firstName"/>
            </td>
        </tr>
        <tr>
            <td>
-               <form:label path="userLastName">User Last Name</form:label>
+               <form:label path="lastName">User Last Name</form:label>
            </td>
            <td>
-               <form:input path="userLastName"/>
+               <form:input path="lastName"/>
            </td>
        </tr>
    </table>
    <input type="submit" value="Save"/>
 </form:form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -4,6 +4,8 @@
 <html>
 <head>
    <title>Accounts list</title>
+      <link rel="stylesheet"
+      		 href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 </head>
 <body>
 <style>
@@ -29,6 +31,7 @@
        font-weight: bold;
    }
 </style>
+<jsp:include page="navbar.jsp"/>
  <div class="table">
      <div class="tr">
          <span class="th">Id</span>
@@ -69,6 +72,7 @@
      </form:form>
  </c:forEach>
  </div>
- <p>Go to <a href="<c:url value="/users/list" />">Users list</a></p>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+     <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </body>
 </html>

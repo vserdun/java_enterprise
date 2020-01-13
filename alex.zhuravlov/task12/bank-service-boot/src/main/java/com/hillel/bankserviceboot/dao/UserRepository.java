@@ -13,4 +13,6 @@ public interface UserRepository {
     void save(UserEntity userEntity);
 
     void delete(int id);
+
+    UserEntity findByEmail(String email);
 }

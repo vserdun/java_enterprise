@@ -37,13 +37,13 @@ public class BankServiceIntegrationTest {
 
     @Test
     public void addTest() {
-        UserEntity user1 = new UserEntity("name1", "lastname1");
-        UserEntity user2 = new UserEntity("name2", "lastname2");
+        UserEntity user1 = new UserEntity();
+        UserEntity user2 = new UserEntity();
         userService.addUser(user1);
         userService.addUser(user2);
 
-        accountService.addAccount(new AccountEntity(1000, user1));
-        accountService.addAccount(new AccountEntity(1000, user2));
+        accountService.addAccount(new AccountEntity());
+        accountService.addAccount(new AccountEntity());
 
         List<UserEntity> users = userService.getUsers();
         assertNotNull("Users should not be null", users);
