@@ -26,9 +26,11 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     @Override
     public void save(Client client) {
-        client.setId(currentId);
-        clients.put(currentId, client);
-        currentId++;
+        if (clients.get(client.getId()) == null) {
+            client.setId(currentId);
+            clients.put(currentId, client);
+            currentId++;
+        } else clients.put(client.getId(), client);
     }
 
 
