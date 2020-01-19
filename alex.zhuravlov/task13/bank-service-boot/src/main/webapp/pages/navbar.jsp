@@ -18,7 +18,7 @@
               <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
-            <sec:authorize access="hasRole('ROLE_ADMIN')">
+              <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')">
                     <a class="nav-link" href="/users/list">Users</a>
               </sec:authorize>
             </li>

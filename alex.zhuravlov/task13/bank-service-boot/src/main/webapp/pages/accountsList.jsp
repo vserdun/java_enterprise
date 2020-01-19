@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
    <title>Accounts list</title>
@@ -64,13 +65,21 @@
           </c:choose>
          </span>
          <span class="td">
-            <input type="button" onclick="location.href='deleteAccount?accountId=${account.accountId}';" value="Delete account"/>
+              <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')">
+                    <input type="button" onclick="location.href='deleteAccount?accountId=${account.accountId}';" value="Delete account"/>
+              </sec:authorize>
          </span>
          <span class="td">
-            <input type="button" onclick="location.href='addCardForm';" value="Add card"/>
+              <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')">
+                    <input type="button" onclick="location.href='addCardForm';" value="Add card"/>
+              </sec:authorize>
          </span>
      </form:form>
  </c:forEach>
+    <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')">
+         <input type="button" onclick="location.href='/users/addAccount?userId=${currentUserId}';" value="Add my account"/>
+    </sec:authorize>
+
  </div>
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
      <script src="${contextPath}/resources/js/bootstrap.min.js"></script>

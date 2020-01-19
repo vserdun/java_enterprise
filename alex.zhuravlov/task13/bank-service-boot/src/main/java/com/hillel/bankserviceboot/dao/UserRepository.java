@@ -2,17 +2,23 @@ package com.hillel.bankserviceboot.dao;
 
 
 import com.hillel.bankserviceboot.model.UserEntity;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface UserRepository {
-    List<UserEntity> getUsersList();
+public interface UserRepository extends CrudRepository<UserEntity, Integer> {
+    @Override
+    <S extends UserEntity> S save(S entity);
 
-    UserEntity getUserEntityById(int id);
+    @Override
+    Optional<UserEntity> findById(Integer integer);
 
-    void save(UserEntity userEntity);
+    @Override
+    List<UserEntity> findAll();
 
-    void delete(int id);
-
-    UserEntity findByEmail(String email);
+    @Query("from UserEntity where email = :email")
+    UserEntity findByEmail(@Param("email") String email);
 }

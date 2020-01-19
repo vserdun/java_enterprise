@@ -3,12 +3,16 @@ package com.hillel.bankserviceboot.service;
 
 import com.hillel.bankserviceboot.dao.AccountRepository;
 import com.hillel.bankserviceboot.model.AccountEntity;
+import com.hillel.bankserviceboot.model.RoleEntity;
+import com.hillel.bankserviceboot.model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -23,12 +27,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<AccountEntity> getAccounts() {
-        return accountRepository.getAccountsList();
+        return accountRepository.findAll();
     }
 
     @Override
     public AccountEntity getAccount(int id) {
-        return accountRepository.getAccountEntityById(id);
+        return accountRepository.findById(id).get();
     }
 
     @Override
@@ -38,7 +42,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void deleteAccount(int id) {
-        accountRepository.delete(id);
+        accountRepository.deleteById(id);
     }
 
     @Override
@@ -55,5 +59,17 @@ public class AccountServiceImpl implements AccountService {
         return accountMap;
     }
 
+    @Override
+    public List<AccountEntity> getUserAccounts(UserEntity user) {
+        List<AccountEntity> accountsList = getAccounts()
+                .stream().filter(accountEntity -> accountEntity.getUser().getUserId() == user.getUserId()).collect(Collectors.toList());
 
+        Set<RoleEntity> roles = user.getRoles();
+        for (RoleEntity role : roles) {
+            if (role.getName().equals("ROLE_ADMIN") || role.getName().equals("ROLE_MANAGER")) {
+                accountsList = getAccounts();
+            }
+        }
+        return accountsList;
+    }
 }

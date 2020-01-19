@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
    <title>Users list</title>
@@ -44,10 +45,14 @@
          <span class="td"><c:out value="${user.firstName}"/></span>
          <span class="td"><c:out value="${user.lastName}"/></span>
          <span class="td">
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
             <input type="button" onclick="location.href='edit?userId=${user.userId}';" value="Edit user"/>
+            </sec:authorize>
          </span>
          <span class="td">
+             <sec:authorize access="hasRole('ROLE_ADMIN')">
              <input type="button" onclick="location.href='deleteUser?userId=${user.userId}';" value="Delete user"/>
+             </sec:authorize>
          </span>
          <span class="td">
              <input type="button" onclick="location.href='addAccount?userId=${user.userId}';" value="Add account"/>

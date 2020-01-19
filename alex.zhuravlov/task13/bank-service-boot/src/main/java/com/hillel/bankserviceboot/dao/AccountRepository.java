@@ -1,15 +1,21 @@
 package com.hillel.bankserviceboot.dao;
 
 import com.hillel.bankserviceboot.model.AccountEntity;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface AccountRepository {
-    List<AccountEntity> getAccountsList();
+public interface AccountRepository extends CrudRepository<AccountEntity, Integer> {
+    @Override
+    <S extends AccountEntity> S save(S entity);
 
-    AccountEntity getAccountEntityById(int id);
+    @Override
+    Optional<AccountEntity> findById(Integer integer);
 
-    void save(AccountEntity accountEntity);
+    @Override
+    List<AccountEntity> findAll();
 
-    void delete(int id);
+    @Override
+    void deleteById(Integer integer);
 }

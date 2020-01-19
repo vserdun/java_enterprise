@@ -32,12 +32,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserEntity> getUsers() {
-        return userRepository.getUsersList();
+        return userRepository.findAll();
     }
 
     @Override
     public UserEntity getUser(int id) {
-        return userRepository.getUserEntityById(id);
+        return userRepository.findById(id).get();
     }
 
     @Override
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(int id) {
-        userRepository.delete(id);
+        userRepository.deleteById(id);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<String, String> getRolesMap() {
-        List<RoleEntity> roles = roleRepository.getRolesList();
+        List<RoleEntity> roles = roleRepository.findAll();
 
         Map<String, String> rolesMap = new HashMap<>();
 

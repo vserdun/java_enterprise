@@ -15,12 +15,12 @@ public class CarServiceImpl implements CardService {
 
     @Override
     public List<BankCard> getCardsList() {
-        return cardRepository.getCardsList();
+        return cardRepository.findAll();
     }
 
     @Override
     public BankCard getCard(int id) {
-        return cardRepository.getCardById(id);
+        return cardRepository.findById(id).get();
     }
 
     @Override
@@ -30,6 +30,6 @@ public class CarServiceImpl implements CardService {
 
     @Override
     public void delete(int id) {
-        cardRepository.delete(id);
+        cardRepository.deleteById(id);
     }
 }

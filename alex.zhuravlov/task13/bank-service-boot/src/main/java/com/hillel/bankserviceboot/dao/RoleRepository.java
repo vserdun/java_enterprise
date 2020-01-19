@@ -2,15 +2,31 @@ package com.hillel.bankserviceboot.dao;
 
 
 import com.hillel.bankserviceboot.model.RoleEntity;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface RoleRepository {
-    List<RoleEntity> getRolesList();
 
-    void save(RoleEntity roleEntity);
+public interface RoleRepository extends CrudRepository<RoleEntity, Integer> {
+    @Override
+    <S extends RoleEntity> S save(S entity);
 
-    RoleEntity findByName(String roleName);
+    @Override
+    List<RoleEntity> findAll();
 
-    RoleEntity createRoleIfNotFound(String name);
+    @Query("from RoleEntity where name = :name")
+    RoleEntity findByName(@Param("name") String name);
+
+    @Transactional
+    default RoleEntity createRoleIfNotFound(String name) {
+        RoleEntity roleEntity = findByName(name);
+        if (roleEntity == null) {
+            roleEntity = new RoleEntity(name);
+            save(roleEntity);
+        }
+        return roleEntity;
+    }
 }

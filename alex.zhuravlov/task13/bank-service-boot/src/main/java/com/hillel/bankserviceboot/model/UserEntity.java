@@ -53,6 +53,6 @@ public class UserEntity {
     @OneToMany(mappedBy = "user")
     private List<AccountEntity> accountEntityList;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany
     private Set<RoleEntity> roles;
 }

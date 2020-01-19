@@ -1,15 +1,21 @@
 package com.hillel.bankserviceboot.dao;
 
 import com.hillel.bankserviceboot.model.BankCard;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface CardRepository {
-    List<BankCard> getCardsList();
+public interface CardRepository extends CrudRepository<BankCard, Integer> {
+    @Override
+    <S extends BankCard> S save(S entity);
 
-    BankCard getCardById(int id);
+    @Override
+    Optional<BankCard> findById(Integer integer);
 
-    void save(BankCard bankCard);
+    @Override
+    List<BankCard> findAll();
 
-    void delete(int id);
+    @Override
+    void deleteById(Integer integer);
 }
