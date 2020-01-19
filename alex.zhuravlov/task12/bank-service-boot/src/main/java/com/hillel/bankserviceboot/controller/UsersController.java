@@ -20,7 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
-@PreAuthorize("hasRole('ROLE_ADMIN')")
+
+@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
 @Controller
 @RequestMapping("/users")
 public class UsersController {
@@ -31,12 +32,14 @@ public class UsersController {
     @Autowired
     private AccountService accountService;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.GET, value = "/add")
     public String addUserForm(Model model) {
         model.addAttribute("userAttribute", new UserEntity());
         return "userAdd";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.POST, value = "/addUser")
     public String addUser(@ModelAttribute("userAttribute") @Validated UserEntity userEntity) {
         userService.addUser(userEntity);
@@ -52,6 +55,7 @@ public class UsersController {
         return modelAndView;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.GET, value = "/edit")
     public String editUserForm(Model model, @RequestParam("userId") int userId) {
         Map<String, String> rolesMap = userService.getRolesMap();
@@ -62,12 +66,14 @@ public class UsersController {
         return "userEdit";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.POST, value = "/editUser")
     public String updateUser(@ModelAttribute("userAttribute") @Validated UserEntity userEntity) {
         userService.updateUser(userEntity);
         return "redirect:/users/list";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.GET, value = "/deleteUser")
     public String deleteUser(@RequestParam("userId") int userId, HttpServletRequest httpRequest) {
         UserEntity byUsername = userService.findByUsername(httpRequest.getUserPrincipal().getName());
