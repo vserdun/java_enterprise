@@ -1,0 +1,43 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.2.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+	id 'java'
+}
+
+group = 'com.hillel'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+	jcenter()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	compile group: 'com.h2database', name: 'h2', version: '1.4.200'
+	compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+	compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: '9.0.29'
+	compile group: 'org.springframework', name: 'spring-aop'
+	compile group: 'org.aspectj', name: 'aspectjweaver'
+	compile group: 'org.springframework', name: 'spring-orm'
+	compile group: 'org.apache.tomcat', name: 'tomcat-dbcp', version: '9.0.29'
+	compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: '9.0.29'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compile group: 'org.hibernate', name: 'hibernate-gradle-plugin', version: '5.4.10.Final'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
