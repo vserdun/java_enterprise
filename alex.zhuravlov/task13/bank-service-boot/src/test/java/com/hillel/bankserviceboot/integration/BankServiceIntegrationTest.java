@@ -1,5 +1,6 @@
 package com.hillel.bankserviceboot.integration;
 
+import com.hillel.bankserviceboot.dao.UserRepository;
 import com.hillel.bankserviceboot.model.AccountEntity;
 import com.hillel.bankserviceboot.model.UserEntity;
 import com.hillel.bankserviceboot.service.AccountService;
@@ -35,19 +36,26 @@ public class BankServiceIntegrationTest {
     @Autowired
     AccountService accountService;
 
+    @Autowired
+    UserRepository userRepository;
+
     @Test
     public void addTest() {
-        UserEntity user1 = new UserEntity();
-        UserEntity user2 = new UserEntity();
+        UserEntity user1 = new UserEntity("user1", "user1", "user1@gmail.com", "111111");
+        UserEntity user2 = new UserEntity("user2", "user2", "user2@gmail.com", "111111");
+
+
         userService.addUser(user1);
         userService.addUser(user2);
 
         accountService.addAccount(new AccountEntity());
         accountService.addAccount(new AccountEntity());
 
+
+
         List<UserEntity> users = userService.getUsers();
         assertNotNull("Users should not be null", users);
-        assertEquals("Wrong count", 2, users.size());
+        assertEquals("Wrong count", 5, users.size());
 
         List<AccountEntity> accounts = accountService.getAccounts();
         assertNotNull("Accounts should not be null", accounts);
@@ -62,7 +70,7 @@ public class BankServiceIntegrationTest {
 
 
         log.info("account balance before test {}", accountBeforeTest.getAccountBalance());
-        boolean isWithdraw = bankService.withdraw(1, amount);
+        boolean isWithdraw = bankService.withdraw(accountBeforeTest.getAccountId(), amount);
         AccountEntity accountAfterTest = accountService.getAccount(1);
         assertEquals(accountBeforeTest.getAccountBalance() - amount, accountAfterTest.getAccountBalance(), 0.0001);
         log.info("account balance after test {}", accountAfterTest.getAccountBalance());
@@ -72,7 +80,7 @@ public class BankServiceIntegrationTest {
     @Test
     public void depositTest() {
         AccountEntity accountBeforeTest = accountService.getAccount(1);
-        int amount = 111;
+        int amount = 5000;
 
         log.info("account balance before test {}", accountBeforeTest.getAccountBalance());
         boolean isDeposit = bankService.deposit(1, amount);
