@@ -38,6 +38,10 @@ dependencies {
     compile group: 'com.h2database', name: 'h2', version: '1.4.200'
     compile group: 'org.springframework', name: 'spring-orm'
     compile group: 'org.apache.tomcat', name: 'tomcat-dbcp', version: '8.5.49'
+    // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+    compile group: 'org.modelmapper', name: 'modelmapper', version: '2.3.6'
+    compile group: 'org.modelmapper.extensions', name: 'modelmapper-spring', version: '2.3.6'
+
 }
 
 test {

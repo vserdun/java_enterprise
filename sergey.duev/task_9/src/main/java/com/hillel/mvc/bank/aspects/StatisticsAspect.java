@@ -25,13 +25,13 @@ public class StatisticsAspect {
         log.info("Users in system {}", usersCounter);
     }
 
-    @AfterReturning("execution(* com.hillel.mvc.bank.dao.UsersBankAccountsRepository.addUserBankAccount(..))")
+    @AfterReturning("execution(* com.hillel.mvc.bank.dao.BankAccountsRepository.addUserBankAccount(..))")
     public void addedUserBankAccountStatistic() {
         bankAccountCounter++;
         log.info("Bank accounts in system {}", bankAccountCounter);
     }
 
-    @AfterReturning("execution(* com.hillel.mvc.bank.dao.UsersBankAccountsRepository.deleteUserBankAccount(..))")
+    @AfterReturning("execution(* com.hillel.mvc.bank.dao.BankAccountsRepository.deleteUserBankAccount(..))")
     public void deletedUserBankAccountStatistic() {
         bankAccountCounter--;
         log.info("Bank accounts in system {}", bankAccountCounter);

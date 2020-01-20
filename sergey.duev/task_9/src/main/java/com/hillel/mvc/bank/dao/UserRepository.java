@@ -1,7 +1,6 @@
 package com.hillel.mvc.bank.dao;
 
 import com.hillel.mvc.bank.models.entities.UserEntity;
-import com.hillel.mvc.bank.models.exceptions.UserNotFoundException;
 
 import java.util.List;
 
@@ -9,11 +8,11 @@ public interface UserRepository {
 
     long  addUser(UserEntity user);
 
-    void updateUser(UserEntity user) throws UserNotFoundException;
+    void updateUser(UserEntity user);
 
-    void deleteUser(long id) throws UserNotFoundException;
+    void deleteUser(long id);
 
-    UserEntity getUser(long id) throws UserNotFoundException;
+    UserEntity getUser(long id);
 
     List<UserEntity> getAllUsers();
 }

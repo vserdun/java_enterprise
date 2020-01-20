@@ -26,23 +26,18 @@ public class UserEntity {
     private long id;
 
     @Column(name = "user_name")
-    @NotBlank(message = "Name must be not blank")
     private String name;
 
     @Column(name = "user_last_name")
-    @NotBlank(message = "Last name must be not blank")
     private String lastName;
 
     @Column(name = "user_age")
-    @Min(message = "Age must be more then 18", value = 18)
     private int age;
 
-    @NotNull(message = "Gender must be not blank")
     @Column(name = "user_gender")
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
 
-    @Email(message = "Email must be valid")
     @Column(name = "user_email")
     private String email;
 
