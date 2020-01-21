@@ -136,7 +136,7 @@ public class ApiAccountController {
                 return new ResponseEntity<>(message, HttpStatus.OK);
             }
 
-            message = "You don't have " + currency + " accountEntity or enough money to withdraw.";
+            message = "You don't have " + currency + " account or enough money to withdraw.";
             return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("ClientEntity not found.", HttpStatus.NOT_FOUND);

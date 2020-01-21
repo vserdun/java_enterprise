@@ -45,7 +45,7 @@ public class AccountServiceImpl implements AccountService {
         accountEntity.setBalance(accountEntity.getBalance() + payment);
         accountRepository.update(accountEntity);
 
-        return "You have replenished your accountEntity with " + payment + " " + accountEntity.getCurrency() + ".";
+        return "You have replenished your account with " + payment + " " + accountEntity.getCurrency() + ".";
     }
 
 
@@ -54,7 +54,7 @@ public class AccountServiceImpl implements AccountService {
         accountEntity.setBalance(accountEntity.getBalance() - payment);
         accountRepository.update(accountEntity);
 
-        return "You have withdrawn " + payment + " " + accountEntity.getCurrency() + " from your accountEntity.";
+        return "You have withdrawn " + payment + " " + accountEntity.getCurrency() + " from your account.";
     }
 
 }

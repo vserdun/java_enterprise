@@ -54,7 +54,7 @@ public class ClientService {
         ClientEntity clientEntity = clientRepository.getClientById(clientId);
 
         if (clientEntity != null) {
-            List<AccountEntity> accountEntities = accountRepository.getAccountsByClientId(clientId);
+            List<AccountEntity> accountEntities = getAccountsByClientId(clientId);
 
             for (AccountEntity acc : accountEntities) {
                 if (acc.getCurrency().equals(currency)) return acc;

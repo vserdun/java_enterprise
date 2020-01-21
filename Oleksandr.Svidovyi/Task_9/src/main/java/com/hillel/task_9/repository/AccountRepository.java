@@ -2,8 +2,6 @@ package com.hillel.task_9.repository;
 
 import com.hillel.task_9.model.AccountEntity;
 
-import java.util.List;
-
 public interface AccountRepository {
     AccountEntity getAccountById(int id);
 
@@ -13,5 +11,4 @@ public interface AccountRepository {
 
     void deleteAccountById(int id);
 
-    List<AccountEntity> getAccountsByClientId(int clientId);
 }
