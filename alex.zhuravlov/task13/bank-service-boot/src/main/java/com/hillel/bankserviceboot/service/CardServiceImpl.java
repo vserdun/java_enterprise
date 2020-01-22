@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CarServiceImpl implements CardService {
+public class CardServiceImpl implements CardService {
 
     @Autowired
     private CardRepository cardRepository;
