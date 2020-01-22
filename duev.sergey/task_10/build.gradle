@@ -1,0 +1,50 @@
+plugins {
+    id 'org.springframework.boot' version '2.2.1.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'java'
+    id 'war'
+}
+
+group = 'com.hillel.mvc'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    ///compile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat'
+    compile group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.1.0.Final'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    providedCompile group: 'javax.servlet.jsp', name: 'jsp-api', version: '2.2'
+    compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+    compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: '9.0.29'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    compile group: 'org.springframework', name: 'spring-aop'
+    compile group: 'org.aspectj', name: 'aspectjweaver'
+    compile group: 'org.hibernate', name: 'hibernate-gradle-plugin', version: '5.4.10.Final'
+    compile group: 'com.h2database', name: 'h2', version: '1.4.200'
+    compile group: 'org.springframework', name: 'spring-orm'
+    compile group: 'org.apache.tomcat', name: 'tomcat-dbcp', version: '8.5.49'
+    // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+    compile group: 'org.modelmapper', name: 'modelmapper', version: '2.3.6'
+    compile group: 'org.modelmapper.extensions', name: 'modelmapper-spring', version: '2.3.6'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.18'
+
+}
+
+test {
+    useJUnitPlatform()
+}
