@@ -16,6 +16,9 @@ public class BankCard {
     @Column(name = "card_id")
     private int cardId;
 
+    @Column(name = "card_name")
+    private String cardName;
+
 
     @ManyToMany
     @JoinTable(joinColumns = {@JoinColumn(name = "card_id")},
