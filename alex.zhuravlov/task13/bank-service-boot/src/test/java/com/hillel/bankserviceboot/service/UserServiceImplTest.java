@@ -45,7 +45,7 @@ public class UserServiceImplTest {
 
 
     @Before
-    public void bCrypt(){
+    public void beforeAddUser(){
         ArgumentCaptor<String> stringArgumentCaptor = ArgumentCaptor.forClass(String.class);
         when(bCryptPasswordEncoder.encode(stringArgumentCaptor.capture())).thenReturn(new BCryptPasswordEncoder().encode("111111"));
         when(roleRepository.findByName("ROLE_USER")).thenReturn(new RoleEntity("ROLE_USER"));
