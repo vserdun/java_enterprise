@@ -1,6 +1,7 @@
 package com.hillel.task_9.controller;
 
 import com.hillel.task_9.model.ClientEntity;
+import com.hillel.task_9.model.request_model.ClientRequestModel;
 import com.hillel.task_9.service.AccountService;
 import com.hillel.task_9.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,34 +44,31 @@ public class ApiClientController {
 
 
     @PostMapping
-    public ResponseEntity<ClientEntity> addClient(@RequestBody @Validated ClientEntity clientEntity) {
+    public ResponseEntity<ClientEntity> addClient(@RequestBody @Validated ClientRequestModel clientRequestModel) {
+        ClientEntity clientEntity = new ClientEntity();
+        clientEntity.setFirstName(clientRequestModel.getFirstName());
+        clientEntity.setLastName(clientRequestModel.getLastName());
+        clientEntity.setEmail(clientRequestModel.getEmail());
 
-        if (clientEntity != null && clientEntity.getFirstName() != null
-                && clientEntity.getLastName() != null) {
+        clientService.saveClient(clientEntity);
 
-            clientService.saveClient(clientEntity);
-
-            return new ResponseEntity<>(clientEntity, HttpStatus.OK);
-        } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(clientEntity, HttpStatus.OK);
+//         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<ClientEntity> updateClient(@RequestBody @Validated ClientEntity clientEntityUpdateDetails, @PathVariable int id) {
+    public ResponseEntity<ClientEntity> updateClient(@RequestBody @Validated ClientRequestModel clientRequestModel, @PathVariable int id) {
         ClientEntity clientEntity = clientService.getClient(id);
 
         if (clientEntity != null) {
+            clientEntity.setFirstName(clientRequestModel.getFirstName());
+            clientEntity.setLastName(clientRequestModel.getLastName());
+            clientEntity.setEmail(clientRequestModel.getEmail());
 
-            if (clientEntityUpdateDetails != null && clientEntityUpdateDetails.getLastName() != null
-                    && clientEntityUpdateDetails.getEmail() != null) {
+            clientService.saveClient(clientEntity);
 
-                clientEntity.setLastName(clientEntityUpdateDetails.getLastName());
-                clientEntity.setEmail(clientEntityUpdateDetails.getEmail());
-
-                clientService.saveClient(clientEntity);
-
-                return new ResponseEntity<>(clientEntity, HttpStatus.OK);
-            } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(clientEntity, HttpStatus.OK);
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 

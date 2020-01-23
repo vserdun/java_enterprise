@@ -2,6 +2,7 @@ package com.hillel.task_9.controller;
 
 import com.hillel.task_9.model.AccountEntity;
 import com.hillel.task_9.model.ClientEntity;
+import com.hillel.task_9.model.request_model.AccountRequestModel;
 import com.hillel.task_9.model.request_model.TransferRequestModel;
 import com.hillel.task_9.model.request_model.UpdateAccountRequestModel;
 import com.hillel.task_9.service.AccountService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,62 +43,67 @@ public class ApiAccountController {
 
 
     @PostMapping
-    public ResponseEntity<ClientEntity> addAccount(@PathVariable int id, @RequestBody AccountEntity accountEntity) {
+    public ResponseEntity<ClientEntity> addAccount(@PathVariable int id, @RequestBody @Validated AccountRequestModel accountRequestModel) {
+        AccountEntity accountEntity = new AccountEntity();
+        accountEntity.setBalance(accountRequestModel.getBalance());
+        accountEntity.setCurrency(accountRequestModel.getCurrency());
+        accountEntity.setClient(clientService.getClient(id));
 
-        if (accountEntity != null && accountEntity.getCurrency() != null
-                && (Long) accountEntity.getBalance() != null) {
+        accountService.saveAccount(accountEntity);
 
-            accountService.saveAccount(accountEntity);
-
-            return new ResponseEntity<>(clientService.getClient(id), HttpStatus.OK);
-        } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(clientService.getClient(id), HttpStatus.OK);
+//        else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 
     @DeleteMapping
-    public ResponseEntity<ClientEntity> deleteAccount(@PathVariable int id, @RequestBody AccountEntity accountEntity) {
+    public ResponseEntity<ClientEntity> deleteAccount(@PathVariable int id, @RequestBody @Validated AccountRequestModel accountRequestModel) {
         ClientEntity clientEntity = clientService.getClient(id);
 
         if (clientEntity == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        if (accountEntity != null) {
-            accountService.removeAccount(accountEntity);
+        AccountEntity accountEntity = new AccountEntity();
 
-            return new ResponseEntity<>(clientService.getClient(id), HttpStatus.OK);
-        } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        List<AccountEntity> clientAccounts = clientEntity.getAccounts();
+        for (AccountEntity acc : clientAccounts) {
+            if (accountRequestModel.getBalance() == acc.getBalance() && accountRequestModel.getCurrency().equals(acc.getCurrency())) {
+                accountEntity = acc;
+            }
+        }
+
+        accountService.removeAccount(accountEntity);
+
+        return new ResponseEntity<>(clientService.getClient(id), HttpStatus.OK);
+
     }
 
 
     @PutMapping(path = "/transfer")
-    public ResponseEntity<String> moneyTransfer(@PathVariable int id, @RequestBody TransferRequestModel transferModel) {
+    public ResponseEntity<String> moneyTransfer(@PathVariable int id, @RequestBody @Validated TransferRequestModel transferModel) {
         ClientEntity supplier = clientService.getClient(id);
         ClientEntity reciever = clientService.getClient(transferModel.getRecieverId());
         long payment = transferModel.getPayment();
         String message = "";
 
-        if (supplier != null && reciever != null) {
 
-            AccountEntity supplierAcc = clientService.findAccountByCurrency(id, transferModel.getCurrency());
-            AccountEntity recieverAcc = clientService.findAccountByCurrency(reciever.getId(), transferModel.getCurrency());
+        AccountEntity supplierAcc = clientService.findAccountByCurrency(id, transferModel.getCurrency());
+        AccountEntity recieverAcc = clientService.findAccountByCurrency(reciever.getId(), transferModel.getCurrency());
 
-            if (supplierAcc != null && recieverAcc != null && supplierAcc.getBalance() > payment) {
-                message = accountService.moneyTransfer(supplierAcc, recieverAcc, payment);
+        if (supplierAcc.getBalance() > payment) {
+            message = accountService.moneyTransfer(supplierAcc, recieverAcc, payment);
 
-                return new ResponseEntity<>(message, HttpStatus.OK);
-            }
-            message = "You don't have " + transferModel.getCurrency() + " account or enough money to provide transaction.";
-
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(message, HttpStatus.OK);
         }
+        message = "You don't have " + transferModel.getCurrency() + " account or enough money to provide transaction.";
 
-        return new ResponseEntity<>("ClientEntity not found.", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 
 
     @PutMapping(path = "/replenish")
-    public ResponseEntity<String> replenishAccount(@PathVariable int id, @RequestBody UpdateAccountRequestModel accountModel) {
+    public ResponseEntity<String> replenishAccount(@PathVariable int id, @RequestBody @Validated UpdateAccountRequestModel accountModel) {
         ClientEntity clientEntity = clientService.getClient(id);
         long payment = accountModel.getPayment();
         String currency = accountModel.getCurrency();
@@ -120,7 +127,7 @@ public class ApiAccountController {
 
 
     @PutMapping(path = "/withdraw")
-    public ResponseEntity<String> withdrawAccount(@PathVariable int id, @RequestBody UpdateAccountRequestModel accountModel) {
+    public ResponseEntity<String> withdrawAccount(@PathVariable int id, @RequestBody @Validated UpdateAccountRequestModel accountModel) {
         ClientEntity clientEntity = clientService.getClient(id);
         long payment = accountModel.getPayment();
         String currency = accountModel.getCurrency();
