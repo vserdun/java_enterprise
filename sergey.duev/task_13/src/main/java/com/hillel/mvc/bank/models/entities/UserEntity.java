@@ -1,16 +1,10 @@
 package com.hillel.mvc.bank.models.entities;
 
 import com.hillel.mvc.bank.models.Gender;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -50,6 +44,22 @@ public class UserEntity {
 
     @Embedded
     private Address address;
+
+    @NonNull
+    private String password;
+
+    @Transient
+    private String passwordConfirm;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToMany(cascade = { CascadeType.ALL})
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "role_id") }
+    )
+    private Set<RoleEntity> roles = new HashSet<>();
 
     public void addBankAccount(BankAccountEntity bankAccountEntity) {
         bankAccountEntityList.add(bankAccountEntity);

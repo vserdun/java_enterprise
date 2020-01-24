@@ -27,7 +27,7 @@ public class ProdBankAccountProcessService implements BankAccountProcessService 
     @Override
     @Transactional
     public Statement withdrawMoney(long bankAccountId, double amount) {
-        BankAccountEntity bankAccountEntity = bankAccountsRepository.getBankAccount(bankAccountId);
+        BankAccountEntity bankAccountEntity = bankAccountsRepository.findById(bankAccountId).get();
         bankAccountEntity.setBalance(bankAccountEntity.getBalance() - amount);
         return addWithdrawMoneyStatement(bankAccountId, amount);
     }
@@ -43,7 +43,7 @@ public class ProdBankAccountProcessService implements BankAccountProcessService 
     @Override
     @Transactional
     public Statement putMoney(long bankAccount, double amount) {
-        BankAccountEntity entity = bankAccountsRepository.getBankAccount(bankAccount);
+        BankAccountEntity entity = bankAccountsRepository.findById(bankAccount).get();
         entity.setBalance(entity.getBalance() + amount);
         return addPutMoneyStatement(bankAccount, amount);
     }
@@ -51,7 +51,7 @@ public class ProdBankAccountProcessService implements BankAccountProcessService 
     @Override
     @Transactional
     public double getBalance(long bankAccount) {
-        BankAccountEntity entity = bankAccountsRepository.getBankAccount(bankAccount);
+        BankAccountEntity entity = bankAccountsRepository.findById(bankAccount).get();
         return entity.getBalance();
     }
 

@@ -35,39 +35,39 @@ public class UserService {
 
     @Transactional
     public List<UserDTO> getAllUsers() {
-        return mapper.mapList(userRepository.getAllUsers(), UserDTO.class);
+        return mapper.mapList(userRepository.findAll(), UserDTO.class);
     }
 
     @Transactional
     public UserDTO getUser(long id) {
-        UserEntity userEntity = userRepository.getUser(id);
+        UserEntity userEntity = userRepository.findById(id).get();
         return mapper.map(userEntity, UserDTO.class);
     }
 
     @Transactional
     public UserDTO addUser(UserCreateDTO userCreateDTO) {
         UserEntity userEntity = mapper.map(userCreateDTO, UserEntity.class);
-        long userId = userRepository.addUser(userEntity);
-        return mapper.map(userRepository.getUser(userId), UserDTO.class);
+        userEntity = userRepository.save(userEntity);
+        return mapper.map(userEntity, UserDTO.class);
     }
 
     @Transactional
     public List<UserDTO> deleteUser(long id) {
-        userRepository.deleteUser(id);
-        return mapper.mapList(userRepository.getAllUsers(), UserDTO.class);
+        userRepository.deleteById(id);
+        return mapper.mapList(userRepository.findAll(), UserDTO.class);
     }
 
     @Transactional
     public UserDTO updateUser(long userId, UserUpdateDTO dto) {
         UserEntity userEntity = mapper.map(dto, UserEntity.class);
         userEntity.setId(userId);
-        userRepository.updateUser(userEntity);
-        return mapper.map(userRepository.getUser(userId), UserDTO.class);
+        userEntity = userRepository.save(userEntity);
+        return mapper.map(userEntity, UserDTO.class);
     }
 
     @Transactional
     public Set<BankAccountDTO> getUserBankAccounts(long userId) {
-        UserEntity userEntity = userRepository.getUser(userId);
+        UserEntity userEntity = userRepository.findById(userId).get();
         return mapper.mapSet(userEntity.getBankAccountEntityList(), BankAccountDTO.class);
     }
 
@@ -78,7 +78,7 @@ public class UserService {
 
     @Transactional
     public Set<BankAccountDTO> addUserBankAccount(long id, BankAccountCreateDTO bankAccount) {
-        UserEntity userEntity = userRepository.getUser(id);
+        UserEntity userEntity = userRepository.findById(id).get();
         userEntity.addBankAccount(mapper.map(bankAccount, BankAccountEntity.class));
         return mapper.mapSet(userEntity.getBankAccountEntityList(), BankAccountDTO.class);
     }
@@ -87,15 +87,15 @@ public class UserService {
     public BankAccountDTO updateUserBankAccount(long userId, long bankAccountId, BankAccountUpdateDTO dto) {
         BankAccountEntity entity = mapper.map(dto, BankAccountEntity.class);
         entity.setId(bankAccountId);
-        bankAccountsRepository.updateUserBankAccount(entity);
-        return mapper.map(bankAccountsRepository.getUserBankAccount(userId, bankAccountId), BankAccountDTO.class);
+        entity = bankAccountsRepository.save(entity);
+        return mapper.map(entity, BankAccountDTO.class);
     }
 
     @Transactional
     public Set<BankAccountDTO> deleteUserBankAccount(long userId, long bankAccountId) {
-        UserEntity userEntity = userRepository.getUser(userId);
+        UserEntity userEntity = userRepository.findById(userId).get();
         if (userEntity != null) {
-            BankAccountEntity bankAccountEntity = bankAccountsRepository.getBankAccount(bankAccountId);
+            BankAccountEntity bankAccountEntity = bankAccountsRepository.findById(bankAccountId).get();
             if (bankAccountEntity != null) {
                 userEntity.removeBankAccount(bankAccountEntity);
             }
@@ -106,16 +106,16 @@ public class UserService {
 
     @Transactional
     public BankAccountDTO addCard(long bankAccountId, long cardId) {
-        CardEntity cardEntity = cardRepository.getCard(cardId);
-        BankAccountEntity bankAccountEntity = bankAccountsRepository.getBankAccount(bankAccountId);
+        CardEntity cardEntity = cardRepository.findById(cardId).get();
+        BankAccountEntity bankAccountEntity = bankAccountsRepository.findById(bankAccountId).get();
         bankAccountEntity.addCard(cardEntity);
         return mapper.map(bankAccountEntity, BankAccountDTO.class);
     }
 
     @Transactional
     public BankAccountDTO removeCard(long bankAccountId, long cardId) {
-        CardEntity cardEntity = cardRepository.getCard(cardId);
-        BankAccountEntity bankAccountEntity = bankAccountsRepository.getBankAccount(bankAccountId);
+        CardEntity cardEntity = cardRepository.findById(cardId).get();
+        BankAccountEntity bankAccountEntity = bankAccountsRepository.findById(bankAccountId).get();
         bankAccountEntity.removeCard(cardEntity);
         return mapper.map(bankAccountEntity, BankAccountDTO.class);
     }

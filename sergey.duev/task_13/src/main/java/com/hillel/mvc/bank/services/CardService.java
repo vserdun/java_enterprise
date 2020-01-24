@@ -26,22 +26,22 @@ public class CardService {
     @Transactional
     public CardDTO addCard(CardCreateDTO dto) {
         CardEntity cardEntity = mapper.map(dto, CardEntity.class);
-        long id = cardRepository.createCard(cardEntity);
-        return mapper.map(cardRepository.getCard(id), CardDTO.class);
+        cardEntity = cardRepository.save(cardEntity);
+        return mapper.map(cardEntity, CardDTO.class);
     }
 
     @Transactional
     public List<CardDTO> getAllCards() {
-        return mapper.mapList(cardRepository.getAllCards(), CardDTO.class);
+        return mapper.mapList(cardRepository.findAll(), CardDTO.class);
     }
 
     @Transactional
     public CardDTO getCard(long id) {
-        return mapper.map(cardRepository.getCard(id), CardDTO.class);
+        return mapper.map(cardRepository.findById(id).get(), CardDTO.class);
     }
 
     @Transactional
     public void deleteCard(long id) {
-        cardRepository.deleteCard(id);
+        cardRepository.deleteById(id);
     }
 }

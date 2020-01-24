@@ -1,16 +1,22 @@
 package com.hillel.mvc.bank.dao;
 
 import com.hillel.mvc.bank.models.entities.CardEntity;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface CardRepository {
+public interface CardRepository extends CrudRepository<CardEntity, Long> {
 
-    List<CardEntity> getAllCards();
+    @Override
+    List<CardEntity> findAll();
 
-    CardEntity getCard(long id);
+    @Override
+    Optional<CardEntity> findById(Long aLong);
 
-    long createCard(CardEntity cardEntity);
+    @Override
+    <S extends CardEntity> S save(S entity);
 
-    void deleteCard(long id);
+    @Override
+    void deleteById(Long aLong);
 }

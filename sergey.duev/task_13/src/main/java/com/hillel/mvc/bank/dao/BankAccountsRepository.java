@@ -2,16 +2,21 @@ package com.hillel.mvc.bank.dao;
 
 import com.hillel.mvc.bank.models.entities.BankAccountEntity;
 import com.hillel.mvc.bank.models.entities.CardEntity;
+import org.hibernate.Session;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
-public interface BankAccountsRepository {
+import java.util.Optional;
 
-    void addUserBankAccount(BankAccountEntity bankAccount);
+public interface BankAccountsRepository extends CrudRepository<BankAccountEntity, Long> {
 
-    void updateUserBankAccount(BankAccountEntity bankAccount);
+    @Override
+    <S extends BankAccountEntity> S save(S entity);
 
-    void deleteUserBankAccount(long userId, long bankAccountId);
+    @Query("from BankAccountEntity b where b.userEntity.id = :userId and b.id = :bankAccountId")
+    BankAccountEntity getUserBankAccount(@Param("userId") long userId, @Param("bankAccountId") long bankAccountId);
 
-    BankAccountEntity getUserBankAccount(long userId, long bankAccountId);
-
-    BankAccountEntity getBankAccount(long bankAccountId);
+    @Override
+    Optional<BankAccountEntity> findById(Long aLong);
 }

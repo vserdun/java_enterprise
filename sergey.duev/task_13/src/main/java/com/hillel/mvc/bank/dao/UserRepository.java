@@ -1,18 +1,27 @@
 package com.hillel.mvc.bank.dao;
 
 import com.hillel.mvc.bank.models.entities.UserEntity;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface UserRepository {
+public interface UserRepository extends CrudRepository<UserEntity, Long> {
 
-    long  addUser(UserEntity user);
+    @Override
+    <S extends UserEntity> S save(S entity);
 
-    void updateUser(UserEntity user);
+    @Override
+    Optional<UserEntity> findById(Long aLong);
 
-    void deleteUser(long id);
+    @Override
+    void deleteById(Long aLong);
 
-    UserEntity getUser(long id);
+    @Override
+    List<UserEntity> findAll();
 
-    List<UserEntity> getAllUsers();
+    @Query("from UserEntity where email = :email")
+    UserEntity getUserByEmail(@Param("email") String email);
 }
