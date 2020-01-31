@@ -2,8 +2,8 @@ HELP.md
 target/
 out/
 !.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**
-!**/src/test/**
+!sergey.duev/task_3/src/main/**
+!sergey.duev/task_3/src/test/**
 
 ### STS ###
 .apt_generated
@@ -19,7 +19,11 @@ out/
 *.iws
 *.iml
 *.ipr
-
+*.bat
+*.properties
+*.bin
+*.lock
+*.jar
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -28,5 +32,3 @@ out/
 /.nb-gradle/
 build/
 
-### VS Code ###
-.vscode/
